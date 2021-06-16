@@ -6,7 +6,7 @@ public class ExtraProcess {
     public static String randomCodeForPassword="";
    
     //Used to Clear the screen in the Terminal
-    public static void clearscreen()
+    public static void clearScreen()
     {
         System.out.print("\033[H\033[2J");  //ANSI Escape Code
         System.out.flush();  
@@ -56,7 +56,7 @@ public class ExtraProcess {
     }
 
     //Used to clear the file
-    public static void clearTheuserlog(String filename) throws IOException {
+    public static void clearTheUserLog(String filename) throws IOException {
         File file = new File("D:\\"+filename+".txt"); 
         if(file.exists())
         file.delete();

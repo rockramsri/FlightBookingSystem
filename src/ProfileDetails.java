@@ -92,7 +92,7 @@ public class ProfileDetails {
             int randomNumber=ExtraProcess.sizeRandomizer(1000, 1000000);
             ExtraProcess.randomCodeForPassword=String.valueOf(randomNumber);
             System.out.println("Sending the recovery code to Your Mail........");
-            MailSender.Bookingrefundmail(null, "PP");
+            MailSender.bookingRefundMail(null, "PP");
            
             System.out.print("Enter the Recovery Code:");
             String code=UserScanner.nextLine();

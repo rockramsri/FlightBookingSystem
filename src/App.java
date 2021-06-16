@@ -1,7 +1,9 @@
 
 import java.util.*;
 /* This is the starting of the program
-  This is is an application used for 
+  This is is an application used for for FlightBooking
+  SeatAllocate.txt is used for storing Seat numbers
+  Userlog.txt is used for storing current user id
 */
 
 public class App {
@@ -44,13 +46,13 @@ public class App {
                  {  
 
 
-                     case 1:member.userBookingTickets.requesttickets();
-                           boolean available=member.userBookingTickets.ListingTickets();
+                     case 1:member.userBookingTickets.requestTickets();
+                           boolean available=member.userBookingTickets.listingTickets();
                           if(available)
                              {
-                                ticketInfo=member.userBookingTickets.Bookingregister();
+                                ticketInfo=member.userBookingTickets.bookingRegister();
                    
-                                  MailSender.Bookingrefundmail(ticketInfo,"BC");        //This static methond is to send mail for the Booking Confirmation
+                                  MailSender.bookingRefundMail(ticketInfo,"BC");        //This static methond is to send mail for the Booking Confirmation
                                   CommandLineTable confirmationTable=new CommandLineTable();
                                   confirmationTable.setShowVerticalLines(true);
                                   String finalPrint="Your Booking Id is :"+ticketInfo.getOrderId();
@@ -69,10 +71,10 @@ public class App {
                   
                  
                          break;
-                    case 2: ticketInfo=member.refundCancel.listofbookings();     // booked ticketInformation is stored in this ticketInfo Object
+                    case 2: ticketInfo=member.refundCancel.listOfBookings();     // booked ticketInformation is stored in this ticketInfo Object
                         if(ticketInfo!=null)
                         {
-                            MailSender.Bookingrefundmail(ticketInfo,"CC");
+                            MailSender.bookingRefundMail(ticketInfo,"CC");
                             CommandLineTable confirmationTable=new CommandLineTable();
                             confirmationTable.setShowVerticalLines(true);
                             String finalPrint="Your Booking Id is         :"+ticketInfo.getOrderId();
@@ -133,10 +135,10 @@ public class App {
                         int searchOption=Integer.parseInt( inputScanner.nextLine());
                         switch(searchOption)
                             {
-                            case 1:new TransactionHistory().BookedticketHistory();
+                            case 1:new TransactionHistory().bookedticketHistory();
   
                                     break;
-                            case 2: new TransactionHistory().TicketCancellingHistory();
+                            case 2: new TransactionHistory().ticketCancellingHistory();
                                     break;
                             case 3:break inner;
                      
@@ -185,13 +187,13 @@ public class App {
                     {  
             
             
-                        case 1:member.userBookingTickets.requesttickets();
-                              boolean available=member.userBookingTickets.ListingTickets();
+                        case 1:member.userBookingTickets.requestTickets();
+                              boolean available=member.userBookingTickets.listingTickets();
                              if(available)
                                  {
-                                  ticketInfo=member.userBookingTickets.Bookingregister();
+                                  ticketInfo=member.userBookingTickets.bookingRegister();
                    
-                                   MailSender.Bookingrefundmail(ticketInfo,"BC");
+                                   MailSender.bookingRefundMail(ticketInfo,"BC");
                                    CommandLineTable confirmationTable=new CommandLineTable();
                                    confirmationTable.setShowVerticalLines(true);
                                    String finalPrint="Your Booking Id is :"+ticketInfo.getOrderId();
@@ -210,10 +212,10 @@ public class App {
                
                  
                                     break;
-            case 2: ticketInfo=member.refundCancel.listofbookings();
+            case 2: ticketInfo=member.refundCancel.listOfBookings();
                     if(ticketInfo!=null)
                         {
-                            MailSender.Bookingrefundmail(ticketInfo,"CC");
+                            MailSender.bookingRefundMail(ticketInfo,"CC");
                             CommandLineTable confirmationTable=new CommandLineTable();
                             confirmationTable.setShowVerticalLines(true);
                             String finalPrint="Your Booking Id is          :"+ticketInfo.getOrderId();
@@ -274,9 +276,9 @@ public class App {
                                         int searchOption=Integer.parseInt( inputScanner.nextLine());
                                         switch(searchOption)
                                             {
-                                                case 1:new TransactionHistory().BookedticketHistory();
+                                                case 1:new TransactionHistory().bookedticketHistory();
                                                         break;
-                                                case 2: new TransactionHistory().TicketCancellingHistory();
+                                                case 2: new TransactionHistory().ticketCancellingHistory();
                                                         break;
                                                 case 3:break inner;
                                             }
@@ -359,7 +361,7 @@ public class App {
    
             
         
-    DatabaseLoader.Connectioncloser();  //For closing database connection
+    DatabaseLoader.connectionCloser();  //For closing database connection
    
     }
 }

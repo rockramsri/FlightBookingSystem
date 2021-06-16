@@ -61,7 +61,7 @@ public  class SeatsAllocate {
        
         FileOutputStream fout=new FileOutputStream(Resource.SEATALLOCTION_LOCATION); 
         ObjectOutputStream obj=new ObjectOutputStream(fout);
-           ExtraProcess.clearTheuserlog("Seatallocation");
+           ExtraProcess.clearTheUserLog("Seatallocation");
        
        
         obj.writeObject(storeSeats);

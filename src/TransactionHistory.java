@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TransactionHistory {
    //Used to print booked ticket history
-    public void BookedticketHistory() throws ClassNotFoundException, SQLException, IOException
+    public void bookedticketHistory() throws ClassNotFoundException, SQLException, IOException
     {   
       
         List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.userIdgetter(), "no");
@@ -50,7 +50,7 @@ public class TransactionHistory {
     }
 
   //Used to print Cancelled ticket history
-    public void TicketCancellingHistory() throws Exception
+    public void ticketCancellingHistory() throws Exception
     {
 
       List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.userIdgetter(), "yes");

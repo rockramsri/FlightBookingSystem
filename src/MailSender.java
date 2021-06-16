@@ -17,7 +17,7 @@ import javax.mail.internet.MimeMessage;
 public class MailSender  {          
   static String htmlCodeBooking="";
    static String htmlCodeCanceling="";                                                           
-    public static void Bookingrefundmail(TicketInfo iTicketInfo,String ContentCode) throws Exception       
+    public static void bookingRefundMail(TicketInfo iTicketInfo,String ContentCode) throws Exception       
 
     {                                                                                   
         

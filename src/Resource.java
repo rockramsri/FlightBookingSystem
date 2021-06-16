@@ -12,7 +12,7 @@ public class Resource {
     static final String SEATALLOCTION_LOCATION="D:\\Seatallocation.txt";
     
 
-    static public ArrayList<String> citieslist()
+    static public ArrayList<String> citiesList()
     {
         ArrayList<String> CityList = new ArrayList<String>() {
             {
@@ -35,7 +35,7 @@ public class Resource {
         };
         return CityList;
     }
-    static public ArrayList<String> flightlist()
+    static public ArrayList<String> flightList()
     {
         
         ArrayList<String> Flightlist = new ArrayList<String>() {

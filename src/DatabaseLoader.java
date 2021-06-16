@@ -11,7 +11,7 @@ public class DatabaseLoader {
        
     }
     
-    public static void Connectioncloser() throws SQLException
+    public static void connectionCloser() throws SQLException
     {
         if(LoginConnection!=null)
         LoginConnection.close();

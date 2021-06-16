@@ -74,11 +74,11 @@ public class BookingTickets {
       ticketInfoScanner.close();
       
     }
-    public void requesttickets() throws ParseException   //Getting required input to book ticket
+    public void requestTickets() throws ParseException   //Getting required input to book ticket
     {   
-      ExtraProcess.clearscreen();
+      ExtraProcess.clearScreen();
       
-        ArrayList<String> cList=Resource.citieslist();
+        ArrayList<String> cList=Resource.citiesList();
         int citynumber=0;         //Getting DepartureCity
         Date date1 = new Date();  
         while(true)
@@ -165,9 +165,9 @@ public class BookingTickets {
     }
      
     //Listing availabale tickets based on condition
-   public boolean ListingTickets() throws ClassNotFoundException, SQLException   
+   public boolean listingTickets() throws ClassNotFoundException, SQLException   
    {
-      ExtraProcess.clearscreen();
+      ExtraProcess.clearScreen();
       boolean available=false;
     
      int optionCount=0;
@@ -183,7 +183,7 @@ public class BookingTickets {
      }
      if(optionCount==0)
      {
-       ExtraProcess.clearscreen();
+       ExtraProcess.clearScreen();
       System.out.println("********No Flights is available Now*******");
      }
      else{
@@ -204,7 +204,7 @@ public class BookingTickets {
    }    
 
    //Used to register the data in the database of the ticket booked
-   public TicketInfo Bookingregister() throws Exception
+   public TicketInfo bookingRegister() throws Exception
    {
     if(!ticketAvailable)
     return null;

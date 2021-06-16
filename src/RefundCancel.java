@@ -29,7 +29,7 @@ public class RefundCancel {
 
 
      //Used to list and cancel the booked tickets of the user
-    TicketInfo listofbookings() throws IOException, ClassNotFoundException, SQLException
+    TicketInfo listOfBookings() throws IOException, ClassNotFoundException, SQLException
     {
        
           BufferedReader reader = new BufferedReader(new FileReader(Resource.USERLOG_LOCATION));
