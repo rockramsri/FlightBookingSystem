@@ -15,11 +15,11 @@ public class SqlQuery {
     }
     public String passwordUpdater(String password) throws IOException
     {
-      return "update "+Resource.User_INFO_TABLE_NAME+" SET password='"+password+"' where ID='"+ExtraProcess.Useridgetter()+"'";
+      return "update "+Resource.User_INFO_TABLE_NAME+" SET password='"+password+"' where ID='"+ExtraProcess.userIdgetter()+"'";
     }
     public String userInfoQuery(String tablename) throws IOException
     {
-        return selectquery(tablename)+" ID='"+ExtraProcess.Useridgetter()+"'";
+        return selectquery(tablename)+" ID='"+ExtraProcess.userIdgetter()+"'";
     }
     public String getIdByMailQuery(String tablename,String mail)
     {

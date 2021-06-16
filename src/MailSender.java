@@ -75,7 +75,7 @@ public class MailSender  {
         }
         else if(code.equals("PP"))         // Mail properties for Recovery code for changing password
         {
-            message.setRecipient(Message.RecipientType.TO,new InternetAddress(new DatabaseHandler().getMailbyId(ExtraProcess.Useridgetter())));
+            message.setRecipient(Message.RecipientType.TO,new InternetAddress(new DatabaseHandler().getMailbyId(ExtraProcess.userIdgetter())));
             message.setSubject("Recovery Password");
             message.setText("Recovery Code:"+ExtraProcess.randomCodeForPassword);
 

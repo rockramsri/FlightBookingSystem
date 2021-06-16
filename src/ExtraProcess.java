@@ -29,7 +29,7 @@ public class ExtraProcess {
     }
 
     //Used to get the usedId from the Userlog.txt file
-    public static String Useridgetter() throws IOException
+    public static String userIdgetter() throws IOException
     {
      
         BufferedReader reader = new BufferedReader(new FileReader(Resource.USERLOG_LOCATION));

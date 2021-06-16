@@ -7,7 +7,7 @@ public class TransactionHistory {
     public void BookedticketHistory() throws ClassNotFoundException, SQLException, IOException
     {   
       
-        List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.Useridgetter(), "no");
+        List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.userIdgetter(), "no");
        // ResultSet historyset=historyStatment.executeQuery(new SqlQuery().AvailableSummaryQuery(Resource.BOOKED_TICKET_TABLE_NAME, ExtraProcess.Useridgetter(),"no"));
      
 
@@ -53,7 +53,7 @@ public class TransactionHistory {
     public void TicketCancellingHistory() throws Exception
     {
 
-      List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.Useridgetter(), "yes");
+      List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.userIdgetter(), "yes");
       // ResultSet historyset=historyStatment.executeQuery(new SqlQuery().AvailableSummaryQuery(Resource.BOOKED_TICKET_TABLE_NAME, ExtraProcess.Useridgetter(),"no"));
     
 
