@@ -2,7 +2,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/** For Handling MysqlDatabase to store and retrieve Information*/
 public class DatabaseHandler {
     ResultSet dbResult,dbResult2;
     Statement dbStatement,dbStatement2;
@@ -12,6 +12,7 @@ public class DatabaseHandler {
         dbStatement=DatabaseLoader.databaseloadcaller();
         dbStatement2=DatabaseLoader.databaseloadcaller();
     }
+    //Used to covert gender based on value passed
     public int gendercalcula(String gender)
     {
        if(gender.equals("Male"))
@@ -22,11 +23,13 @@ public class DatabaseHandler {
        return 3;
     }
   
+    //Used to Update the password of the user
     public void updatePassword(String password) throws SQLException, IOException
     {
        dbStatement.executeUpdate(new SqlQuery().passwordUpdater(password));
     } 
-
+ 
+    //Used to return the Current profile of the User logged in
     public ProfileDetails currentProfileDetails() throws SQLException, IOException
     {
         dbResult=dbStatement.executeQuery(new SqlQuery().userInfoQuery(Resource.User_INFO_TABLE_NAME));
@@ -34,7 +37,8 @@ public class DatabaseHandler {
         return new ProfileDetails(dbResult.getString(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4), dbResult.getString(5), dbResult.getString(6));
         
     }
-
+  
+    //Used to clear the File and overWrite with User Id which is logged in
     public void clearTheuserlog(String UserId) throws IOException {
         
         FileWriter fwOb = new FileWriter(Resource.USERLOG_LOCATION, false); 
@@ -43,7 +47,8 @@ public class DatabaseHandler {
         writer.close();
         fwOb.close();
     }
-    
+     
+    //Used to validate the login info
     public boolean loginCheck(String id,String password) throws Exception
     {
         String RedUrID="";
@@ -79,6 +84,7 @@ public class DatabaseHandler {
         return false;
     }
      
+    //Used to register the and add the data in the database
     public int registerCheck(ProfileDetails profileRegister) throws Exception
     {
         dbResult=dbStatement.executeQuery(new SqlQuery().noOfrecords(Resource.User_INFO_TABLE_NAME));
@@ -92,6 +98,8 @@ public class DatabaseHandler {
          return tempcount;
          
     }
+
+    //Used to return the List of airlines based on condition from the Database
     public List<Airlines> bookingList(String Departurecity,String Arrivalcity,String Dateticket,int NofSeats,String flightClass ) throws SQLException
     {
      List<Airlines> airlinesList=new ArrayList<Airlines>();
@@ -104,17 +112,13 @@ public class DatabaseHandler {
 
     }
 
+    //Used to update the tickets in the airlines
     public int airlinesUpdater(String flightId,int noOfSeats,String sign) throws SQLException
     {
-
-
-       return dbStatement.executeUpdate(new SqlQuery().UpdateFlightquery(Resource.AIRLINE_TICKET_TABLE_NAME, noOfSeats, flightId,sign));
-
-
-
-
+        return dbStatement.executeUpdate(new SqlQuery().UpdateFlightquery(Resource.AIRLINE_TICKET_TABLE_NAME, noOfSeats, flightId,sign));
     }
  
+    //used to register the booked ticket in the Bookedtickets table in the database
     public void bookingRegister(BookedTickets bookedTickets) throws SQLException
     {
         String gender="";
@@ -127,6 +131,7 @@ public class DatabaseHandler {
         dbStatement.executeUpdate(new SqlQuery().InsertBookedTicketsQuery(Resource.BOOKED_TICKET_TABLE_NAME,bookedTickets.getId(),bookedTickets.getUserlist().getUname(),bookedTickets.getUserlist().getUage(),gender,bookedTickets.getFlightId(),bookedTickets.getTicketId(),bookedTickets.getBookingId(),bookedTickets.getFlight(),bookedTickets.getDepartureTime(),bookedTickets.getArrivalTime(),bookedTickets.getBookedOn(),bookedTickets.getCancelledOn(),bookedTickets.getIsCancelled(),bookedTickets.getAmount()));
     }
 
+    //Used to get mail based on the id form the database
     public String getMailbyId(String UserId) throws SQLException
     {
         dbResult=dbStatement.executeQuery(new SqlQuery().getMailByIdQuery(Resource.User_INFO_TABLE_NAME, UserId));
@@ -136,6 +141,7 @@ public class DatabaseHandler {
 
     }
 
+    //used to get Bookedtickets form the databse based on condition
   public  List<BookedTickets> getBookedList(String UserId,String isCancelled) throws SQLException
   {
       List<BookedTickets> bookedTicketsList=new ArrayList<BookedTickets>();
@@ -150,6 +156,8 @@ public class DatabaseHandler {
     return bookedTicketsList;
 
   }
+
+  //Used to get the departurecity,arrivalcity and flightclass form the Airlines based in the flightId
   public List<String> depArrivalFlightClass(String flightId) throws SQLException
   {
        List<String> deparriFliclasslist=new ArrayList<String>();
@@ -161,6 +169,7 @@ public class DatabaseHandler {
        return deparriFliclasslist;
   }
   
+  //Used to get bookedTickets list
   public List<BookedTickets> getBookedIdsBookingList(String bookingId) throws SQLException
   {
     dbResult=dbStatement.executeQuery(new SqlQuery().ticketlistquery(Resource.BOOKED_TICKET_TABLE_NAME, bookingId));
@@ -174,11 +183,14 @@ public class DatabaseHandler {
     }
     return bookedTicketsList;
   }
+
+  //Used to update the the Iscancelled column in booked list 
  public void ticketCanceling(String flightId,String ticketId) throws SQLException
  {
     dbStatement.executeUpdate(new SqlQuery().ticketCancelingQuery(Resource.BOOKED_TICKET_TABLE_NAME, flightId,ticketId.substring(1)));
  }
 
+ //Used search Airplanes based on flighId
  public List<Airlines> searchAirlinesbyflight(String flight) throws SQLException
  {
     List<Airlines> airlinesList=new ArrayList<Airlines>();
@@ -190,6 +202,8 @@ public class DatabaseHandler {
     return airlinesList;
     
  }
+
+ //Used to return airlines object list based on city
  public List<Airlines> searchAirlinesbycity(String city) throws SQLException
  {
     List<Airlines> airlinesList=new ArrayList<Airlines>();
@@ -202,6 +216,7 @@ public class DatabaseHandler {
     
  }
 
+ //Used to return airlines object list based on DepartureDate
  public List<Airlines> searchAirlinesbyDate(String date) throws SQLException
  {
     List<Airlines> airlinesList=new ArrayList<Airlines>();
@@ -214,6 +229,7 @@ public class DatabaseHandler {
     
  }
  
+ //Used to get the nOofSeats in which is cancelled and not cancelled
  public String noOfSeats(String bookingId,String isCancelled) throws SQLException
  {
     dbResult=dbStatement.executeQuery(new SqlQuery().noOfSeatsQuery(Resource.BOOKED_TICKET_TABLE_NAME, bookingId, isCancelled));

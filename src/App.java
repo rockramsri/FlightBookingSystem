@@ -1,6 +1,8 @@
 
 import java.util.*;
-
+/* This is the starting of the program
+  This is is an application used for 
+*/
 
 public class App {
     static Scanner inputScanner=new Scanner(System.in);
@@ -8,7 +10,7 @@ public class App {
     public static void main(String[] args) throws Exception {
        
         TicketInfo ticketInfo;
-        SeatsAllocate.iFnotexist(); //
+        SeatsAllocate.iFnotexist(); //  To check whether the text file for storing seats Seatallocation.txt contains the seatallocation object "
        
      
         exitprogram:
@@ -24,7 +26,7 @@ public class App {
         if(choice==1)
         {
             Member member=new Member();
-            member.loginRegister.register();
+            member.loginRegister.register(); //navigate to the register methond of loginRegister class in Member class
             outer:
            while(true)
            {   
@@ -48,7 +50,7 @@ public class App {
                              {
                                 ticketInfo=member.userBookingTickets.Bookingregister();
                    
-                                  MailSender.Bookingrefundmail(ticketInfo,"BC");
+                                  MailSender.Bookingrefundmail(ticketInfo,"BC");        //This static methond is to send mail for the Booking Confirmation
                                   CommandLineTable confirmationTable=new CommandLineTable();
                                   confirmationTable.setShowVerticalLines(true);
                                   String finalPrint="Your Booking Id is :"+ticketInfo.getOrderId();
@@ -67,7 +69,7 @@ public class App {
                   
                  
                          break;
-                    case 2: ticketInfo=member.refundCancel.listofbookings();
+                    case 2: ticketInfo=member.refundCancel.listofbookings();     // booked ticketInformation is stored in this ticketInfo Object
                         if(ticketInfo!=null)
                         {
                             MailSender.Bookingrefundmail(ticketInfo,"CC");

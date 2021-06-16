@@ -19,10 +19,10 @@ public class SearchingTicket {
     searchScanner.close();
   }
     
-    
+    //used to search ticket Availablity based on Every criteria given
     public void seachBySpecific() throws ClassNotFoundException, SQLException, ParseException
     {
-     // Scanner ticketInfoScanner=new Scanner(System.in);
+   
       String Dateticket="";
       String Departurecity="";
       String Arrivalcity="";
@@ -182,6 +182,7 @@ public class SearchingTicket {
 
     }
   
+     //used to search ticket Availablity based on particular Airlines
    public  void searchByFlight() throws ClassNotFoundException, SQLException 
     {
       
@@ -219,7 +220,7 @@ public class SearchingTicket {
         
     }
 
-
+ //used to search ticket Availablity based on particular Date
     public  void searchByDate() throws ClassNotFoundException, SQLException, ParseException
     {
      
@@ -272,6 +273,8 @@ public class SearchingTicket {
      
        
     }
+
+    //used to search ticket Availablity based on particular City
     public  void searchByCity() throws ClassNotFoundException, SQLException
     {  
      

@@ -9,22 +9,15 @@ public class LoginRegister {
 
     public LoginRegister() throws  IOException
     {
-    
-        
-        sc=new Scanner(System.in); 
-       
-        
-
+     sc=new Scanner(System.in); 
     }
    
     protected void finalize() 
     {
-       
-    
        sc.close();
-      
-
     }
+
+    //used to authenticate the user based on information stored in userprofile table
     public boolean login() throws Exception
     {  
         Console passwordConsole  = System.console();
@@ -34,6 +27,8 @@ public class LoginRegister {
         String Regpassword=new String(passwordConsole.readPassword("Enter your password:"));
        return new DatabaseHandler().loginCheck(RegID, Regpassword);
     }
+
+    //Used to Add the data of User information as Registeration
     public void register() throws Exception
     {   
         Console passwordConsole  = System.console();

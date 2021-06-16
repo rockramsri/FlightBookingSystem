@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * This class is POJO class for ticket Information
+ */
 public class TicketInfo {
     private String Departurecity;
     private String Arrivalcity;

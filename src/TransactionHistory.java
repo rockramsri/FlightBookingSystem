@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.*;
 
 public class TransactionHistory {
-
+   //Used to print booked ticket history
     public void BookedticketHistory() throws ClassNotFoundException, SQLException, IOException
     {   
       
@@ -48,6 +48,8 @@ public class TransactionHistory {
   
   
     }
+
+  //Used to print Cancelled ticket history
     public void TicketCancellingHistory() throws Exception
     {
 

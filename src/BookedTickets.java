@@ -1,4 +1,4 @@
-
+/* POJO Class for bookedtickets table in the MySqlDatabase */
 
 public class BookedTickets {
     private String id;

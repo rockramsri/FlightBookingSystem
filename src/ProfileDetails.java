@@ -28,6 +28,7 @@ public class ProfileDetails {
         UserScanner.close();
     }
     
+    //For changing the user password
     public boolean changeMypassword(boolean fobool) throws Exception
     {   
           String currentPassword="";
@@ -78,7 +79,7 @@ public class ProfileDetails {
     }
 
 
-    
+    //Used to reset the forgotten password by send OTP to mail
     public void forgotPassword() throws Exception
     { 
       

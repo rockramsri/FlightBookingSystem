@@ -1,5 +1,7 @@
 import java.util.*;
-
+/**
+ * This class contains the Constant values for the application
+ */
 public class Resource {
     static final String BOOKED_TICKET_TABLE_NAME="Bookedtickets";
     static final String AIRLINE_TICKET_TABLE_NAME="Airlines";

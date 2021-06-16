@@ -22,10 +22,10 @@ public class MailSender  {
     {                                                                                   
         
         Properties properties=new Properties();
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true");
-        properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-        properties.setProperty("mail.smtp.port", "587");
+        properties.setProperty("mail.smtp.auth", "true");            //For gmail Authentication is required
+        properties.setProperty("mail.smtp.starttls.enable", "true"); //Enabling encrpytion
+        properties.setProperty("mail.smtp.host", "smtp.gmail.com");  //server Host name  which is gmail for this application
+        properties.setProperty("mail.smtp.port", "587");             // port Number for sending mail
         String myAccount=Resource.MYACCOUNT_ID;
         String myPassword=Resource.MYACCOUNT_PASSWORD;
         Session session=Session.getInstance(properties, new Authenticator(){
@@ -47,7 +47,7 @@ public class MailSender  {
        
         
        
-        if(code.equals("BC"))
+        if(code.equals("BC"))   // Mail properties for Booked tickets
         {   
               //here
               String ticketString="";
@@ -61,7 +61,7 @@ public class MailSender  {
             message.setSubject("FLIGHT TICKET BOOKING CONFIRMATION");
             message.setContent(htmlCodeBooking, "text/html");
         }
-        else if(code.equals("CC"))
+        else if(code.equals("CC"))       // Mail properties for Cancelled tickets
         {  String ticketString="";
         for(int i=0;i<messageTicketinfo.getTicketIds().size();i++)
         {
@@ -73,7 +73,7 @@ public class MailSender  {
             message.setSubject("FLIGHT TICKET CANCELLED CONFIRMATION");
             message.setContent(htmlCodeCanceling, "text/html");
         }
-        else if(code.equals("PP"))
+        else if(code.equals("PP"))         // Mail properties for Recovery code for changing password
         {
             message.setRecipient(Message.RecipientType.TO,new InternetAddress(new DatabaseHandler().getMailbyId(ExtraProcess.Useridgetter())));
             message.setSubject("Recovery Password");

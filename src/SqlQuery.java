@@ -1,5 +1,8 @@
 import java.io.IOException;
-
+ 
+/**
+ * This Classs is used to return the SqlQuery 
+ */
 public class SqlQuery {
     
     public String noOfrecords(String tablename)

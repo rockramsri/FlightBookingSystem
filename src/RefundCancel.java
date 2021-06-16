@@ -18,19 +18,17 @@ public class RefundCancel {
     RefundCancel(){
        Summaryscanner=new Scanner(System.in);
     }
+    //Used to update the number of seats in the Airlines
     int updateAirlines(String flightId) throws ClassNotFoundException, SQLException
     {
-       // updStatement=DatabaseLoader.databaseloadcaller();
+      
         return new DatabaseHandler().airlinesUpdater(flightId, noOfseats, "+");
-       //return  updStatement.executeUpdate(new SqlQuery().UpdateFlightquery(Resource.AIRLINE_TICKET_TABLE_NAME, noOfseats, flightId,"+"));
-       
-
         
     }
 
 
 
-
+     //Used to list and cancel the booked tickets of the user
     TicketInfo listofbookings() throws IOException, ClassNotFoundException, SQLException
     {
        

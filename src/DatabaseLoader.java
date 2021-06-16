@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DatabaseLoader {
    static  Connection LoginConnection;
-  
+    //Used to load the crate connection object and load the statment for the database
     public static Statement databaseloadcaller() throws  SQLException, ClassNotFoundException
     {
         Class.forName("com.mysql.cj.jdbc.Driver");

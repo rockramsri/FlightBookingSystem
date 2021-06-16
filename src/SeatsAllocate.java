@@ -1,7 +1,9 @@
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * This class is used to process and store the seats alloction for different flights
+ */
 public  class SeatsAllocate {
 
     

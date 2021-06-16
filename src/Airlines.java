@@ -1,3 +1,6 @@
+/* POJO Class for Airlines table in the MySqlDatabase */
+
+
 public class Airlines {
     private String flightId;
     private String flight;

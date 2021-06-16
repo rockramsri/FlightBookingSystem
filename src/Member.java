@@ -1,12 +1,15 @@
 import java.io.IOException;
 import java.sql.*;
+/**Non-Member class has only Search feature
+ * Memebr class has  non-member class feature and booking,Cancellation Features 
+ */
 class Non_Member{
     
     public SearchingTicket searchingTicket;
-Non_Member()
-{
-    searchingTicket=new SearchingTicket();
-}
+        Non_Member()
+                {
+            searchingTicket=new SearchingTicket();
+                    }
 
 }
 public class Member extends Non_Member {

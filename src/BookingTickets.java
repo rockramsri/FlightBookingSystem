@@ -13,8 +13,6 @@ public class BookingTickets {
    private String Arrivalcity;
    private int NofSeats;
     private String flightClass;
-    private Statement ticketReqStatment;
-    private ResultSet FlightResultSet;
     private int SeatPrice;
     private List<UserDetails> userList;
     private List<String> ticketList;
@@ -71,11 +69,10 @@ public class BookingTickets {
         userList=new ArrayList<UserDetails>();
         ticketList= new ArrayList<String>();
     }
-    public void finalize() throws SQLException
+    public void finalize() throws SQLException  //To close the Scanner
     {
       ticketInfoScanner.close();
-      FlightResultSet.close();
-      ticketReqStatment.close();
+      
     }
     public void requesttickets() throws ParseException   //Getting required input to book ticket
     {   
@@ -166,8 +163,9 @@ public class BookingTickets {
         }
 
     }
-    
-   public boolean ListingTickets() throws ClassNotFoundException, SQLException
+     
+    //Listing availabale tickets based on condition
+   public boolean ListingTickets() throws ClassNotFoundException, SQLException   
    {
       ExtraProcess.clearscreen();
       boolean available=false;
@@ -205,6 +203,7 @@ public class BookingTickets {
 
    }    
 
+   //Used to register the data in the database of the ticket booked
    public TicketInfo Bookingregister() throws Exception
    {
     if(!ticketAvailable)

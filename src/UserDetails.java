@@ -1,5 +1,7 @@
 import java.util.Scanner;
-
+/**
+ * This class contains the UserInformations of the people bookings
+ */
 public class UserDetails {
    private String Uname;
     private int Uage;

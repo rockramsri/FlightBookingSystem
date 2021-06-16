@@ -5,12 +5,15 @@ import java.time.format.DateTimeFormatter;
 public class ExtraProcess {
     public static String randomCodeForPassword="";
    
+    //Used to Clear the screen in the Terminal
     public static void clearscreen()
     {
         System.out.print("\033[H\033[2J");  //ANSI Escape Code
         System.out.flush();  
     }
     public static String passwordHolder="";
+
+    //Used to return Radom number based on the min and max range
     public static int sizeRandomizer(int min,int max)
     {
         
@@ -24,6 +27,8 @@ public class ExtraProcess {
             
         
     }
+
+    //Used to get the usedId from the Userlog.txt file
     public static String Useridgetter() throws IOException
     {
      
@@ -40,6 +45,8 @@ public class ExtraProcess {
       return UserId;
 
     }
+
+    //Used to return the current time
     public static String dateTimeGetter()
     {
         LocalDateTime now = LocalDateTime.now();  
@@ -47,16 +54,16 @@ public class ExtraProcess {
         String formatDateTime = now.format(format);  
         return formatDateTime;
     }
+
+    //Used to clear the file
     public static void clearTheuserlog(String filename) throws IOException {
         File file = new File("D:\\"+filename+".txt"); 
         if(file.exists())
         file.delete();
 
         file.createNewFile();
-
-        
-        
     }
+    //Used to convert gender based on number to String
     public static String genderCalculate(int num)
     {
         if(num==1)
