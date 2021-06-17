@@ -85,19 +85,19 @@ public class BookingTickets {
         {
 
        
-        System.out.println("Enter your Departure Date(DD/MM/YYY):");
-      Dateticket=ticketInfoScanner.nextLine();
-      String pattern = "dd/MM/yyyy";
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            System.out.println("Enter your Departure Date(DD/MM/YYY):");
+            Dateticket=ticketInfoScanner.nextLine();
+            String pattern = "dd/MM/yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
       
-      Date date = simpleDateFormat.parse(Dateticket);
+            Date date = simpleDateFormat.parse(Dateticket);
                if(date1.compareTo(date)!=1)
-                 {
-                  break;
-                 }
+                  {
+                    break;
+                  }
                  System.out.println("The entered date is not Available");
                  
-         }
+        }
         CommandLineTable cityTable=new CommandLineTable();
         cityTable.setShowVerticalLines(true);
         cityTable.setHeaders("CODE","CITY");
@@ -109,17 +109,16 @@ public class BookingTickets {
         cityTable.print();
         while(true)
         {
-        System.out.println("Enter the  city of Departure (Corresponding Number):");
-        int depcitychoice=Integer.parseInt(ticketInfoScanner.nextLine());
+            System.out.println("Enter the  city of Departure (Corresponding Number):");
+            int depcitychoice=Integer.parseInt(ticketInfoScanner.nextLine());
           if(depcitychoice>=0 && depcitychoice<=cList.size())
-          {
-            Departurecity=cList.get(depcitychoice-1);
-            cList.remove(depcitychoice-1); 
-            break;
-          }
+              {
+                Departurecity=cList.get(depcitychoice-1);
+                cList.remove(depcitychoice-1); 
+                break;
+              }
         }
-       // ExtraProcess.clearscreen();
-       
+      
         while(true)
         {
         System.out.println("Enter the  city for Arrival (Corresponding Number)::");
@@ -187,15 +186,15 @@ public class BookingTickets {
       System.out.println("********No Flights is available Now*******");
      }
      else{
-       tablebook.print();
-       available=true;
-     System.out.println("Enter the Corresponding CODE for Booking:");
-     int optionselection=ticketInfoScanner.nextInt();
-     ticketAvailable=true;
-      selectedAirlines=lAirlines.get(optionselection-1);
-     SeatPrice=selectedAirlines.getCostPerSeat();
+        tablebook.print();
+        available=true;
+        System.out.println("Enter the Corresponding CODE for Booking:");
+        int optionselection=ticketInfoScanner.nextInt();
+        ticketAvailable=true;
+        selectedAirlines=lAirlines.get(optionselection-1);
+        SeatPrice=selectedAirlines.getCostPerSeat();
 
-    new DatabaseHandler().airlinesUpdater(selectedAirlines.getFlightId(), NofSeats,"-");
+        new DatabaseHandler().airlinesUpdater(selectedAirlines.getFlightId(), NofSeats,"-");
     
      }
 
@@ -230,9 +229,9 @@ public class BookingTickets {
         ticketList.add("P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()).get(0)));
         SeatsAllocate.seats.get(selectedAirlines.getFlightId()).remove(0);
     }
-    //upto
-    SeatsAllocate.seatStorer(SeatsAllocate.seats);
-  System.out.println("**SENDING YOUR MAIL PLEASE WAIT............................");
+    
+      SeatsAllocate.seatStorer(SeatsAllocate.seats);
+      System.out.println("**SENDING YOUR MAIL PLEASE WAIT............................");
   
   TicketInfo bookTicketInfo=new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(), NofSeats,selectedAirlines.getFlightClass(), new DatabaseHandler().getMailbyId(UserId), selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlight(), orderId, ticketList, userList);
     fin.close();

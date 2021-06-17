@@ -53,10 +53,10 @@ public class ProfileDetails {
                         while(true)
                         {
                         newPassword=new String(passwordConsole.readPassword("Enter your New password:"));
-                        if(ExtraProcess.passwordValidate(newPassword))
+                        if(ExtraProcess.passwordValidate(newPassword) && !newPassword.equals(ExtraProcess.passwordHolder))
                         break;
                         else
-                        System.out.println("****Entered password is too short****");
+                        System.out.println("****Entered password is too short or you already used this password****");
                  
                         }
                        
