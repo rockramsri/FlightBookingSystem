@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.*;
 
 public class ProfileDetails {
     private String id;
@@ -8,6 +9,7 @@ public class ProfileDetails {
     private String password;
     private String phonenumber;
     private  Scanner UserScanner;
+      Console passwordConsole ;
 
     public ProfileDetails(String id,String name,String dob,String email,String password,String phonenumber)
     {
@@ -18,10 +20,12 @@ public class ProfileDetails {
         this.password = password;
         this.phonenumber = phonenumber;
         UserScanner=new Scanner(System.in);
+         passwordConsole  = System.console();
     }
     public ProfileDetails()
     {
         UserScanner=new Scanner(System.in);
+         passwordConsole  = System.console();
     }
     public void finalize()
     {
@@ -45,11 +49,18 @@ public class ProfileDetails {
               if(fobool || currentPassword.equals(ExtraProcess.passwordHolder))
                 {
                     while(true)
-                    {
-                       System.out.println("Enter Your New Password:");
-                       newPassword=UserScanner.nextLine();
-                       System.out.println("Re-Enter Your New Password:");
-                       confirmNewPassword=UserScanner.nextLine();
+                    {  
+                        while(true)
+                        {
+                        newPassword=new String(passwordConsole.readPassword("Enter your New password:"));
+                        if(ExtraProcess.passwordValidate(newPassword))
+                        break;
+                        else
+                        System.out.println("****Entered password is too short****");
+                 
+                        }
+                       
+                       confirmNewPassword=newPassword=new String(passwordConsole.readPassword("Re-Enter Your New Password:"));
                        if(confirmNewPassword.equals(newPassword))
                        {
                           success=true;
