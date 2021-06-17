@@ -39,14 +39,7 @@ public class DatabaseHandler {
     }
   
     //Used to clear the File and overWrite with User Id which is logged in
-    public void clearTheuserlog(String UserId) throws IOException {
-        
-        FileWriter fwOb = new FileWriter(Resource.USERLOG_LOCATION, false); 
-        PrintWriter writer = new PrintWriter(fwOb);
-        writer.print(UserId);
-        writer.close();
-        fwOb.close();
-    }
+    
      
     //Used to validate the login info
     public boolean loginCheck(String id,String password) throws Exception
@@ -56,13 +49,16 @@ public class DatabaseHandler {
         {
        dbResult=dbStatement.executeQuery(new SqlQuery().recordExistMailQuery(Resource.User_INFO_TABLE_NAME, id, password));
         
-
+        
         }
        else
        {
         dbResult=dbStatement.executeQuery(new SqlQuery().recordExistIDQuery(Resource.User_INFO_TABLE_NAME, id, password));
-            
+       
             RedUrID=id;
+          
+            
+
        }
 
         //System.out.print("Enter your Password:");
@@ -75,9 +71,22 @@ public class DatabaseHandler {
                 dbResult=dbStatement.executeQuery(new SqlQuery().getIdByMailQuery(Resource.User_INFO_TABLE_NAME, id));
                 dbResult.next();
              RedUrID=dbResult.getString(1);
+             
             }
-            clearTheuserlog(RedUrID);
-        ExtraProcess.passwordHolder=password;
+            ExtraProcess.currentUserDetails.setId(RedUrID);
+            
+            //clearTheuserlog(RedUrID);
+        dbResult=dbStatement.executeQuery(new SqlQuery().getUserInfo(Resource.User_INFO_TABLE_NAME, RedUrID));
+        dbResult.next();
+        ExtraProcess.currentUserDetails.setId(RedUrID);
+        ExtraProcess.currentUserDetails.setDob(dbResult.getString(3));
+        ExtraProcess.currentUserDetails.setEmail(dbResult.getString(4));
+        ExtraProcess.currentUserDetails.setName(dbResult.getString(2));
+        ExtraProcess.currentUserDetails.setPassword(dbResult.getString(5));
+        ExtraProcess.currentUserDetails.setPhonenumber(dbResult.getString(6));
+
+        
+        
         return true;
         }
         else
@@ -89,12 +98,11 @@ public class DatabaseHandler {
     {
         dbResult=dbStatement.executeQuery(new SqlQuery().noOfrecords(Resource.User_INFO_TABLE_NAME));
         dbResult.next();
-        //System.out.println(result.getInt(0));
-       //  System.out.println(new SqlQuery().insertquery("UserProfile", result.getInt(1)+1,RegName, RegDate, RegMail,Regpassword,RegPhonenumber));
+        
        int tempcount=dbResult.getInt(1)+1;
        dbStatement.executeUpdate(new SqlQuery().insertQuery("UserProfile", "Usr"+String.valueOf(tempcount),profileRegister.getName(), profileRegister.getDob(), profileRegister.getEmail(),profileRegister.getPassword(),profileRegister.getPhonenumber()));
          
-         clearTheuserlog("Usr"+String.valueOf(tempcount));
+        
          return tempcount;
          
     }
@@ -178,7 +186,7 @@ public class DatabaseHandler {
     {   UserDetails userDetails=new UserDetails(dbResult.getString(2),Integer.parseInt(dbResult.getString(3)),genderCalcula(dbResult.getString(4)));
 
         bookedTicketsList.add(new BookedTickets(dbResult.getFloat(14), dbResult.getString(10), dbResult.getString(11),  dbResult.getString(7),  dbResult.getString(12),  dbResult.getString(9),  dbResult.getString(8),  dbResult.getString(5), dbResult.getString(1),  dbResult.getString(13),  dbResult.getString(6), userDetails));
-        //upto here
+        
       
     }
     return bookedTicketsList;
@@ -235,6 +243,20 @@ public class DatabaseHandler {
     dbResult=dbStatement.executeQuery(new SqlQuery().noOfSeatsQuery(Resource.BOOKED_TICKET_TABLE_NAME, bookingId, isCancelled));
     dbResult.next();
    return dbResult.getString(1);
+ }
+
+ public List<BookedTickets> fullBookedTicketStable() throws SQLException
+ {
+   dbResult=dbStatement.executeQuery(new SqlQuery().selectquery(Resource.BOOKED_TICKET_TABLE_NAME));
+   List<BookedTickets> bookedTicketsList=new ArrayList<BookedTickets>();
+    while(dbResult.next())
+    {   UserDetails userDetails=new UserDetails(dbResult.getString(2),Integer.parseInt(dbResult.getString(3)),genderCalcula(dbResult.getString(4)));
+
+        bookedTicketsList.add(new BookedTickets(dbResult.getFloat(14), dbResult.getString(10), dbResult.getString(11),  dbResult.getString(7),  dbResult.getString(12),  dbResult.getString(9),  dbResult.getString(8),  dbResult.getString(5), dbResult.getString(1),  dbResult.getString(13),  dbResult.getString(6), userDetails));
+        
+      
+    }
+    return bookedTicketsList;
  }
   
  

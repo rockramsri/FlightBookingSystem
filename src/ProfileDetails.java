@@ -46,14 +46,14 @@ public class ProfileDetails {
                 System.out.println("Enter Your Current Password:");
                 currentPassword=UserScanner.nextLine();
               }
-              if(fobool || currentPassword.equals(ExtraProcess.passwordHolder))
+              if(fobool || currentPassword.equals(ExtraProcess.currentUserDetails.getPassword()))
                 {
                     while(true)
                     {  
                         while(true)
                         {
                         newPassword=new String(passwordConsole.readPassword("Enter your New password:"));
-                        if(ExtraProcess.passwordValidate(newPassword) && !newPassword.equals(ExtraProcess.passwordHolder))
+                        if(ExtraProcess.passwordValidate(newPassword) && !newPassword.equals(ExtraProcess.currentUserDetails.getPassword()))
                         break;
                         else
                         System.out.println("****Entered password is too short or you already used this password****");
@@ -66,7 +66,8 @@ public class ProfileDetails {
                           success=true;
                           new DatabaseHandler().updatePassword(newPassword);
                          
-                          ExtraProcess.passwordHolder=confirmNewPassword;
+                          ExtraProcess.currentUserDetails.setPassword(confirmNewPassword);
+                          System.out.println("*****Password has been changed successfully****");
                           break;
                        }
                        else
@@ -109,10 +110,8 @@ public class ProfileDetails {
             String code=UserScanner.nextLine();
             if(code.equals(String.valueOf(randomNumber)))
             {
-               if(changeMypassword(true))
-               {
-                System.out.println("***Password changed Successfully***");
-               }
+                changeMypassword(true);
+               
             }
         }
         else

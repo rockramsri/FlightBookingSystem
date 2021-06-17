@@ -1,12 +1,11 @@
 import java.util.*;
 import java.util.Date;
-import java.io.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class BookingTickets {
-  private String UserId;
+ 
   private  String Dateticket;
    private Scanner ticketInfoScanner;
    private String Departurecity;
@@ -59,7 +58,7 @@ public class BookingTickets {
    
     SeatPrice=0;
    
-      UserId="";
+    
       Dateticket="";
       Departurecity="";
       Arrivalcity="";
@@ -207,13 +206,9 @@ public class BookingTickets {
    {
     if(!ticketAvailable)
     return null;
-    FileInputStream fin=new FileInputStream(Resource.USERLOG_LOCATION);    
-    int i=0;    
-    UserId="";
-    while((i=fin.read())!=-1){    
-     UserId+=(char)i;    
-    }    
-    fin.close();
+    
+    int i=0;
+    
     String orderId="ord"+String.valueOf(ExtraProcess.sizeRandomizer(1000,9999));
     for(i=1;i<=NofSeats;i++)
     {
@@ -223,18 +218,18 @@ public class BookingTickets {
         String cancelledOn="null";
         String bookedOn=ExtraProcess.dateTimeGetter();
         String isCancelled="no";
-        BookedTickets bookedTickets=new BookedTickets(cost, selectedAirlines.getArrivalTime(), bookedOn, orderId, cancelledOn, selectedAirlines.getDepartureTime(), selectedAirlines.getFlight(), selectedAirlines.getFlightId(), UserId, isCancelled, "P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()).get(0)), userList.get(i-1));
+        BookedTickets bookedTickets=new BookedTickets(cost, selectedAirlines.getArrivalTime(), bookedOn, orderId, cancelledOn, selectedAirlines.getDepartureTime(), selectedAirlines.getFlight(), selectedAirlines.getFlightId(), ExtraProcess.currentUserDetails.getId(), isCancelled, "P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()).get(0)), userList.get(i-1));
          new DatabaseHandler().bookingRegister(bookedTickets);
  
         ticketList.add("P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()).get(0)));
         SeatsAllocate.seats.get(selectedAirlines.getFlightId()).remove(0);
     }
     
-      SeatsAllocate.seatStorer(SeatsAllocate.seats);
+      //SeatsAllocate.seatStorer(SeatsAllocate.seats);
       System.out.println("**SENDING YOUR MAIL PLEASE WAIT............................");
   
-  TicketInfo bookTicketInfo=new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(), NofSeats,selectedAirlines.getFlightClass(), new DatabaseHandler().getMailbyId(UserId), selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlight(), orderId, ticketList, userList);
-    fin.close();
+  TicketInfo bookTicketInfo=new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(), NofSeats,selectedAirlines.getFlightClass(), ExtraProcess.currentUserDetails.getEmail(), selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlight(), orderId, ticketList, userList);
+    
     return bookTicketInfo;
    }
 
