@@ -7,21 +7,11 @@ public class TransactionHistory {
     public void bookedticketHistory() throws ClassNotFoundException, SQLException, IOException
     {   
       
-        List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.userIdgetter(), "no");
-       // ResultSet historyset=historyStatment.executeQuery(new SqlQuery().AvailableSummaryQuery(Resource.BOOKED_TICKET_TABLE_NAME, ExtraProcess.Useridgetter(),"no"));
-     
-
+        List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.currentUserDetails.getId(), "no");
           CommandLineTable bookTickeTable =new CommandLineTable();
-
-
-          int optionSelection=0;
-   
-        
-          List<String> distinctOrder=new ArrayList<String>();
-         
+          int optionSelection=0;        
+          List<String> distinctOrder=new ArrayList<String>();        
           bookTickeTable.setShowVerticalLines(true);
-          
-     
           bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ","  BookedOn  ","  Seats Booked ");
         
           for(BookedTickets bTickets:bookedTicketsList)
@@ -53,9 +43,7 @@ public class TransactionHistory {
     public void ticketCancellingHistory() throws Exception
     {
 
-      List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.userIdgetter(), "yes");
-      // ResultSet historyset=historyStatment.executeQuery(new SqlQuery().AvailableSummaryQuery(Resource.BOOKED_TICKET_TABLE_NAME, ExtraProcess.Useridgetter(),"no"));
-    
+      List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.currentUserDetails.getId(), "yes");
 
          CommandLineTable bookTickeTable =new CommandLineTable();
 

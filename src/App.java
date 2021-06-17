@@ -12,7 +12,8 @@ public class App {
     public static void main(String[] args) throws Exception {
        
         TicketInfo ticketInfo;
-        SeatsAllocate.iFnotexist(); //  To check whether the text file for storing seats Seatallocation.txt contains the seatallocation object "
+        SeatsAllocate.initiator();
+        SeatsAllocate.seatUpdater(); //  To check whether the text file for storing seats Seatallocation.txt contains the seatallocation object "
        
      
         exitprogram:

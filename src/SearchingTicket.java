@@ -250,8 +250,7 @@ public class SearchingTicket {
          }
          
     
-       // ResultSet searchFlightResult=searchFlightStatment.executeQuery(new SqlQuery().searchByDate(Resource.AIRLINE_TICKET_TABLE_NAME,Dateticket));
-       // System.out.println(new SqlQuery().searchByflight(Resource.BOOKED_TICKET_TABLE_NAME, Resource.flightlist().get(optionSelected-1)));
+      
       int options=0;
        CommandLineTable tablebook=new CommandLineTable();
        tablebook.setShowVerticalLines(true);
@@ -293,8 +292,7 @@ public class SearchingTicket {
       
         
         
-       // ResultSet searchFlightResult=searchFlightStatment.executeQuery(new SqlQuery().searchByflight(Resource.AIRLINE_TICKET_TABLE_NAME, Resource.flightlist().get(optionSelected-1)));
-       // System.out.println(new SqlQuery().searchByflight(Resource.BOOKED_TICKET_TABLE_NAME, Resource.flightlist().get(optionSelected-1)));
+      
         
         CommandLineTable tablebook=new CommandLineTable();
         tablebook.setShowVerticalLines(true);

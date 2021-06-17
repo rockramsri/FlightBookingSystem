@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.*;
 
 public class RefundCancel {
-        private String UserId;
+        
     
         private Scanner Summaryscanner;
       
@@ -32,21 +32,6 @@ public class RefundCancel {
     TicketInfo listOfBookings() throws IOException, ClassNotFoundException, SQLException
     {
        
-          BufferedReader reader = new BufferedReader(new FileReader(Resource.USERLOG_LOCATION));
-          String line = null;
-          UserId="";
-        while ((line = reader.readLine()) != null) 
-        {
-	       UserId+=line;
-        }
-        if(UserId.substring(0, 4).equals("null"))
-            UserId=UserId.substring(4);
-        reader.close();
-        
-  
-     
- 
-     
      int optionSelection=0;
    
     
@@ -58,7 +43,7 @@ public class RefundCancel {
 
      OrderId.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ");
    
-     for(BookedTickets bookedTickets:new DatabaseHandler().getBookedList(UserId,"no"))
+     for(BookedTickets bookedTickets:new DatabaseHandler().getBookedList(ExtraProcess.currentUserDetails.getId(),"no"))
      {  
         if(!distinctOrder.contains(bookedTickets.getBookingId()))
         {
@@ -125,7 +110,7 @@ public class RefundCancel {
       ticketid.add(bTickets.getTicketId());
        new DatabaseHandler().ticketCanceling(distinctOrder.get(optionSelected-1), bTickets.getTicketId());
     }
-    SeatsAllocate.seatStorer(SeatsAllocate.seats);
+    //SeatsAllocate.seatStorer(SeatsAllocate.seats);
     //Collections.sort(SeatsAllocate.seats.get(bookedTicketsList.get(0).getFlightId()));
     noOfseats=options.size();
 
@@ -136,7 +121,7 @@ public class RefundCancel {
 
      
       
-      TicketInfo ticketInfo=new TicketInfo(Departurecity, Arrivalcity, noOfseats, flightClass, new DatabaseHandler().getMailbyId(UserId), bookedTicketsList.get(0).getDepartureTime(), bookedTicketsList.get(0).getArrivalTime() ,  bookedTicketsList.get(0).getFlight(), distinctOrder.get(optionSelected-1), ticketid, null);
+      TicketInfo ticketInfo=new TicketInfo(Departurecity, Arrivalcity, noOfseats, flightClass, ExtraProcess.currentUserDetails.getEmail(), bookedTicketsList.get(0).getDepartureTime(), bookedTicketsList.get(0).getArrivalTime() ,  bookedTicketsList.get(0).getFlight(), distinctOrder.get(optionSelected-1), ticketid, null);
     
       
      int isrestored=updateAirlines(bookedTicketsList.get(0).getFlightId());

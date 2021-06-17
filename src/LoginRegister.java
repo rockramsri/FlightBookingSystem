@@ -60,14 +60,20 @@ public class LoginRegister {
        
         System.out.println("Enter your Contact Number:");
         String RegPhonenumber=sc.nextLine();
-        ExtraProcess.passwordHolder=Regpassword;
+       
 
       
         int tempcount=new DatabaseHandler().registerCheck(new ProfileDetails(null, RegName, RegDate, RegMail, Regpassword, RegPhonenumber));
 
         System.out.println("SuccessFully Registered And your User ID is: Usr"+String.valueOf(tempcount));
         
-        
+        ExtraProcess.currentUserDetails.setId("Usr"+String.valueOf(tempcount));
+        ExtraProcess.currentUserDetails.setDob(RegDate);
+        ExtraProcess.currentUserDetails.setEmail(RegMail);
+        ExtraProcess.currentUserDetails.setName(RegName);
+        ExtraProcess.currentUserDetails.setPassword(Regpassword);
+        ExtraProcess.currentUserDetails.setPhonenumber(RegPhonenumber);
+
 
 
 

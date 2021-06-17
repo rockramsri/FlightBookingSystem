@@ -15,11 +15,11 @@ public class SqlQuery {
     }
     public String passwordUpdater(String password) throws IOException
     {
-      return "update "+Resource.User_INFO_TABLE_NAME+" SET password='"+password+"' where ID='"+ExtraProcess.userIdgetter()+"'";
+      return "update "+Resource.User_INFO_TABLE_NAME+" SET password='"+password+"' where ID='"+ExtraProcess.currentUserDetails.getId()+"'";
     }
     public String userInfoQuery(String tablename) throws IOException
     {
-        return selectquery(tablename)+" ID='"+ExtraProcess.userIdgetter()+"'";
+        return selectquery(tablename)+" ID='"+ExtraProcess.currentUserDetails.getId()+"'";
     }
     public String getIdByMailQuery(String tablename,String mail)
     {
@@ -48,7 +48,7 @@ public class SqlQuery {
         addedString="";
         return "select exists("+selectquery(tablename)+" where ID='"+userid+"'"+addedString+")";
     }
- /* tick*/   public String availableFlightquery(String tablename,String depcity,String arrcity,String depdate,int NofSeats,String flightClass)
+    public String availableFlightquery(String tablename,String depcity,String arrcity,String depdate,int NofSeats,String flightClass)
     {   
         String alternateDeptimeStr=" and Departuretime like '%"+depdate+"%'";
         if(depdate.length()==0)
@@ -57,11 +57,11 @@ public class SqlQuery {
         }
          return "select * from "+tablename+" where Departurecity='"+depcity+"' and Arrivalcity='"+arrcity+"' and currentSeatsAvailable>="+String.valueOf(NofSeats)+alternateDeptimeStr+" and flightclass='"+flightClass+"'";
     }
-  /* tick*/   public String updateFlightquery(String tablename,int noofseats,String flightId,String sign)
+    public String updateFlightquery(String tablename,int noofseats,String flightId,String sign)
     {
         return "Update "+tablename+" SET currentSeatsAvailable=currentSeatsAvailable"+sign+String.valueOf(noofseats)+" Where Flightid='"+flightId+"'";
     }
-   /* tick*/  public String insertBookedTicketsQuery(String tablename,String userId,String username,int userage,String usergender,String flightId,String  ticketId,String orderId,String flight,String Deptime,String Arrtime,String bookedOn,String cancelledOn,String isCancelled,float amount)
+    public String insertBookedTicketsQuery(String tablename,String userId,String username,int userage,String usergender,String flightId,String  ticketId,String orderId,String flight,String Deptime,String Arrtime,String bookedOn,String cancelledOn,String isCancelled,float amount)
     {   
         return "insert into "+tablename+" values('"+userId+"','"+username+"','"+String.valueOf(userage)+"','"+usergender+"','"+flightId+"','"+ticketId+"','"+orderId+"','"+flight+"','"+Deptime+"','"+Arrtime+"','"+bookedOn+"','"+cancelledOn+"','"+isCancelled+"',"+String.valueOf(amount)+")";
     }
@@ -84,6 +84,10 @@ public class SqlQuery {
     public String noOfSeatsQuery(String tablename,String bookingId,String cancel)
     {
         return "select count(*) from "+tablename+" where BookingId='"+bookingId+"' and IsCancelled='"+cancel+"' group by BookingId";
+    }
+    public String getUserInfo(String tablename,String id)
+    {
+        return "select * from "+tablename+" where ID='"+id+"'";
     }
     
     //search functions
