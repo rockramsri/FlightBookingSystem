@@ -1,6 +1,8 @@
 import java.io.*;
 import java.time.LocalDateTime;  
-import java.time.format.DateTimeFormatter;  
+import java.time.format.DateTimeFormatter;
+
+import javax.mail.internet.InternetAddress;  
 
 public class ExtraProcess {
     public static String randomCodeForPassword="";
@@ -62,6 +64,27 @@ public class ExtraProcess {
         file.delete();
 
         file.createNewFile();
+    }
+    public static boolean passwordValidate(String pword)
+    {
+        if(pword.length()>=5)
+        return true;
+        else
+        return false;
+    }
+    
+    public static boolean validateEmail(String email) {
+        boolean isValid = false;
+        try {
+            // Create InternetAddress object and validated the supplied
+            // address which is this case is an email address.
+            InternetAddress internetAddress = new InternetAddress(email, true); // strict
+            internetAddress.validate();
+            isValid = true;
+        } catch (Exception e) {
+           isValid=false;
+        }
+        return isValid;
     }
     //Used to convert gender based on number to String
     public static String genderCalculate(int num)

@@ -36,11 +36,28 @@ public class LoginRegister {
         String RegName=sc.nextLine();
         System.out.print("Enter your DOB:");
         String RegDate=sc.nextLine();
-        
-        System.out.print("Enter your Mail:");
-        String RegMail=sc.nextLine();
+        String RegMail="";
+        while(true)
+        {
+            System.out.print("Enter your Mail:");
+             RegMail=sc.nextLine();
+             if(ExtraProcess.validateEmail(RegMail))
+             break;
+             else
+             System.out.println("**Entered Email is not vaild**");
+
+        }
+        String Regpassword="";
+       while(true)
+       {
+       Regpassword=new String(passwordConsole.readPassword("Enter your password:"));
+       if(ExtraProcess.passwordValidate(Regpassword))
+       break;
+       else
+       System.out.println("****Entered password is too short****");
+
+       }
        
-        String Regpassword=new String(passwordConsole.readPassword("Enter your password:"));
         System.out.println("Enter your Contact Number:");
         String RegPhonenumber=sc.nextLine();
         ExtraProcess.passwordHolder=Regpassword;
