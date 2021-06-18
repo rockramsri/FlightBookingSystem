@@ -1,5 +1,5 @@
-package DBTableClass;
-import Ticket.*;
+package Database.DBTableClass;
+import View.Ticket.*;
 /* POJO Class for bookedtickets table in the MySqlDatabase */
 
 public class BookedTickets {

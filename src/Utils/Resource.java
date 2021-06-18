@@ -1,4 +1,4 @@
-package ExtraResources;
+package Utils;
 import java.util.*;
 /**
  * This class contains the Constant values for the application

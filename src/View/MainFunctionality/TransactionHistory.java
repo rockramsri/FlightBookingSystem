@@ -1,10 +1,10 @@
-package MainFunctionality;
+package View.MainFunctionality;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import Database.*;
-import DBTableClass.*;
-import ExtraResources.*;
+import Database.DBTableClass.*;
+import Utils.*;
 
 
 public class TransactionHistory {

@@ -1,11 +1,11 @@
-package MainFunctionality;
+package View.MainFunctionality;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-import Ticket.*;
+import View.Ticket.*;
 import Database.*;
-import ExtraResources.*;
-import DBTableClass.*;
+import Utils.*;
+import Database.DBTableClass.*;
 public class RefundCancel {
         
     

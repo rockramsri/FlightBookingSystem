@@ -1,10 +1,10 @@
-package Ticket;
+package View.Ticket;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
-import DBTableClass.*;
+import Database.DBTableClass.*;
 import Database.*;
-import ExtraResources.*;
+import Utils.*;
 
 /**
  * This class is used to process and store the seats alloction for different flights

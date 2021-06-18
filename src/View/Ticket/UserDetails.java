@@ -1,4 +1,4 @@
-package Ticket;
+package View.Ticket;
 import java.util.Scanner;
 /**
  * This class contains the UserInformations of the people bookings

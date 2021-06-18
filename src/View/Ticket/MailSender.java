@@ -1,8 +1,8 @@
-package Ticket;
+package View.Ticket;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
-import ExtraResources.*;
+import Utils.*;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;

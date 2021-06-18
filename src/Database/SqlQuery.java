@@ -1,6 +1,6 @@
 package Database;
 import java.io.IOException;
-import ExtraResources.*;
+import Utils.*;
  
 /**
  * This Classs is used to return the SqlQuery 

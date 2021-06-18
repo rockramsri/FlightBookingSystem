@@ -1,4 +1,4 @@
-package Ticket;
+package View.Ticket;
 import java.util.*;
 
 /**

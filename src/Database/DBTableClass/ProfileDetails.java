@@ -1,9 +1,9 @@
-package DBTableClass;
+package Database.DBTableClass;
 import java.util.Scanner;
 import java.io.*;
-import ExtraResources.*;
+import Utils.*;
 import Database.*;
-import Ticket.*;
+import View.Ticket.*;
 
 public class ProfileDetails {
     private String id;

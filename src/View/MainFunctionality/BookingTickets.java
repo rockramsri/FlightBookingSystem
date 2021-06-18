@@ -1,13 +1,13 @@
-package MainFunctionality;
+package View.MainFunctionality;
 import java.util.*;
 import java.util.Date;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import ExtraResources.*;
-import DBTableClass.*;
+import Utils.*;
+import Database.DBTableClass.*;
 import Database.*;
-import Ticket.*;
+import View.Ticket.*;
 public class BookingTickets {
  
   private  String Dateticket;

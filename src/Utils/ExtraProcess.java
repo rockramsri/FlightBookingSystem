@@ -1,7 +1,7 @@
-package ExtraResources;
+package Utils;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;
-import DBTableClass.*;
+import Database.DBTableClass.*;
 
 import javax.mail.internet.InternetAddress;  
 

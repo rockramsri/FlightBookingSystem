@@ -3,9 +3,9 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import DBTableClass.*;
-import ExtraResources.*;
-import Ticket.*;
+import Database.DBTableClass.*;
+import Utils.*;
+import View.Ticket.*;
 
 /** For Handling MysqlDatabase to store and retrieve Information*/
 public class DatabaseHandler {

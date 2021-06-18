@@ -1,4 +1,4 @@
-package DBTableClass;
+package Database.DBTableClass;
 /* POJO Class for Airlines table in the MySqlDatabase */
 
 

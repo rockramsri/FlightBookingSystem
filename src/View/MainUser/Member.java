@@ -1,7 +1,7 @@
-package MainUser;
+package View.MainUser;
 import java.io.IOException;
 import java.sql.*;
-import MainFunctionality.*;
+import View.MainFunctionality.*;
 
 /**Non-Member class has only Search feature
  * Memebr class has  non-member class feature and booking,Cancellation Features 

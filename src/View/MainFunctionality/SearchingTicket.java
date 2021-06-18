@@ -1,7 +1,7 @@
-package MainFunctionality;
-import ExtraResources.*;
+package View.MainFunctionality;
+import Utils.*;
 import Database.*;
-import DBTableClass.*;
+import Database.DBTableClass.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
