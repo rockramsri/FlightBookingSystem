@@ -1,6 +1,7 @@
-
+package ExtraResources;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;
+import DBTableClass.*;
 
 import javax.mail.internet.InternetAddress;  
 
@@ -14,6 +15,7 @@ public class ExtraProcess {
         System.out.flush();  
     }
    
+    //used to store current user info
     public static ProfileDetails currentUserDetails=new ProfileDetails();
 
     //Used to return Radom number based on the min and max range
@@ -42,14 +44,7 @@ public class ExtraProcess {
         return formatDateTime;
     }
 
-    //Used to clear the file
-    /*public static void clearTheUserLog(String filename) throws IOException {
-        File file = new File("D:\\"+filename+".txt"); 
-        if(file.exists())
-        file.delete();
-
-        file.createNewFile();
-    } */
+    
     public static boolean passwordValidate(String pword)
     {
         if(pword.length()>=5)

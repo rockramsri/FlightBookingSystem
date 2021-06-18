@@ -1,3 +1,4 @@
+package DBTableClass;
 /* POJO Class for Airlines table in the MySqlDatabase */
 
 

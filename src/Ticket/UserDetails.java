@@ -1,3 +1,4 @@
+package Ticket;
 import java.util.Scanner;
 /**
  * This class contains the UserInformations of the people bookings
@@ -15,9 +16,33 @@ public class UserDetails {
       if(Userscanner.hasNextLine())
       Uname=Userscanner.nextLine();
       System.out.println("Enter the Age:");
-      Uage=Integer.parseInt(Userscanner.nextLine());
+     
+      while(true)
+      {
+        try{
+            Uage=Integer.parseInt(Userscanner.nextLine());
+          break;
+        }
+        catch(NumberFormatException e )
+        {
+          System.out.println("*Entered number is not valid please enter again*");
+        }
+      
+      }
       System.out.println("Select the Gender: \n 1.male \n 2.Female \n 3.others");
-      Ugender=Integer.parseInt(Userscanner.nextLine());
+     
+      while(true)
+      {
+        try{
+            Ugender=Integer.parseInt(Userscanner.nextLine());
+          break;
+        }
+        catch(NumberFormatException e )
+        {
+          System.out.println("*Entered number is not valid please enter again*");
+        }
+      
+      }
    
       
     }

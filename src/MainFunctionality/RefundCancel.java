@@ -1,7 +1,11 @@
+package MainFunctionality;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-
+import Ticket.*;
+import Database.*;
+import ExtraResources.*;
+import DBTableClass.*;
 public class RefundCancel {
         
     
@@ -15,7 +19,7 @@ public class RefundCancel {
    private String flightClass;
  
    private List<String> ticketid=new ArrayList<String>();
-    RefundCancel(){
+    public RefundCancel(){
        Summaryscanner=new Scanner(System.in);
     }
     //Used to update the number of seats in the Airlines
@@ -29,7 +33,7 @@ public class RefundCancel {
 
 
      //Used to list and cancel the booked tickets of the user
-    TicketInfo listOfBookings() throws IOException, ClassNotFoundException, SQLException
+    public TicketInfo listOfBookings() throws IOException, ClassNotFoundException, SQLException
     {
        
      int optionSelection=0;
@@ -62,7 +66,19 @@ public class RefundCancel {
      else{
        OrderId.print();
      System.out.println("Enter the Corresponding CODE for Cancelation:");
-     int optionSelected=Integer.parseInt(Summaryscanner.nextLine());
+     int optionSelected;
+     while(true)
+     {
+       try{
+        optionSelected=Integer.parseInt(Summaryscanner.nextLine());
+         break;
+       }
+       catch(NumberFormatException e )
+       {
+         System.out.println("*Entered number is not valid please enter again*");
+       }
+     
+     }
 
      
     
@@ -87,7 +103,19 @@ public class RefundCancel {
     listOrderId.print();
 
     System.out.println("1.Do you want to Cancel all \n2.Do you want to Cancel specific:");
-    int tempchoice=Integer.parseInt(Summaryscanner.nextLine());
+    int tempchoice;
+    while(true)
+    {
+      try{
+        tempchoice=Integer.parseInt(Summaryscanner.nextLine());
+        break;
+      }
+      catch(NumberFormatException e )
+      {
+        System.out.println("*Entered number is not valid please enter again*");
+      }
+    
+    }
 
     List<String> options = new ArrayList<String>();
     if(tempchoice==1)
@@ -101,6 +129,7 @@ public class RefundCancel {
     {
     System.out.println("Enter the Corresponding CODE Separated by space for Cancelation:");
     options=Arrays.asList(Summaryscanner.nextLine().split(" "));
+    
     }
     
     for (String tickets : options)

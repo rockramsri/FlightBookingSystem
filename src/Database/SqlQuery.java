@@ -1,4 +1,6 @@
+package Database;
 import java.io.IOException;
+import ExtraResources.*;
  
 /**
  * This Classs is used to return the SqlQuery 
@@ -88,6 +90,10 @@ public class SqlQuery {
     public String getUserInfo(String tablename,String id)
     {
         return "select * from "+tablename+" where ID='"+id+"'";
+    }
+    public String distinctColumn(String tablename,String columnName)
+    {
+        return "select distinct "+columnName+" from "+tablename;
     }
     
     //search functions

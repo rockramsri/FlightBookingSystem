@@ -1,9 +1,13 @@
+package MainFunctionality;
 import java.util.*;
 import java.util.Date;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import ExtraResources.*;
+import DBTableClass.*;
+import Database.*;
+import Ticket.*;
 public class BookingTickets {
  
   private  String Dateticket;
@@ -107,9 +111,21 @@ public class BookingTickets {
         }
         cityTable.print();
         while(true)
-        {
+        {   
+          int depcitychoice;
             System.out.println("Enter the  city of Departure (Corresponding Number):");
-            int depcitychoice=Integer.parseInt(ticketInfoScanner.nextLine());
+            while(true)
+            {
+              try{
+                depcitychoice=Integer.parseInt(ticketInfoScanner.nextLine());
+                break;
+              }
+              catch(NumberFormatException e )
+              {
+                System.out.println("*Entered number is not valid please enter again*");
+              }
+            
+            }
           if(depcitychoice>=0 && depcitychoice<=cList.size())
               {
                 Departurecity=cList.get(depcitychoice-1);
@@ -121,7 +137,19 @@ public class BookingTickets {
         while(true)
         {
         System.out.println("Enter the  city for Arrival (Corresponding Number)::");
-        int arrCityChoice=Integer.parseInt(ticketInfoScanner.nextLine());
+        int arrCityChoice;
+        while(true)
+            {
+              try{
+                arrCityChoice=Integer.parseInt(ticketInfoScanner.nextLine());
+                break;
+              }
+              catch(NumberFormatException e )
+              {
+                System.out.println("*Entered number is not valid please enter again*");
+              }
+            
+            }
         
         
           if(arrCityChoice>=0 && arrCityChoice<=cList.size())
@@ -135,7 +163,20 @@ public class BookingTickets {
         
      //   ExtraProcess.clearscreen();
         System.out.println("Enter Number of seats:");
-        NofSeats=Integer.parseInt(ticketInfoScanner.nextLine());
+       
+        while(true)
+            {
+              try{
+                NofSeats=Integer.parseInt(ticketInfoScanner.nextLine());
+                break;
+              }
+              catch(NumberFormatException e )
+              {
+                System.out.println("*Entered number is not valid please enter again*");
+              }
+            
+            }
+       
         
 
         for(int i=1;i<=NofSeats;i++)
@@ -149,7 +190,19 @@ public class BookingTickets {
       //  ExtraProcess.clearscreen();
         System.out.println("1.Economic:");
         System.out.println("2.Business:");
-        int checker=Integer.parseInt(ticketInfoScanner.nextLine());
+        int checker;
+        while(true)
+            {
+              try{
+                checker=Integer.parseInt(ticketInfoScanner.nextLine());
+                break;
+              }
+              catch(NumberFormatException e )
+              {
+                System.out.println("*Entered number is not valid please enter again*");
+              }
+            
+            }
         System.out.println("\n");
         if(checker==1)
         {
@@ -165,30 +218,43 @@ public class BookingTickets {
     //Listing availabale tickets based on condition
    public boolean listingTickets() throws ClassNotFoundException, SQLException   
    {
-      ExtraProcess.clearScreen();
-      boolean available=false;
+        ExtraProcess.clearScreen();
+        boolean available=false;
     
-     int optionCount=0;
-     CommandLineTable tablebook=new CommandLineTable();
-     tablebook.setShowVerticalLines(true);
-     List<Airlines> lAirlines=new DatabaseHandler().bookingList(Departurecity, Arrivalcity, Dateticket, NofSeats, flightClass);
-     tablebook.setHeaders("  Code  ","   AirLines  ","   DepartureCity  ","       ArrivalCity      ","      DepartureTime      ","      ArrivalTime      ","      FlightClass      ","  Cost  ");
+        int optionCount=0;
+        CommandLineTable tablebook=new CommandLineTable();
+        tablebook.setShowVerticalLines(true);
+        List<Airlines> lAirlines=new DatabaseHandler().bookingList(Departurecity, Arrivalcity, Dateticket, NofSeats, flightClass);
+        tablebook.setHeaders("  Code  ","   AirLines  ","   DepartureCity  ","       ArrivalCity      ","      DepartureTime      ","      ArrivalTime      ","      FlightClass      ","  Cost  ");
      
-     for(Airlines aobject:lAirlines)
-     {
-       optionCount+=1;
-       tablebook.addRow(String.valueOf(optionCount),aobject.getFlight(),aobject.getDepartureCity(),aobject.getArrivalCity(),aobject.getDepartureTime(),aobject.getArrivalTime(),aobject.getFlightClass(),"Rs."+String.valueOf(aobject.getCostPerSeat()));
-     }
+       for(Airlines aobject:lAirlines)
+         {
+           optionCount+=1;
+           tablebook.addRow(String.valueOf(optionCount),aobject.getFlight(),aobject.getDepartureCity(),aobject.getArrivalCity(),aobject.getDepartureTime(),aobject.getArrivalTime(),aobject.getFlightClass(),"Rs."+String.valueOf(aobject.getCostPerSeat()));
+         }
      if(optionCount==0)
      {
-       ExtraProcess.clearScreen();
-      System.out.println("********No Flights is available Now*******");
+         ExtraProcess.clearScreen();
+         System.out.println("********No Flights is available Now*******");
      }
      else{
         tablebook.print();
         available=true;
         System.out.println("Enter the Corresponding CODE for Booking:");
-        int optionselection=ticketInfoScanner.nextInt();
+        int optionselection;
+        while(true)
+    {
+      try{
+        optionselection=ticketInfoScanner.nextInt();
+        break;
+      }
+      catch(NumberFormatException e )
+      {
+        System.out.println("*Entered number is not valid please enter again*");
+      }
+    
+    }
+        
         ticketAvailable=true;
         selectedAirlines=lAirlines.get(optionselection-1);
         SeatPrice=selectedAirlines.getCostPerSeat();
@@ -208,8 +274,14 @@ public class BookingTickets {
     return null;
     
     int i=0;
-    
-    String orderId="ord"+String.valueOf(ExtraProcess.sizeRandomizer(1000,9999));
+    String orderId="";
+    while(true)
+    {
+    orderId="ord"+String.valueOf(ExtraProcess.sizeRandomizer(1000,9999));
+    List<String> allBookingIds=new DatabaseHandler().distinctColumns(Resource.BOOKED_TICKET_TABLE_NAME, "BookingId");
+    if(!allBookingIds.contains(orderId))
+    break;
+    }
     for(i=1;i<=NofSeats;i++)
     {
        
@@ -228,9 +300,9 @@ public class BookingTickets {
       //SeatsAllocate.seatStorer(SeatsAllocate.seats);
       System.out.println("**SENDING YOUR MAIL PLEASE WAIT............................");
   
-  TicketInfo bookTicketInfo=new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(), NofSeats,selectedAirlines.getFlightClass(), ExtraProcess.currentUserDetails.getEmail(), selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlight(), orderId, ticketList, userList);
+      TicketInfo bookTicketInfo=new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(), NofSeats,selectedAirlines.getFlightClass(), ExtraProcess.currentUserDetails.getEmail(), selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlight(), orderId, ticketList, userList);
     
-    return bookTicketInfo;
+      return bookTicketInfo;
    }
 
 

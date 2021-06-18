@@ -1,5 +1,9 @@
+package DBTableClass;
 import java.util.Scanner;
 import java.io.*;
+import ExtraResources.*;
+import Database.*;
+import Ticket.*;
 
 public class ProfileDetails {
     private String id;

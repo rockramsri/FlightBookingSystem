@@ -1,5 +1,9 @@
+package MainFunctionality;
 import java.util.Scanner;
 import java.io.*;
+import Database.*;
+import ExtraResources.*;
+import DBTableClass.*;
 
 public class LoginRegister {
 

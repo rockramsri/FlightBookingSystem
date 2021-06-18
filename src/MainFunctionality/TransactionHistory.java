@@ -1,6 +1,11 @@
+package MainFunctionality;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
+import Database.*;
+import DBTableClass.*;
+import ExtraResources.*;
+
 
 public class TransactionHistory {
    //Used to print booked ticket history

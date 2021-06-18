@@ -1,15 +1,16 @@
+package ExtraResources;
 import java.util.*;
 /**
  * This class contains the Constant values for the application
  */
 public class Resource {
-    static final String BOOKED_TICKET_TABLE_NAME="Bookedtickets";
-    static final String AIRLINE_TICKET_TABLE_NAME="Airlines";
-    static final String User_INFO_TABLE_NAME="Userprofile";
-    static final String MYACCOUNT_ID="internzh2021@gmail.com";
-    static final String MYACCOUNT_PASSWORD="internzh";
-    static final String USERLOG_LOCATION="D:\\Userlog.txt";
-    static final String SEATALLOCTION_LOCATION="D:\\Seatallocation.txt";
+    public static final String BOOKED_TICKET_TABLE_NAME="Bookedtickets";
+    public  static final String AIRLINE_TICKET_TABLE_NAME="Airlines";
+     public static final String User_INFO_TABLE_NAME="Userprofile";
+    public static final String MYACCOUNT_ID="internzh2021@gmail.com";
+    public static final String MYACCOUNT_PASSWORD="internzh";
+    public static final String USERLOG_LOCATION="D:\\Userlog.txt";
+    public static final String SEATALLOCTION_LOCATION="D:\\Seatallocation.txt";
     
 
     static public ArrayList<String> citiesList()

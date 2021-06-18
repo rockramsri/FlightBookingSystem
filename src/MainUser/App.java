@@ -1,5 +1,12 @@
+package MainUser;
+import java.io.*;
+import Ticket.*;
+import DBTableClass.*;
+import MainFunctionality.*;
+import ExtraResources.*;
+import Database.*;
 
-import java.util.*;
+
 /* This is the starting of the program
   This is is an application used for for FlightBooking
   SeatAllocate.txt is used for storing Seat numbers
@@ -7,15 +14,17 @@ import java.util.*;
 */
 
 public class App {
-    static Scanner inputScanner=new Scanner(System.in);
+    //static Scanner inputScanner=new Scanner(System.in);
     
     public static void main(String[] args) throws Exception {
        
+        InputStreamReader r=new InputStreamReader(System.in);    
+        BufferedReader br=new BufferedReader(r);  
         TicketInfo ticketInfo;
         SeatsAllocate.initiator();
-        SeatsAllocate.seatUpdater(); //  To check whether the text file for storing seats Seatallocation.txt contains the seatallocation object "
-       
-     
+        SeatsAllocate.seatUpdater(); 
+       //inputScanner.nextLine()
+       //br.readline()
         exitprogram:
     while(true)
     {   
@@ -25,7 +34,20 @@ public class App {
         System.out.println("2.Already have an account?");
         System.out.println("3.Search");
         System.out.println("4.Exit");
-        int choice=Integer.parseInt( inputScanner.nextLine());
+        int choice;
+        while(true)
+        {
+          try{
+            choice=Integer.parseInt(br.readLine() );
+            break;
+          }
+          catch(NumberFormatException e )
+          {
+            System.out.println("*Entered number is not valid please enter again*");
+          }
+        
+        }
+        
         if(choice==1)
         {
             Member member=new Member();
@@ -42,7 +64,20 @@ public class App {
               System.out.println("7.Exit");
         
         
-              int option=Integer.parseInt( inputScanner.nextLine());
+              int option;
+              while(true)
+              {
+                try{
+                    option=Integer.parseInt( br.readLine());
+                  break;
+                }
+                catch(NumberFormatException e )
+                {
+                  System.out.println("*Entered number is not valid please enter again*");
+                }
+              
+              }
+              
               switch(option)
                  {  
 
@@ -105,7 +140,19 @@ public class App {
                           System.out.println("3.Search by Date");
                           System.out.println("3.Search Specific");
 
-                          internalOption=Integer.parseInt( inputScanner.nextLine());
+                          
+                          while(true)
+                          {
+                            try{
+                                internalOption=Integer.parseInt( br.readLine());
+                              break;
+                            }
+                            catch(NumberFormatException e )
+                            {
+                              System.out.println("*Entered number is not valid please enter again*");
+                            }
+                          
+                          }
                           switch(internalOption)
                           {
                                 case 1:member.searchingTicket.searchByCity();
@@ -121,7 +168,19 @@ public class App {
   
                           System.out.println("1.Do you want to Search ");
                           System.out.println("2.Back");
-                           int searchOption=Integer.parseInt( inputScanner.nextLine());
+                           int searchOption;
+                           while(true)
+                          {
+                            try{
+                                searchOption=Integer.parseInt( br.readLine());
+                              break;
+                            }
+                            catch(NumberFormatException e )
+                            {
+                              System.out.println("*Entered number is not valid please enter again*");
+                            }
+                          
+                          }
                            if(searchOption==2)
                            break;
                         }
@@ -133,7 +192,19 @@ public class App {
                         System.out.println("2.Ticket Cancellation History ");
 
                         System.out.println("3.Exit");
-                        int searchOption=Integer.parseInt( inputScanner.nextLine());
+                        int searchOption;
+                           while(true)
+                          {
+                            try{
+                                searchOption=Integer.parseInt( br.readLine());
+                              break;
+                            }
+                            catch(NumberFormatException e )
+                            {
+                              System.out.println("*Entered number is not valid please enter again*");
+                            }
+                          
+                          }
                         switch(searchOption)
                             {
                             case 1:new TransactionHistory().bookedticketHistory();
@@ -183,7 +254,19 @@ public class App {
                     System.out.println("6.Logout");
                     System.out.println("7.Exit");
                    
-                    int option=Integer.parseInt( inputScanner.nextLine());
+                    int option;
+                    while(true)
+                   {
+                     try{
+                        option=Integer.parseInt( br.readLine());
+                       break;
+                     }
+                     catch(NumberFormatException e )
+                     {
+                       System.out.println("*Entered number is not valid please enter again*");
+                     }
+                   
+                   }
                     switch(option)
                     {  
             
@@ -245,7 +328,19 @@ public class App {
                             System.out.println("3.Search by Date");
                             System.out.println("4.Search Specific");
                                       
-                            internalOption=Integer.parseInt( inputScanner.nextLine());
+                            
+                            while(true)
+                            {
+                              try{
+                                internalOption=Integer.parseInt(br.readLine());
+                                break;
+                              }
+                              catch(NumberFormatException e )
+                              {
+                                System.out.println("*Entered number is not valid please enter again*");
+                              }
+                            
+                            }
                             switch(internalOption)
                                 {
                                     case 1:member.searchingTicket.searchByCity();
@@ -262,7 +357,19 @@ public class App {
                           
                             System.out.println("1.Do you want to Search again");
                             System.out.println("2.Back");
-                            int searchOption=Integer.parseInt(inputScanner.nextLine());
+                            int searchOption;
+                            while(true)
+                            {
+                              try{
+                                searchOption=Integer.parseInt(br.readLine());
+                                break;
+                              }
+                              catch(NumberFormatException e )
+                              {
+                                System.out.println("*Entered number is not valid please enter again*");
+                              }
+                            
+                            }
                             if(searchOption==2)
                             break;
                         }
@@ -272,9 +379,20 @@ public class App {
                                     {
                                         System.out.println("1.Booked Ticket History ");
                                         System.out.println("2.Ticket Cancellation History ");
-                    
                                         System.out.println("3.Back");
-                                        int searchOption=Integer.parseInt( inputScanner.nextLine());
+                                        int searchOption;
+                                        while(true)
+                                        {
+                                          try{
+                                            searchOption=Integer.parseInt(br.readLine());
+                                            break;
+                                          }
+                                          catch(NumberFormatException e )
+                                          {
+                                            System.out.println("*Entered number is not valid please enter again*");
+                                          }
+                                        
+                                        }
                                         switch(searchOption)
                                             {
                                                 case 1:new TransactionHistory().bookedticketHistory();
@@ -303,7 +421,19 @@ public class App {
                 System.out.println("***Email or password entered is wrong****");
                 System.out.println("1.Forgot password");
                 System.out.println("2.Wrong Email Entered");
-                int foption=Integer.parseInt( inputScanner.nextLine());
+                int foption;
+                while(true)
+                {
+                  try{
+                    foption=Integer.parseInt(br.readLine());
+                    break;
+                  }
+                  catch(NumberFormatException e )
+                  {
+                    System.out.println("*Entered number is not valid please enter again*");
+                  }
+                
+                }
                 if(foption==1)
                 {
                     new ProfileDetails().forgotPassword();
@@ -324,7 +454,19 @@ public class App {
                         System.out.println("3.Search by Date");
                         System.out.println("4.Search Specific");
                         
-                        internalOption = Integer.parseInt( inputScanner.nextLine());
+                        
+                        while(true)
+                        {
+                          try{
+                            internalOption = Integer.parseInt( br.readLine());
+                            break;
+                          }
+                          catch(NumberFormatException e )
+                          {
+                            System.out.println("*Entered number is not valid please enter again*");
+                          }
+                        
+                        }
                         
                         switch(internalOption)
                         {
@@ -344,7 +486,20 @@ public class App {
 
             System.out.println("1.Do you want to Search ");
             System.out.println("2.Back:");
-            searchoption=Integer.parseInt( inputScanner.nextLine());
+           
+            while(true)
+            {
+              try{
+                searchoption=Integer.parseInt( br.readLine());
+                break;
+              }
+              catch(NumberFormatException e )
+              {
+                System.out.println("*Entered number is not valid please enter again*");
+              }
+            
+            }
+            
             if(searchoption==2)
             break;
                    

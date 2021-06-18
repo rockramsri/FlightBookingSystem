@@ -1,4 +1,7 @@
-
+package MainFunctionality;
+import ExtraResources.*;
+import Database.*;
+import DBTableClass.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,7 +37,7 @@ public class SearchingTicket {
 
 
 
-     System.out.println("*********FOR THE  BELOW DETAILS IF YOU DONT KNOW THE INFORMATION TYPE AS (no)**************");
+    // System.out.println("*********FOR THE  BELOW DETAILS IF YOU DONT KNOW THE INFORMATION TYPE AS (no)**************");
      ExtraProcess.clearScreen();
       
         ArrayList<String> cList=Resource.citiesList();
@@ -70,7 +73,20 @@ public class SearchingTicket {
         while(true)
         {
         System.out.println("Enter the  city of Departure (Corresponding Number):");
-        int depcitychoice=Integer.parseInt(searchScanner.nextLine());
+        int depcitychoice;
+        while(true)
+      {
+        try{
+          depcitychoice=Integer.parseInt(searchScanner.nextLine());
+          break;
+        }
+        catch(NumberFormatException e )
+        {
+          System.out.println("*Entered number is not valid please enter again*");
+        }
+      
+      }
+   
           if(depcitychoice>=0 && depcitychoice<=cList.size())
           {
             Departurecity=cList.get(depcitychoice-1);
@@ -84,7 +100,19 @@ public class SearchingTicket {
         while(true)
         {
         System.out.println("Enter the  city for Arrival (Corresponding Number)::");
-        int arrCityChoice=Integer.parseInt(searchScanner.nextLine());
+        int arrCityChoice;
+        while(true)
+      {
+        try{
+          arrCityChoice=Integer.parseInt(searchScanner.nextLine());
+          break;
+        }
+        catch(NumberFormatException e )
+        {
+          System.out.println("*Entered number is not valid please enter again*");
+        }
+      
+      }
         
         
           if(arrCityChoice>=0 && arrCityChoice<=cList.size())
@@ -98,16 +126,66 @@ public class SearchingTicket {
         
      //   ExtraProcess.clearscreen();
         System.out.println("Enter Number of seats for Adults(age above 15):");
-        nofSeatsAdult=Integer.parseInt(searchScanner.nextLine());
+        
+        while(true)
+      {
+        try{
+          nofSeatsAdult=Integer.parseInt(searchScanner.nextLine());
+          break;
+        }
+        catch(NumberFormatException e )
+        {
+          System.out.println("*Entered number is not valid please enter again*");
+        }
+      
+      }
         System.out.println("Enter Number of seats for child(age below 16):");
-        nofSeatsChild=Integer.parseInt(searchScanner.nextLine());
+          
+        while(true)
+      {
+        try{
+          nofSeatsChild=Integer.parseInt(searchScanner.nextLine());
+          break;
+        }
+        catch(NumberFormatException e )
+        {
+          System.out.println("*Entered number is not valid please enter again*");
+        }
+      
+      }
+       
         System.out.println("Enter Number of seats for infants(age above 3):");
-        nofSeatsInfant=Integer.parseInt(searchScanner.nextLine());
+       
+        while(true)
+        {
+          try{
+            nofSeatsInfant=Integer.parseInt(searchScanner.nextLine());
+            break;
+          }
+          catch(NumberFormatException e )
+          {
+            System.out.println("*Entered number is not valid please enter again*");
+          }
+        
+        }
 
       //  ExtraProcess.clearscreen();
         System.out.println("1.Economic:");
         System.out.println("2.Business:");
         int checker=Integer.parseInt(searchScanner.nextLine());
+        
+         while(true)
+         {
+           try{
+            nofSeatsInfant=Integer.parseInt(searchScanner.nextLine());
+             break;
+           }
+           catch(NumberFormatException e )
+           {
+             System.out.println("*Entered number is not valid please enter again*");
+           }
+         
+         }
         System.out.println("\n");
         if(checker==1)
         {
@@ -197,7 +275,19 @@ public class SearchingTicket {
       }
       flightTable.print();
         System.out.println("Enter the Corresponding number of the flight to Search:");
-        int optionSelected=Integer.parseInt(searchScanner.nextLine());
+        int optionSelected;
+        while(true)
+        {
+          try{
+            optionSelected=Integer.parseInt(searchScanner.nextLine());
+            break;
+          }
+          catch(NumberFormatException e )
+          {
+            System.out.println("*Entered number is not valid please enter again*");
+          }
+        
+        }
         
        
         CommandLineTable tablebook=new CommandLineTable();
@@ -288,7 +378,19 @@ public class SearchingTicket {
         }
         cityTable.print();
         System.out.println("Enter the Corresponding CODE of the city to Search:");
-        int optionSelected=Integer.parseInt(searchScanner.nextLine());
+        int optionSelected;
+        while(true)
+        {
+          try{
+            optionSelected=Integer.parseInt(searchScanner.nextLine());
+            break;
+          }
+          catch(NumberFormatException e )
+          {
+            System.out.println("*Entered number is not valid please enter again*");
+          }
+        
+        }
       
         
         
