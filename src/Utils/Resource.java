@@ -10,8 +10,8 @@ public class Resource {
      public static final String User_INFO_TABLE_NAME="Userprofile";
     public static final String MYACCOUNT_ID="internzh2021@gmail.com";
     public static final String MYACCOUNT_PASSWORD="internzh";
-    public static final String USERLOG_LOCATION="D:\\Userlog.txt";
-    public static final String SEATALLOCTION_LOCATION="D:\\Seatallocation.txt";
+  //  public static final String USERLOG_LOCATION="D:\\Userlog.txt";
+   // public static final String SEATALLOCTION_LOCATION="D:\\Seatallocation.txt";
     
     static public ArrayList<String> tableCreationList()
     {
