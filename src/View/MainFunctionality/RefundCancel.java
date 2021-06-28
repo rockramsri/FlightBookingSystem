@@ -45,7 +45,7 @@ public class RefundCancel {
      CommandLineTable listOrderId=new CommandLineTable();
      listOrderId.setShowVerticalLines(true);
 
-     OrderId.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ");
+     OrderId.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ","  Class  ");
    
      for(BookedTickets bookedTickets:new DatabaseHandler().getBookedList(ExtraProcess.currentUserDetails.getId(),"no"))
      {  
@@ -53,8 +53,8 @@ public class RefundCancel {
         {
           distinctOrder.add(bookedTickets.getBookingId());
           optionSelection+=1;
-          List<String> deparrtimeclasslist=new DatabaseHandler().depArrivalFlightClass(bookedTickets.getFlightId());
-          OrderId.addRow(String.valueOf(optionSelection),bookedTickets.getFlightId(),bookedTickets.getBookingId(),bookedTickets.getFlight(),bookedTickets.getDepartureTime(),bookedTickets.getArrivalTime(),deparrtimeclasslist.get(0),deparrtimeclasslist.get(1));
+          List<String> deparrtimeclasslist=new DatabaseHandler().depArrivalGetter(bookedTickets.getFlightId());
+          OrderId.addRow(String.valueOf(optionSelection),bookedTickets.getFlightId(),bookedTickets.getBookingId(),bookedTickets.getFlight(),bookedTickets.getDepartureTime(),bookedTickets.getArrivalTime(),deparrtimeclasslist.get(0),deparrtimeclasslist.get(1),bookedTickets.getFlightClass());
         }
          
      }
@@ -90,12 +90,12 @@ public class RefundCancel {
       optionSelection+=1;
       
       
-      List<String> deparrtimeclasslist=new DatabaseHandler().depArrivalFlightClass(bTickets.getFlightId());
+      List<String> deparrtimeclasslist=new DatabaseHandler().depArrivalGetter(bTickets.getFlightId());
       
       Departurecity=deparrtimeclasslist.get(0);
       Arrivalcity=deparrtimeclasslist.get(1);
-      flightClass=deparrtimeclasslist.get(2);
-      listOrderId.addRow(String.valueOf(optionSelection),bTickets.getUserlist().getUname(),String.valueOf(bTickets.getUserlist().getUage()),ExtraProcess.genderCalculate(bTickets.getUserlist().getUgender()),bTickets.getFlightId(),bTickets.getTicketId(),bTickets.getBookingId(),bTickets.getFlight(),deparrtimeclasslist.get(0),deparrtimeclasslist.get(1),bTickets.getDepartureTime(),bTickets.getArrivalTime(),deparrtimeclasslist.get(2),"Rs."+String.valueOf(bTickets.getAmount()));
+      flightClass=bTickets.getFlightClass();
+      listOrderId.addRow(String.valueOf(optionSelection),bTickets.getUserlist().getUname(),String.valueOf(bTickets.getUserlist().getUage()),ExtraProcess.genderCalculate(bTickets.getUserlist().getUgender()),bTickets.getFlightId(),bTickets.getTicketId(),bTickets.getBookingId(),bTickets.getFlight(),deparrtimeclasslist.get(0),deparrtimeclasslist.get(1),bTickets.getDepartureTime(),bTickets.getArrivalTime(),bTickets.getFlightClass(),"Rs."+String.valueOf(bTickets.getAmount()));
       
     }
 
@@ -135,7 +135,7 @@ public class RefundCancel {
     for (String tickets : options)
     { 
       BookedTickets bTickets=bookedTicketsList.get(Integer.parseInt(tickets)-1);
-      SeatsAllocate.seats.get(bookedTicketsList.get(0).getFlightId()).add(Integer.parseInt(bTickets.getTicketId().substring(1)));
+      SeatsAllocate.seats.get(bTickets.getFlightId()+'-'+bTickets.getFlightClass()).add(Integer.parseInt(bTickets.getTicketId().substring(1)));
       ticketid.add(bTickets.getTicketId());
        new DatabaseHandler().ticketCanceling(distinctOrder.get(optionSelected-1), bTickets.getTicketId());
     }

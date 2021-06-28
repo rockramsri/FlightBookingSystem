@@ -129,7 +129,7 @@ public class BookingTickets {
           if(depcitychoice>=0 && depcitychoice<=cList.size())
               {
                 Departurecity=cList.get(depcitychoice-1);
-                cList.remove(depcitychoice-1); 
+              //  cList.remove(depcitychoice-1); 
                 break;
               }
         }
@@ -155,7 +155,7 @@ public class BookingTickets {
           if(arrCityChoice>=0 && arrCityChoice<=cList.size())
           {
             Arrivalcity=cList.get(arrCityChoice-1);
-            cList.remove(arrCityChoice-1); 
+           // cList.remove(arrCityChoice-1); 
             break;
           }
         }
@@ -290,11 +290,11 @@ public class BookingTickets {
         String cancelledOn="null";
         String bookedOn=ExtraProcess.dateTimeGetter();
         String isCancelled="no";
-        BookedTickets bookedTickets=new BookedTickets(cost, selectedAirlines.getArrivalTime(), bookedOn, orderId, cancelledOn, selectedAirlines.getDepartureTime(), selectedAirlines.getFlight(), selectedAirlines.getFlightId(), ExtraProcess.currentUserDetails.getId(), isCancelled, "P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()).get(0)), userList.get(i-1));
+        BookedTickets bookedTickets=new BookedTickets(cost, selectedAirlines.getArrivalTime(), bookedOn, orderId, cancelledOn, selectedAirlines.getDepartureTime(), selectedAirlines.getFlight(), selectedAirlines.getFlightId(), ExtraProcess.currentUserDetails.getId(), isCancelled, "P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()+'-'+selectedAirlines.getFlightClass()).get(0)), userList.get(i-1),selectedAirlines.getFlightClass());
          new DatabaseHandler().bookingRegister(bookedTickets);
  
-        ticketList.add("P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()).get(0)));
-        SeatsAllocate.seats.get(selectedAirlines.getFlightId()).remove(0);
+        ticketList.add("P"+String.valueOf(SeatsAllocate.seats.get(selectedAirlines.getFlightId()+'-'+selectedAirlines.getFlightClass()).get(0)));
+        SeatsAllocate.seats.get(selectedAirlines.getFlightId()+'-'+selectedAirlines.getFlightClass()).remove(0);
     }
     
       //SeatsAllocate.seatStorer(SeatsAllocate.seats);

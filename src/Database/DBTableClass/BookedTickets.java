@@ -15,7 +15,8 @@ public class BookedTickets {
     private String cancelledOn;
     private String isCancelled;
     private float amount;
-    public BookedTickets(float amount,String arrivalTime,String bookedOn,String bookingId,String cancelledOn,String departureTime,String flight,String flightId,String id,String isCancelled,String ticketId,UserDetails userlist)
+    private String flightClass;
+    public BookedTickets(float amount,String arrivalTime,String bookedOn,String bookingId,String cancelledOn,String departureTime,String flight,String flightId,String id,String isCancelled,String ticketId,UserDetails userlist,String flightclass)
     {
         this.arrivalTime = arrivalTime;
         this.amount = amount;
@@ -29,6 +30,13 @@ public class BookedTickets {
         this.isCancelled = isCancelled;
         this.ticketId = ticketId;
         Userlist = userlist;
+        flightClass=flightclass;
+    }
+    public String getFlightClass() {
+        return flightClass;
+    }
+    public void setFlightClass(String flightClass) {
+        this.flightClass = flightClass;
     }
     public float getAmount() {
         return amount;

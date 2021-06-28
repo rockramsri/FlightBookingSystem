@@ -17,7 +17,7 @@ public class TransactionHistory {
           int optionSelection=0;        
           List<String> distinctOrder=new ArrayList<String>();        
           bookTickeTable.setShowVerticalLines(true);
-          bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ","  BookedOn  ","  Seats Booked ");
+          bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ","  BookedOn  "," FlightClass ","  Seats Booked ");
         
           for(BookedTickets bTickets:bookedTicketsList)
           {  
@@ -25,9 +25,9 @@ public class TransactionHistory {
              {
                distinctOrder.add(bTickets.getBookingId());
                optionSelection+=1;
-               List<String> depArrTimeClass=new DatabaseHandler().depArrivalFlightClass(bTickets.getFlightId());
+               List<String> depArrTimeClass=new DatabaseHandler().depArrivalGetter(bTickets.getFlightId());
                String noofseats=new DatabaseHandler().noOfSeats(bTickets.getBookingId(),"no");
-               bookTickeTable.addRow(String.valueOf(optionSelection),bTickets.getFlightId(),bTickets.getBookingId(),bTickets.getFlight(),bTickets.getDepartureTime(),bTickets.getArrivalTime(),depArrTimeClass.get(0),depArrTimeClass.get(1),bTickets.getBookedOn(),noofseats);
+               bookTickeTable.addRow(String.valueOf(optionSelection),bTickets.getFlightId(),bTickets.getBookingId(),bTickets.getFlight(),bTickets.getDepartureTime(),bTickets.getArrivalTime(),depArrTimeClass.get(0),depArrTimeClass.get(1),bTickets.getFlightClass(),bTickets.getBookedOn(),noofseats);
              }
               
           }
@@ -61,7 +61,7 @@ public class TransactionHistory {
          bookTickeTable.setShowVerticalLines(true);
          
     
-         bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    "," BookedOn ","  CancelledOn  ","  Seats Cancelled ");
+         bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    "," BookedOn ","  CancelledOn  "," FlightClass ","  Seats Cancelled ");
        
          for(BookedTickets bTickets:bookedTicketsList)
          {  
@@ -69,9 +69,9 @@ public class TransactionHistory {
             {
               distinctOrder.add(bTickets.getBookingId());
               optionSelection+=1;
-              List<String> depArrTimeClass=new DatabaseHandler().depArrivalFlightClass(bTickets.getFlightId());
+              List<String> depArrTimeClass=new DatabaseHandler().depArrivalGetter(bTickets.getFlightId());
               String noofseats=new DatabaseHandler().noOfSeats(bTickets.getBookingId(),"yes");
-              bookTickeTable.addRow(String.valueOf(optionSelection),bTickets.getFlightId(),bTickets.getBookingId(),bTickets.getFlight(),bTickets.getDepartureTime(),bTickets.getArrivalTime(),depArrTimeClass.get(0),depArrTimeClass.get(1),bTickets.getBookedOn(),bTickets.getCancelledOn(),noofseats);
+              bookTickeTable.addRow(String.valueOf(optionSelection),bTickets.getFlightId(),bTickets.getBookingId(),bTickets.getFlight(),bTickets.getDepartureTime(),bTickets.getArrivalTime(),depArrTimeClass.get(0),depArrTimeClass.get(1),bTickets.getBookedOn(),bTickets.getCancelledOn(),bTickets.getFlightClass(),noofseats);
             }
              
          }

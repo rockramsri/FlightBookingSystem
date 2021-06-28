@@ -23,11 +23,11 @@ public  class SeatsAllocate {
       for(BookedTickets bTickets:bookedTicketsList)
         {
             int element=Integer.parseInt(bTickets.getTicketId().substring(1));
-            SeatsAllocate.seats.get(bTickets.getFlightId()).remove( SeatsAllocate.seats.get(bTickets.getFlightId()).indexOf(element) );
+            SeatsAllocate.seats.get(bTickets.getFlightId()+'-'+bTickets.getFlightClass()).remove( SeatsAllocate.seats.get(bTickets.getFlightId()+'-'+bTickets.getFlightClass()).indexOf(element) );
             if(bTickets.getIsCancelled().equals("yes"))
             { 
               
-              SeatsAllocate.seats.get(bTickets.getFlightId()).add(element);
+              SeatsAllocate.seats.get(bTickets.getFlightId()+'-'+bTickets.getFlightClass()).add(element);
 
             }
             

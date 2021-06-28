@@ -20,8 +20,11 @@ public class App {
     
     public static void main(String[] args) throws Exception {
        
-        
+  try{
+
+ 
         TicketInfo ticketInfo;
+        new DatabaseHandler().createTable();
         SeatsAllocate.initiator();
         SeatsAllocate.seatUpdater(); 
        //inputScanner.nextLine()
@@ -520,5 +523,10 @@ public class App {
         
     DatabaseLoader.connectionCloser();  //For closing database connection
    
+  } 
+  catch(Exception e)
+  {
+    System.out.println("*****Potal has been closed due to some issue ,Please try again******");
+  }
     }
 }

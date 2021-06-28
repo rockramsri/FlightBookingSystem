@@ -186,7 +186,7 @@ public class SearchingTicket {
            }
          
          }
-        System.out.println("\n");
+       // System.out.println("\n");
         if(checker==1)
         {
           flightClass="Economic";
@@ -198,7 +198,20 @@ public class SearchingTicket {
         List<Airlines> lAirlines=new DatabaseHandler().bookingList(Departurecity, Arrivalcity, Dateticket, nofSeatsAdult+nofSeatsChild+nofSeatsInfant, flightClass);
         int optionCount=0;
         System.out.println("1.Round Trip\n2.Single Trip");
-        int tripOption=searchScanner.nextInt();
+        
+        int tripOption=0;
+        while(true)
+            {
+              try{
+                tripOption=searchScanner.nextInt();
+                break;
+              }
+              catch(NumberFormatException e )
+              {
+                System.out.println("*Entered number is not valid please enter again*");
+              }
+            
+            }
         
         List<Airlines> roundTripAirlines=new DatabaseHandler().bookingList(Arrivalcity, Departurecity,"", nofSeatsAdult+nofSeatsChild+nofSeatsInfant, flightClass);
         String patternwithTime = "dd/MM/yyyy hh:mm";
