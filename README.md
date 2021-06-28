@@ -15,7 +15,8 @@ The workspace contains two folders by default, where:
 ## Database Structure
 Table: userprofile
 Columns:
-          ID          varchar(100) 
+          auto        int NOT-NULL Auto-increment Unique
+          ID          varchar(100) primary key
           name        varchar(100) 
           DOB         varchar(100) 
           Email       varchar(100) 
@@ -37,13 +38,18 @@ Columns:
           BookedOn        varchar(100) 
           CancelledOn     varchar(100) 
           IsCancelled     varchar(100) 
+          flightclass     varchar(30)
           Amount          float
-Table: airlines
+Table: journeyinfo
 Columns:
-        FlightId                varchar(20) 
+        FlightNumber            varchar(20)  Primary key
         Flight                  varchar(50) 
         Departurecity           varchar(100) 
         Arrivalcity             varchar(100) 
+
+Table: bookingavailablity
+Columns:
+        FlightNumber            varchar(20)
         Departuretime           varchar(100) 
         Arrivaltime             varchar(100) 
         flightclass             varchar(30) 
