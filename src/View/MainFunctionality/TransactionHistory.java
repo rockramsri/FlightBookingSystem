@@ -1,90 +1,86 @@
 package View.MainFunctionality;
-import java.io.IOException;
-import java.sql.*;
 import java.util.*;
 import Database.*;
 import Database.DBTableClass.*;
 import Utils.*;
 
-
 public class TransactionHistory {
-   //Used to print booked ticket history
-    public void bookedticketHistory() throws ClassNotFoundException, SQLException, IOException
-    {   
-      
-        List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.currentUserDetails.getId(), "no");
-          CommandLineTable bookTickeTable =new CommandLineTable();
-          int optionSelection=0;        
-          List<String> distinctOrder=new ArrayList<String>();        
-          bookTickeTable.setShowVerticalLines(true);
-          bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    ","  BookedOn  "," FlightClass ","  Seats Booked ");
-        
-          for(BookedTickets bTickets:bookedTicketsList)
-          {  
-             if(!distinctOrder.contains(bTickets.getBookingId()))
-             {
-               distinctOrder.add(bTickets.getBookingId());
-               optionSelection+=1;
-               List<String> depArrTimeClass=new DatabaseHandler().depArrivalGetter(bTickets.getFlightId());
-               String noofseats=new DatabaseHandler().noOfSeats(bTickets.getBookingId(),"no");
-               bookTickeTable.addRow(String.valueOf(optionSelection),bTickets.getFlightId(),bTickets.getBookingId(),bTickets.getFlight(),bTickets.getDepartureTime(),bTickets.getArrivalTime(),depArrTimeClass.get(0),depArrTimeClass.get(1),bTickets.getFlightClass(),bTickets.getBookedOn(),noofseats);
-             }
-              
-          }
-          if(optionSelection==0)
-          {
-            //ExtraProcess.clearscreen();
-           System.out.println("********Empty Booking history *******");
-          }
-          else
-          {
-              bookTickeTable.print();
-          }
-  
-  
+  FlightUtils flightUtils;
+  DatabaseHandler databaseHandler;
+
+  public TransactionHistory() {
+    flightUtils = FlightUtils.getInstance();
+    databaseHandler = DatabaseHandler.getInstance();
+  }
+
+  // Used to print booked ticket history
+  public void bookedticketHistory() {
+
+    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedList(Resource.currentUserDetails.getId(), "no");
+    CommandLineTable bookTickeTable = new CommandLineTable();
+    int optionSelection = 0;
+    List<String> distinctOrder = new ArrayList<String>();
+    bookTickeTable.setHeaders("  CODE  ", "  FlightId  ", "   BookingId   ", "   AirLines   ", "   DepartureTime   ",
+        "   ArrivalTime  ", "   DepartureCity      ", "      ArrivalCity    ", "  BookedOn  ", " FlightClass ",
+        "  Seats Booked ");
+
+    for (BookedTickets bTickets : bookedTicketsList) {
+      if (!distinctOrder.contains(bTickets.getBookingId())) {
+        distinctOrder.add(bTickets.getBookingId());
+        optionSelection += 1;
+        HashMap<String, String> depArrFlightList = databaseHandler.depArrivalGetter(bTickets.getFlightId());
+        String noofseats = databaseHandler.noOfSeats(bTickets.getBookingId(), "no");
+        bookTickeTable.addRow(String.valueOf(optionSelection), bTickets.getFlightId(), bTickets.getBookingId(),
+            depArrFlightList.get("flightname"), depArrFlightList.get("departuretime"),
+            depArrFlightList.get("arrivaltime"), depArrFlightList.get("departurecity"),
+            depArrFlightList.get("arrivalcity"), bTickets.getFlightClass(), bTickets.getBookedOn(), noofseats);
+      }
+
+    }
+    if (optionSelection == 0) {
+      // ExtraProcess.clearscreen();
+      System.out.println("********Empty Booking history *******");
+    } else {
+      bookTickeTable.print();
     }
 
-  //Used to print Cancelled ticket history
-    public void ticketCancellingHistory() throws Exception
-    {
+  }
 
-      List<BookedTickets> bookedTicketsList=new DatabaseHandler().getBookedList( ExtraProcess.currentUserDetails.getId(), "yes");
+  // Used to print Cancelled ticket history
+  public void ticketCancellingHistory() {
 
-         CommandLineTable bookTickeTable =new CommandLineTable();
+    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedList(Resource.currentUserDetails.getId(), "yes");
 
+    CommandLineTable bookTickeTable = new CommandLineTable();
 
-         int optionSelection=0;
-  
-       
-         List<String> distinctOrder=new ArrayList<String>();
-        
-         bookTickeTable.setShowVerticalLines(true);
-         
-    
-         bookTickeTable.setHeaders("  CODE  ","  FlightId  ","   BookingId   ","   AirLines   ","   DepartureTime   ","   ArrivalTime  ","   DepartureCity      ","      ArrivalCity    "," BookedOn ","  CancelledOn  "," FlightClass ","  Seats Cancelled ");
-       
-         for(BookedTickets bTickets:bookedTicketsList)
-         {  
-            if(!distinctOrder.contains(bTickets.getBookingId()))
-            {
-              distinctOrder.add(bTickets.getBookingId());
-              optionSelection+=1;
-              List<String> depArrTimeClass=new DatabaseHandler().depArrivalGetter(bTickets.getFlightId());
-              String noofseats=new DatabaseHandler().noOfSeats(bTickets.getBookingId(),"yes");
-              bookTickeTable.addRow(String.valueOf(optionSelection),bTickets.getFlightId(),bTickets.getBookingId(),bTickets.getFlight(),bTickets.getDepartureTime(),bTickets.getArrivalTime(),depArrTimeClass.get(0),depArrTimeClass.get(1),bTickets.getBookedOn(),bTickets.getCancelledOn(),bTickets.getFlightClass(),noofseats);
-            }
-             
-         }
-         if(optionSelection==0)
-         {
-           //ExtraProcess.clearscreen();
-          System.out.println("********Empty Cancelation history *******");
-         }
-         else
-         {
-             bookTickeTable.print();
-         }
- 
-        }
-    
+    int optionSelection = 0;
+
+    List<String> distinctOrder = new ArrayList<String>();
+
+    bookTickeTable.setHeaders("  CODE  ", "  FlightId  ", "   BookingId   ", "   AirLines   ", "   DepartureTime   ",
+        "   ArrivalTime  ", "   DepartureCity      ", "      ArrivalCity    ", " BookedOn ", "  CancelledOn  ",
+        " FlightClass ", "  Seats Cancelled ");
+
+    for (BookedTickets bTickets : bookedTicketsList) {
+      if (!distinctOrder.contains(bTickets.getBookingId())) {
+        distinctOrder.add(bTickets.getBookingId());
+        optionSelection += 1;
+        HashMap<String, String> depArrFlightList = databaseHandler.depArrivalGetter(bTickets.getFlightId());
+        String noofseats = databaseHandler.noOfSeats(bTickets.getBookingId(), "yes");
+        bookTickeTable.addRow(String.valueOf(optionSelection), bTickets.getFlightId(), bTickets.getBookingId(),
+            depArrFlightList.get("flightname"), depArrFlightList.get("departuretime"),
+            depArrFlightList.get("arrivaltime"), depArrFlightList.get("departurecity"),
+            depArrFlightList.get("arrivalcity"), bTickets.getFlightClass(), bTickets.getBookedOn(), noofseats);
+      }
+
+    }
+    if (optionSelection == 0) {
+      // ExtraProcess.clearscreen();
+      System.out.println("********Empty Cancelation history *******");
+    } else {
+      bookTickeTable.print();
+    }
+
+  }
+
 }

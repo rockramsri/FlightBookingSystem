@@ -1,5 +1,4 @@
 package View.MainFunctionality;
-import java.util.Scanner;
 import java.io.*;
 import Database.*;
 import Utils.*;
@@ -7,80 +6,102 @@ import Database.DBTableClass.*;
 
 public class LoginRegister {
 
-    
-   
-     Scanner sc;
+    FlightUtils flightUtils;
+    DatabaseHandler databaseHandler;
 
-    public LoginRegister() throws  IOException
-    {
-     sc=new Scanner(System.in); 
-    }
-   
-    protected void finalize() 
-    {
-       sc.close();
+    public LoginRegister() {
+        flightUtils = FlightUtils.getInstance();
+        databaseHandler = DatabaseHandler.getInstance();
     }
 
-    //used to authenticate the user based on information stored in userprofile table
-    public boolean login() throws Exception
-    {  
-        Console passwordConsole  = System.console();
-      
-        System.out.print("Enter your Mail Id or User ID:");
-        String RegID=sc.nextLine();
-        String Regpassword=new String(passwordConsole.readPassword("Enter your password:"));
-       return new DatabaseHandler().loginCheck(RegID, Regpassword);
+    // used to authenticate the user based on information stored in userprofile
+    // table
+    public boolean login() {
+        final int TRY_LOGIN_AGAIN = 1;
+        final int FORGOT_PASSWORD = 2;
+        final int BACK = 3;
+        Console passwordConsole = System.console();
+        int forgotPasswordOption;
+
+        while (true) {
+            System.out.print("Enter your Mail Id or User ID:");
+            String RegID = flightUtils.getStringInput();
+            String Regpassword = new String(passwordConsole.readPassword("Enter your password:"));
+            if (databaseHandler.loginCheck(RegID, Regpassword))
+                break;
+            else {
+                System.out.println("1.Do you want to try again \n2.Forgot password \n3.Back");
+                forgotPasswordOption = flightUtils.getIntegerInput();
+                switch (forgotPasswordOption) {
+                    case TRY_LOGIN_AGAIN:
+                        continue;
+
+                    case FORGOT_PASSWORD:
+                        if (flightUtils.currentNoOfPasswordChanged < flightUtils.noOfPasswordChangeAllowed) {
+                            Resource.currentUserDetails.forgotPassword();
+                        }
+
+                        else {
+                            System.out.println("Your Limit of Password Changing is Exceeded,Please try again Later");
+                        }
+                        return false;
+                    case BACK:
+                        return false;
+                    default:
+                        System.out.println("Entered Wrong Option");
+
+                }
+            }
+        }
+
+        return true;
     }
 
-    //Used to Add the data of User information as Registeration
-    public void register() throws Exception
-    {   
-        Console passwordConsole  = System.console();
+    // Used to Add the data of User information as Registeration
+    public boolean register() {
+        Console passwordConsole = System.console();
         System.out.print("Enter your name:");
-        String RegName=sc.nextLine();
+        String RegName = flightUtils.getStringInput();
         System.out.print("Enter your DOB:");
-        String RegDate=sc.nextLine();
-        String RegMail="";
-        while(true)
-        {
+        String RegDate = flightUtils.getStringInput();
+        String RegMail = "";
+        while (true) {
             System.out.print("Enter your Mail:");
-             RegMail=sc.nextLine();
-             if(ExtraProcess.validateEmail(RegMail))
-             break;
-             else
-             System.out.println("**Entered Email is not vaild**");
+            RegMail = flightUtils.getStringInput();
+            if (flightUtils.validateEmail(RegMail))
+                break;
+            else
+                System.out.println("**Entered Email is not vaild**");
 
         }
-        String Regpassword="";
-       while(true)
-       {
-       Regpassword=new String(passwordConsole.readPassword("Enter your password:"));
-       if(ExtraProcess.passwordValidate(Regpassword))
-       break;
-       else
-       System.out.println("****Entered password is too short****");
+        String Regpassword = "";
+        while (true) {
+            Regpassword = new String(passwordConsole.readPassword("Enter your password:"));
+            if (flightUtils.passwordValidate(Regpassword))
+                break;
+            else
+                System.out.println("****Entered password is too short****");
 
-       }
-       
+        }
+
         System.out.println("Enter your Contact Number:");
-        String RegPhonenumber=sc.nextLine();
-       
+        String RegPhonenumber = flightUtils.getStringInput();
 
-      
-        int tempcount=new DatabaseHandler().registerCheck(new ProfileDetails(null, RegName, RegDate, RegMail, Regpassword, RegPhonenumber));
+        int tempcount = databaseHandler
+                .registerCheck(new ProfileDetails(null, RegName, RegDate, RegMail, Regpassword, RegPhonenumber));
 
-        System.out.println("SuccessFully Registered And your User ID is: Usr"+String.valueOf(tempcount));
-        
-        ExtraProcess.currentUserDetails.setId("Usr"+String.valueOf(tempcount));
-        ExtraProcess.currentUserDetails.setDob(RegDate);
-        ExtraProcess.currentUserDetails.setEmail(RegMail);
-        ExtraProcess.currentUserDetails.setName(RegName);
-        ExtraProcess.currentUserDetails.setPassword(Regpassword);
-        ExtraProcess.currentUserDetails.setPhonenumber(RegPhonenumber);
+        if (tempcount == 0)
+            return false;
+        System.out.println("SuccessFully Registered And your User ID is: Usr" + String.valueOf(tempcount));
 
-
-
+        Resource.currentUserDetails.setId("Usr" + String.valueOf(tempcount));
+        Resource.currentUserDetails.setDob(RegDate);
+        Resource.currentUserDetails.setEmail(RegMail);
+        Resource.currentUserDetails.setName(RegName);
+        Resource.currentUserDetails.setPassword(Regpassword);
+        Resource.currentUserDetails.setPhonenumber(RegPhonenumber);
+        return true;
 
     }
-    
+
 }

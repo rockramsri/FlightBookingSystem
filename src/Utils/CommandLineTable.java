@@ -10,7 +10,7 @@ public class CommandLineTable {
     private boolean rightAlign;
 
     public CommandLineTable() {
-        setShowVerticalLines(false);
+        setShowVerticalLines(true);
     }
 
     public void setRightAlign(boolean rightAlign) {
@@ -27,12 +27,15 @@ public class CommandLineTable {
     }
 
     public void addRow(String... cells) {
-        rows.add(cells);
+        if (headers == null) {
+            rows.add(cells);
+        } else if (headers.length != 0 && cells.length == headers.length)
+            rows.add(cells);
+
     }
 
     public void print() {
-        int[] maxWidths = headers != null ?
-                Arrays.stream(headers).mapToInt(String::length).toArray() : null;
+        int[] maxWidths = headers != null ? Arrays.stream(headers).mapToInt(String::length).toArray() : null;
 
         for (String[] cells : rows) {
             if (maxWidths == null) {
@@ -61,8 +64,8 @@ public class CommandLineTable {
 
     private void printLine(int[] columnWidths) {
         for (int i = 0; i < columnWidths.length; i++) {
-            String line = String.join("", Collections.nCopies(columnWidths[i] +
-                    verticalSep.length() + 1, HORIZONTAL_SEP));
+            String line = String.join("",
+                    Collections.nCopies(columnWidths[i] + verticalSep.length() + 1, HORIZONTAL_SEP));
             System.out.print(joinSep + line + (i == columnWidths.length - 1 ? joinSep : ""));
         }
         System.out.println();
