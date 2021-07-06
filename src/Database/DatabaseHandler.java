@@ -211,7 +211,7 @@ public class DatabaseHandler {
     // based in the flightId
     public HashMap<String, String> depArrivalFlightNameGetter(String flightId) {
         HashMap<String, String> journeyInfoList = new HashMap<String, String>();
-        String emptyData = "No Info";
+
         try {
             dbResult = dbStatement
                     .executeQuery(SqlQuery.depArrivalCityFlightNamequery(Resource.FLIGHT_TICKET_TABLE_NAME, flightId));
@@ -219,18 +219,18 @@ public class DatabaseHandler {
             try {
                 journeyInfoList.put("departurecity", dbResult.getString(Resource.DEPARTURECITY_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("departurecity", emptyData);
+                journeyInfoList.put("departurecity", Resource.EMPTY_DATA);
             }
             try {
                 journeyInfoList.put("arrivalcity", dbResult.getString(Resource.ARRIVALCITY_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("arrivalcity", emptyData);
+                journeyInfoList.put("arrivalcity", Resource.EMPTY_DATA);
             }
 
             try {
                 journeyInfoList.put("flightname", dbResult.getString(Resource.FLIGHT_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("flightname", emptyData);
+                journeyInfoList.put("flightname", Resource.EMPTY_DATA);
             }
 
             dbResult = dbStatement.executeQuery(
@@ -239,22 +239,22 @@ public class DatabaseHandler {
             try {
                 journeyInfoList.put("departuretime", dbResult.getString(Resource.DEPARTURETIME_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("departuretime", emptyData);
+                journeyInfoList.put("departuretime", Resource.EMPTY_DATA);
             }
             try {
                 journeyInfoList.put("arrivaltime", dbResult.getString(Resource.ARRIVALTIME_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("arrivaltime", emptyData);
+                journeyInfoList.put("arrivaltime", Resource.EMPTY_DATA);
             }
 
         } catch (SQLException sqlException) {
             System.out.println("--Couldn't fetch departure arrival  Info--");
 
-            journeyInfoList.put("departurecity", emptyData);
-            journeyInfoList.put("arrivalcity", emptyData);
-            journeyInfoList.put("flightname", emptyData);
-            journeyInfoList.put("departuretime", emptyData);
-            journeyInfoList.put("arrivaltime", emptyData);
+            journeyInfoList.put("departurecity", Resource.EMPTY_DATA);
+            journeyInfoList.put("arrivalcity", Resource.EMPTY_DATA);
+            journeyInfoList.put("flightname", Resource.EMPTY_DATA);
+            journeyInfoList.put("departuretime", Resource.EMPTY_DATA);
+            journeyInfoList.put("arrivaltime", Resource.EMPTY_DATA);
 
         }
 

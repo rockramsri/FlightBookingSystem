@@ -60,7 +60,6 @@ public class RefundCancel {
 
     }
     if (optionSelection == 0) {
-      // ExtraProcess.clearscreen();
       System.out.println("********Empty Booking history *******");
     } else {
       bookingHistoryTable.print();

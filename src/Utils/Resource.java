@@ -45,9 +45,11 @@ public class Resource {
     public static final String COUNT_COLUMN = "count(*)";
     public static final String AUTO_ID_COLUMN = "last_insert_id()";
 
+    public static final String EMPTY_DATA = "No Info";
     // used to store current user info
     public static ProfileDetails currentUserDetails = new ProfileDetails();
 
+    // Table creation Queries
     static public ArrayList<String> tableCreationList() {
         ArrayList<String> tableCreationList = new ArrayList<String>() {
             {
@@ -75,6 +77,7 @@ public class Resource {
         return tableCreationList;
     }
 
+    // returns Cities List available
     static public ArrayList<String> citiesList() {
         ArrayList<String> CityList = new ArrayList<String>() {
             {
@@ -98,7 +101,8 @@ public class Resource {
         return CityList;
     }
 
-    static public ArrayList<String> flightList() {
+    // returns Flight names List available
+    static public ArrayList<String> flightNameList() {
 
         ArrayList<String> Flightlist = new ArrayList<String>() {
             {
@@ -111,6 +115,7 @@ public class Resource {
         return Flightlist;
     }
 
+    // returns flightnumber with corresponding seats for seatallcation
     static public Map<String, Integer> flightNumbersMap() {
         Map<String, Integer> seatSizeMap = new HashMap<String, Integer>();
         for (int i = 1; i <= 15; i++) {

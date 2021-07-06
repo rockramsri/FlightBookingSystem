@@ -68,6 +68,7 @@ public class App {
 
   }
 
+  // Registration or Sign up
   public static boolean new_User() {
     Member member = new Member();
     if (member.loginRegister.register()) // navigate to the register methond of loginRegister class in Member class
@@ -77,6 +78,7 @@ public class App {
 
   }
 
+  // This method is which returns signed in success or not
   public static boolean login() {
     Member member = new Member();
     if (member.loginRegister.login()) {
@@ -85,6 +87,7 @@ public class App {
     return false;
   }
 
+  // For searching Available Flights
   public static void search() {
     Non_Member non_Member = new Non_Member();
     functionality.search(non_Member);

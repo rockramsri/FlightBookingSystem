@@ -20,8 +20,10 @@ public class FlightUtils {
 
     private static FlightUtils flightUtils_instance = null;
 
+    // Used for storing generatedCode for password Verification
     public StringBuffer randomCodeForPassword = new StringBuffer("");
 
+    // To store Number of password Updated
     public int noOfPasswordChangeAllowed = 5;
     public int currentNoOfPasswordChanged = 0;
 
@@ -35,6 +37,7 @@ public class FlightUtils {
         return genderMap;
     }
 
+    // returns Single Instance of Flightutils class
     public static FlightUtils getInstance() {
         if (flightUtils_instance == null)
             flightUtils_instance = new FlightUtils();
@@ -67,6 +70,7 @@ public class FlightUtils {
         }
     }
 
+    // Used to set the Mail sending process in separate Thread
     public void mailThreader(TicketInfo iTicketInfo, String ContentCode) {
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 10, 1, TimeUnit.SECONDS,
@@ -76,7 +80,7 @@ public class FlightUtils {
             public void run() {
                 while (!internetConnectiviityCheck())
                     ;
-                MailSender.bookingRefundMail(iTicketInfo, ContentCode);
+                MailSender.mailSender(iTicketInfo, ContentCode);
 
             }
         });
@@ -92,6 +96,7 @@ public class FlightUtils {
 
     }
 
+    // for getting Standard Intger Input
     public int getIntegerInput() {
         int value = 0;
 
@@ -108,6 +113,7 @@ public class FlightUtils {
         return value;
     }
 
+    // for getting Standard String Input
     public String getStringInput() {
         return scanner.nextLine();
     }
@@ -120,6 +126,7 @@ public class FlightUtils {
         return formatDateTime;
     }
 
+    // For User passwordValidation
     public boolean passwordValidate(String pword) {
         String regex = "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=.*[@#$%^&+.=])" + "(?=\\S+$).{8,20}$";
         if (Pattern.matches(regex, pword))
@@ -128,6 +135,7 @@ public class FlightUtils {
             return false;
     }
 
+    // For User Email Vaildation
     public boolean validateEmail(String email) {
         boolean isValid = false;
         try {

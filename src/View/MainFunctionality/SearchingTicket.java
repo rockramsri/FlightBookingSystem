@@ -172,7 +172,7 @@ public class SearchingTicket {
     int options = 0;
     CommandLineTable flightTable = new CommandLineTable();
     flightTable.setHeaders("CODE", " FLIGHT ");
-    for (String flight : Resource.flightList()) {
+    for (String flight : Resource.flightNameList()) {
       options = options + 1;
       flightTable.addRow(String.valueOf(options), flight);
 
@@ -186,7 +186,7 @@ public class SearchingTicket {
         "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
     options = 0;
     for (Airlines airlines : databaseHandler
-        .searchAirlinesByFlightName(Resource.flightList().get(optionSelected - 1))) {
+        .searchAirlinesByFlightName(Resource.flightNameList().get(optionSelected - 1))) {
       options += 1;
       tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
           airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),

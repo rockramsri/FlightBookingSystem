@@ -21,7 +21,7 @@ public class MailSender {
     static String htmlCodeBooking = "";
     static String htmlCodeCanceling = "";
 
-    public static void bookingRefundMail(TicketInfo iTicketInfo, String ContentCode)
+    public static void mailSender(TicketInfo iTicketInfo, String ContentCode)
 
     {
 
@@ -60,6 +60,7 @@ public class MailSender {
 
     }
 
+    // Used for preparing Message for sending Email
     public static Message prepareMessage(Session session, String Myemail, TicketInfo messageTicketinfo, String code)
             throws MessagingException {
         FlightUtils flightUtils = FlightUtils.getInstance();

@@ -38,8 +38,14 @@ public class CommandLineTable {
     public void addRow(String... cells) {
         if (headers == null) {
             rows.add(cells);
-        } else if (headers.length != 0 && cells.length == headers.length)
+        } else if (headers.length != 0 && cells.length == headers.length) {
+            for (int i = 0; i < cells.length; i++) {
+                if (cells[i].equals("null")) {
+                    cells[i] = Resource.EMPTY_DATA;
+                }
+            }
             rows.add(cells);
+        }
 
     }
 
