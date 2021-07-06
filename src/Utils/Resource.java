@@ -8,10 +8,10 @@ import Database.DBTableClass.ProfileDetails;
  * This class contains the Constant values for the application
  */
 public class Resource {
-    public static final String BOOKED_TICKET_TABLE_NAME = "Bookedtickets";
+    public static final String BOOKED_TICKET_TABLE_NAME = "bookedtickets";
     public static final String FLIGHT_TICKET_TABLE_NAME = "flight";
     public static final String FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME = "flightbookingavailablity";
-    public static final String User_INFO_TABLE_NAME = "Userprofile";
+    public static final String USER_INFO_TABLE_NAME = "userprofile";
     public static final String MYACCOUNT_ID = "internzh2021@gmail.com";
     public static final String MYACCOUNT_PASSWORD = "internzh";
     public static final String AUTO_COLUMN = "id_increment";
@@ -43,7 +43,7 @@ public class Resource {
     public static final String COSTPERSEAT_COLUMN = "cost_per_seat";
 
     public static final String COUNT_COLUMN = "count(*)";
-    public static final String AUTO_ID_COLUMN = "last_insert_id()";
+    public static final String USER_AUTO_ID_COLUMN = "last_insert_id()";
 
     public static final String EMPTY_DATA = "  -  ";
     // used to store current user info
@@ -53,10 +53,10 @@ public class Resource {
     static public ArrayList<String> tableCreationList() {
         ArrayList<String> tableCreationList = new ArrayList<String>() {
             {
-                add("create table IF NOT EXISTS " + User_INFO_TABLE_NAME + "( " + AUTO_COLUMN
+                add("create table IF NOT EXISTS " + USER_INFO_TABLE_NAME + "( " + AUTO_COLUMN
                         + " int NOT NULL AUTO_INCREMENT unique," + ID_COLUMN + " varchar(100) primary key default '',"
                         + NAME_COLUMN + " varchar(100)," + DOB_COLUMN + " varchar(100)," + EMAIL_COLUMN
-                        + " varchar(100)," + PASSWORD_COLUMN + " varchar(100)," + PHONENUMBER_COLUMN
+                        + " varchar(100) unique," + PASSWORD_COLUMN + " varchar(100)," + PHONENUMBER_COLUMN
                         + " varchar(200) );");
                 add("create table IF NOT EXISTS " + FLIGHT_TICKET_TABLE_NAME + "(" + FLIGHTNUMBER_COLUMN
                         + " varchar(200) primary key," + FLIGHT_COLUMN + " varchar(100)," + DEPARTURECITY_COLUMN
