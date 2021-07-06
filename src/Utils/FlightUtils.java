@@ -20,7 +20,7 @@ public class FlightUtils {
 
     private static FlightUtils flightUtils_instance = null;
 
-    public String randomCodeForPassword = "";
+    public StringBuffer randomCodeForPassword = new StringBuffer("");
 
     public int noOfPasswordChangeAllowed = 5;
     public int currentNoOfPasswordChanged = 0;

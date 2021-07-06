@@ -112,7 +112,7 @@ public class MailSender {
         {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(Resource.currentUserDetails.getEmail()));
             message.setSubject("Recovery Password");
-            message.setText("Recovery Code:" + flightUtils.randomCodeForPassword);
+            message.setText("Recovery Code:" + flightUtils.randomCodeForPassword.toString());
 
         }
 

@@ -125,7 +125,7 @@ public class ProfileDetails {
 
     int recoveryCodegentrator() {
         int randomNumber = flightUtils.sizeRandomizer(1000, 1000000);
-        flightUtils.randomCodeForPassword = String.valueOf(randomNumber);
+        flightUtils.randomCodeForPassword.replace(0, flightUtils.randomCodeForPassword.length(),String.valueOf(randomNumber))                         ;
         System.out.println("Recovery Code has been sent to Your Mail");
         if (!flightUtils.internetConnectiviityCheck())
             System.out.println("--You are not connected to the Internet,Kindly connect to your Internet--");
@@ -136,7 +136,7 @@ public class ProfileDetails {
     void recoveryCodeChecking() {
         System.out.print("Enter the Recovery Code:");
         String code = flightUtils.getStringInput();
-        if (flightUtils.randomCodeForPassword.length() != 0 && code.equals(flightUtils.randomCodeForPassword)) {
+        if (flightUtils.randomCodeForPassword.length() != 0 && code.equals(flightUtils.randomCodeForPassword.toString())) {
             changeMypassword(true);
 
         }
