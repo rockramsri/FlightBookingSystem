@@ -3,7 +3,7 @@ package Database;
 import java.sql.*;
 
 public class DatabaseLoader {
-    static Connection loginConnection;
+    static Connection databaseConnection;
     static Statement statement;
 
     // Used to load the crate connection object and load the statment for the
@@ -23,11 +23,11 @@ public class DatabaseLoader {
         }
 
         try {
-            loginConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Userdetails", "root", "root");
+            databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Userdetails", "root", "root");
         } catch (SQLException sqlException) {
-            if (loginConnection == null)
+            if (databaseConnection == null)
                 try {
-                    loginConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Userdetails", "root",
+                    databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Userdetails", "root",
                             "root");
                 } catch (SQLException sqlExceptionRetry) {
                     System.out.println("--Could not create statment--");
@@ -37,11 +37,11 @@ public class DatabaseLoader {
         }
 
         try {
-            statement = loginConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            statement = databaseConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         } catch (SQLException sqlException) {
             if (statement == null)
                 try {
-                    statement = loginConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    statement = databaseConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                             ResultSet.CONCUR_UPDATABLE);
                 } catch (SQLException sqlExceptionRetry) {
                     System.out.println("--Could not create statment--");
@@ -55,8 +55,8 @@ public class DatabaseLoader {
 
     public static void connectionCloser() {
         try {
-            if (loginConnection != null)
-                loginConnection.close();
+            if (databaseConnection != null)
+                databaseConnection.close();
         } catch (SQLException sqlException) {
             System.out.println("Could not close connections");
         }
