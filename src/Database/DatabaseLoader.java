@@ -30,7 +30,7 @@ public class DatabaseLoader {
                     databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Userdetails", "root",
                             "root");
                 } catch (SQLException sqlExceptionRetry) {
-                    System.out.println("--Could not create statment--");
+                    System.out.println("--Could not create statement--");
                     System.exit(1);
                 }
 
@@ -44,7 +44,7 @@ public class DatabaseLoader {
                     statement = databaseConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                             ResultSet.CONCUR_UPDATABLE);
                 } catch (SQLException sqlExceptionRetry) {
-                    System.out.println("--Could not create statment--");
+                    System.out.println("--Could not create staetment--");
                     System.exit(1);
                 }
 
@@ -64,7 +64,7 @@ public class DatabaseLoader {
             if (statement != null)
                 statement.close();
         } catch (SQLException sqlException) {
-            System.out.println("Could not close Statments");
+            System.out.println("Could not close Statements");
         }
 
     }
