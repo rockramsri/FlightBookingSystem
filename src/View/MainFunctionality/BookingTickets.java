@@ -154,7 +154,7 @@ public class BookingTickets {
   }
 
   // Used to register the data in the database of the ticket booked
-  public TicketInfo bookingRegister() {
+  public TicketInfo bookingRegister(ProfileDetails currentUserDetails) {
     if (!ticketAvailable)
       return null;
 
@@ -175,7 +175,7 @@ public class BookingTickets {
       String bookedOn = flightUtils.dateTimeGetter();
       String isCancelled = "no";
       BookedTickets bookedTickets = new BookedTickets(cost, bookedOn, bookingId, cancelledOn,
-          selectedAirlines.getFlightNumber(), Resource.currentUserDetails.getId(), isCancelled,
+          selectedAirlines.getFlightNumber(), currentUserDetails.getId(), isCancelled,
           "P" + String.valueOf(SeatsAllocate.seats
               .get(selectedAirlines.getFlightNumber() + '-' + selectedAirlines.getFlightClass()).get(0)),
           passengerList.get(i - 1), selectedAirlines.getFlightClass());
@@ -187,7 +187,7 @@ public class BookingTickets {
     }
 
     TicketInfo bookTicketInfo = new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(),
-        nofSeats, selectedAirlines.getFlightClass(), Resource.currentUserDetails.getEmail(),
+        nofSeats, selectedAirlines.getFlightClass(), currentUserDetails.getEmail(),
         selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlightName(),
         bookingId, ticketList);
 

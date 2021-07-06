@@ -3,6 +3,7 @@ package View.MainUser;
 import View.Ticket.*;
 import Utils.*;
 import Database.*;
+import Database.DBTableClass.ProfileDetails;
 
 /* This is the starting of the program
   This is is an application used for for FlightBooking
@@ -26,7 +27,7 @@ public class App {
   static final int FUNCTIONALITY_EXIT = 7;
 
   public static void main(String[] args) {
-
+    
     DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
     databaseHandler.createTable();
     SeatsAllocate.initiator();
@@ -71,8 +72,9 @@ public class App {
   // Registration or Sign up
   public static boolean new_User() {
     Member member = new Member();
-    if (member.loginRegister.register()) // navigate to the register methond of loginRegister class in Member class
-      return functionality_Methond(member);
+    ProfileDetails profileDetails=member.loginRegister.register(); // navigate to the register methond of loginRegister class in Member class
+     if(profileDetails!=null)
+      return functionality_Methond(member,profileDetails);
     else
       return false;
 
@@ -81,8 +83,9 @@ public class App {
   // This method is which returns signed in success or not
   public static boolean login() {
     Member member = new Member();
-    if (member.loginRegister.login()) {
-      return functionality_Methond(member);
+    ProfileDetails profileDetails=member.loginRegister.login();
+    if (profileDetails!=null) {
+      return functionality_Methond(member,profileDetails);
     }
     return false;
   }
@@ -94,7 +97,7 @@ public class App {
 
   }
 
-  public static boolean functionality_Methond(Member member) {
+  public static boolean functionality_Methond(Member member,ProfileDetails currentUserDetails) {
     while (true) {
       System.out.println("1.Book Tickets");
       System.out.println("2.Ticket Cancellation");
@@ -106,19 +109,19 @@ public class App {
       int functionality_option = flightUtils.getIntegerInput();
       switch (functionality_option) {
         case BOOK_TICKETS:
-          functionality.book_Tickets(member);
+          functionality.book_Tickets(member,currentUserDetails);
           break;
         case TICKET_CANCELLATION:
-          functionality.ticket_Cancellation(member);
+          functionality.ticket_Cancellation(member,currentUserDetails);
           break;
         case SEARCH:
           functionality.search(member);
           break;
         case MY_TRANSACTION:
-          functionality.my_Transaction(member);
+          functionality.my_Transaction(member,currentUserDetails);
           break;
         case CHANGE_MY_PASSWORD:
-          functionality.change_password();
+          functionality.change_password(currentUserDetails);
           break;
         case LOGOUT:
           return false;

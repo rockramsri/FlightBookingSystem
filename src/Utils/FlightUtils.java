@@ -71,7 +71,7 @@ public class FlightUtils {
     }
 
     // Used to set the Mail sending process in separate Thread
-    public void mailThreader(TicketInfo iTicketInfo, String ContentCode) {
+    public void mailThreader(TicketInfo iTicketInfo, String ContentCode,String eMail) {
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 10, 1, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<Runnable>());
@@ -80,7 +80,7 @@ public class FlightUtils {
             public void run() {
                 while (!internetConnectiviityCheck())
                     ;
-                MailSender.mailSender(iTicketInfo, ContentCode);
+                MailSender.mailSender(iTicketInfo, ContentCode,eMail);
 
             }
         });

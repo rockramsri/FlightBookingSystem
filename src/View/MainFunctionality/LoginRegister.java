@@ -17,18 +17,20 @@ public class LoginRegister {
 
     // used to authenticate the user based on information stored in userprofile
     // table
-    public boolean login() {
+    public ProfileDetails login() {
         final int TRY_LOGIN_AGAIN = 1;
         final int FORGOT_PASSWORD = 2;
         final int BACK = 3;
         Console passwordConsole = System.console();
         int forgotPasswordOption;
+        ProfileDetails profileDetails;
 
         while (true) {
             System.out.print("Enter your Mail Id or User ID:");
             String regID = flightUtils.getStringInput();
             String regpassword = new String(passwordConsole.readPassword("Enter your password:"));
-            if (databaseHandler.loginCheck(regID, regpassword))
+            profileDetails=databaseHandler.loginCheck(regID, regpassword);
+            if(profileDetails!=null)
                 break;
             else {
                 System.out.println("1.Do you want to try again \n2.Forgot password \n3.Back");
@@ -39,15 +41,15 @@ public class LoginRegister {
 
                     case FORGOT_PASSWORD:
                         if (flightUtils.currentNoOfPasswordChanged < flightUtils.noOfPasswordChangeAllowed) {
-                            Resource.currentUserDetails.forgotPassword();
+                            new ProfileDetails().forgotPassword();
                         }
 
                         else {
                             System.out.println("Your Limit of Password Changing is Exceeded,Please try again Later");
                         }
-                        return false;
+                        return null;
                     case BACK:
-                        return false;
+                        return null;
                     default:
                         System.out.println("Entered Wrong Option");
 
@@ -55,11 +57,11 @@ public class LoginRegister {
             }
         }
 
-        return true;
+        return profileDetails;
     }
 
     // Used to Add the data of User information as Registeration
-    public boolean register() {
+    public ProfileDetails register() {
         Console passwordConsole = System.console();
         System.out.print("Enter your name:");
         String regName = flightUtils.getStringInput();
@@ -88,23 +90,29 @@ public class LoginRegister {
 
         System.out.println("Enter your Contact Number:");
         String regPhonenumber = flightUtils.getStringInput();
-
-        Resource.currentUserDetails.setDob(regDate);
+         
+        ProfileDetails profileDetails=new ProfileDetails();
+        profileDetails.setDob(regDate);
+        profileDetails.setEmail(regMail);
+        profileDetails.setName(regName);
+        profileDetails.setPassword(regPassword.toString());
+        profileDetails.setPhonenumber(regPhonenumber);
+       /* Resource.currentUserDetails.setDob(regDate);
         Resource.currentUserDetails.setEmail(regMail);
         Resource.currentUserDetails.setName(regName);
-        Resource.currentUserDetails.setPassword(regPassword.toString());
-        Resource.currentUserDetails.setPhonenumber(regPhonenumber);
+        Resource.currentUserDetails.setPassword();
+        Resource.currentUserDetails.setPhonenumber(); */
 
         int userIdValue = databaseHandler.registerCheck(
                 new ProfileDetails(null, regName, regDate, regMail, regPassword.toString(), regPhonenumber));
 
         if (userIdValue == 0)
-            return false;
+            return null;
         System.out.println("SuccessFully Registered And your User ID is: Usr" + String.valueOf(userIdValue));
 
-        Resource.currentUserDetails.setId("Usr" + String.valueOf(userIdValue));
+        profileDetails.setId("Usr" + String.valueOf(userIdValue));
 
-        return true;
+        return profileDetails;
 
     }
 

@@ -15,9 +15,9 @@ public class TransactionHistory {
   }
 
   // Used to print booked ticket history
-  public void bookedticketHistory() {
+  public void bookedticketHistory(ProfileDetails currentUserDetails) {
 
-    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedList(Resource.currentUserDetails.getId(), "no");
+    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedList(currentUserDetails.getId(), "no");
     CommandLineTable bookTicketTable = new CommandLineTable();
     int optionSelection = 0;
     List<String> distinctOrder = new ArrayList<String>();
@@ -48,9 +48,9 @@ public class TransactionHistory {
   }
 
   // Used to print Cancelled ticket history
-  public void ticketCancellingHistory() {
+  public void ticketCancellingHistory(ProfileDetails currentUserDetails) {
 
-    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedList(Resource.currentUserDetails.getId(), "yes");
+    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedList(currentUserDetails.getId(), "yes");
 
     CommandLineTable bookTicketTable = new CommandLineTable();
 

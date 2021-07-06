@@ -21,7 +21,7 @@ public class MailSender {
     static String htmlCodeBooking = "";
     static String htmlCodeCanceling = "";
 
-    public static void mailSender(TicketInfo iTicketInfo, String contentCode)
+    public static void mailSender(TicketInfo iTicketInfo, String contentCode,String eMail)
 
     {
 
@@ -41,7 +41,7 @@ public class MailSender {
             }
         });
         try {
-            Message message = prepareMessage(session, myAccount, iTicketInfo, contentCode);
+            Message message = prepareMessage(session, myAccount, iTicketInfo, contentCode,eMail);
             try {
 
                 Transport.send(message);
@@ -61,7 +61,7 @@ public class MailSender {
     }
 
     // Used for preparing Message for sending Email
-    public static Message prepareMessage(Session session, String myEmail, TicketInfo messageTicketinfo, String code)
+    public static Message prepareMessage(Session session, String myEmail, TicketInfo messageTicketinfo, String code,String userEmail)
             throws MessagingException {
         FlightUtils flightUtils = FlightUtils.getInstance();
         htmlCodeBooking = "";
@@ -111,7 +111,7 @@ public class MailSender {
             message.setContent(htmlCodeCanceling, "text/html");
         } else if (code.equals("PP")) // Mail properties for Recovery code for changing password
         {
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(Resource.currentUserDetails.getEmail()));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
             message.setSubject("Recovery Password");
             message.setText("Recovery Code:" + flightUtils.randomCodeForPassword.toString());
 

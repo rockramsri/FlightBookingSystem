@@ -13,9 +13,9 @@ public class SqlQuery {
         return "select * from " + tablename;
     }
 
-    public static String passwordUpdater(String password) {
+    public static String passwordUpdater(String password,String userId) {
         return "update " + Resource.USER_INFO_TABLE_NAME + " SET " + Resource.PASSWORD_COLUMN + "='" + password
-                + "' where " + Resource.ID_COLUMN + "='" + Resource.currentUserDetails.getId() + "'";
+                + "' where " + Resource.ID_COLUMN + "='" + userId + "'";
     }
 
     public static String getIdByMailQuery(String mail) {
@@ -30,15 +30,15 @@ public class SqlQuery {
                 + ") values('" + name + "','" + dob + "','" + email + "','" + password + "','" + Phonenumber + "')";
     }
 
-    public static String uniqueKeySetter() {
+    public static String uniqueKeySetter(String eMail) {
         return "UPDATE " + Resource.USER_INFO_TABLE_NAME + "  SET " + Resource.ID_COLUMN + "=concat('Usr',cast("
                 + Resource.AUTO_COLUMN + " as char(200))) WHERE " + Resource.EMAIL_COLUMN + "='"
-                + Resource.currentUserDetails.getEmail() + "';";
+                + eMail + "';";
     }
 
-    public static String uniqueKeyGetter() {
+    public static String uniqueKeyGetter(String eMail) {
         return "select " + Resource.AUTO_COLUMN + " from " + Resource.USER_INFO_TABLE_NAME + " where "
-                + Resource.EMAIL_COLUMN + "='" + Resource.currentUserDetails.getEmail() + "';";
+                + Resource.EMAIL_COLUMN + "='" + eMail+ "';";
     }
 
     public static String recordExistMailQuery(String email, String pass) {
@@ -53,23 +53,21 @@ public class SqlQuery {
                 + ")";
     }
 
-    public static String availableFlightDetailsquery(String flight, String flightBookingAvailablity, String depcity,
+    public static String availableFlightDetailsquery( String depcity,
             String arrcity, String depdate, int NofSeats, String flightClass) {
         String alternateDeptimeStr = " and " + Resource.DEPARTURETIME_COLUMN + " like '%" + depdate + "%'";
 
-        return "select " + flight + "." + Resource.FLIGHTNUMBER_COLUMN + ", " + flight + "." + Resource.FLIGHT_COLUMN
-                + ", " + flight + "." + Resource.DEPARTURECITY_COLUMN + "," + flight + "." + Resource.ARRIVALCITY_COLUMN
-                + "," + flightBookingAvailablity + "." + Resource.DEPARTURETIME_COLUMN + "," + flightBookingAvailablity
-                + "." + Resource.ARRIVALTIME_COLUMN + "," + flightBookingAvailablity + "." + Resource.FLIGHTCLASS_COLUMN
-                + "," + flightBookingAvailablity + "." + Resource.NOOFSEATS_COLUMN + "," + flightBookingAvailablity
-                + "." + Resource.CURRENTSEATSAVAILABLE_COLUMN + "," + flightBookingAvailablity + "."
-                + Resource.COSTPERSEAT_COLUMN + " from " + flight + " INNER JOIN " + flightBookingAvailablity + " ON "
-                + flight + "." + Resource.FLIGHTNUMBER_COLUMN + "=" + flightBookingAvailablity + "."
-                + Resource.FLIGHTNUMBER_COLUMN + " where " + flight + "." + Resource.DEPARTURECITY_COLUMN + "='"
-                + depcity + "' and " + flight + "." + Resource.ARRIVALCITY_COLUMN + "='" + arrcity + "' and "
-                + flightBookingAvailablity + "." + Resource.CURRENTSEATSAVAILABLE_COLUMN + ">="
+        return "select " +Resource.FLIGHT_TICKET_TABLE_NAME + "."+Resource.FLIGHTNUMBER_COLUMN + ", "  + Resource.FLIGHT_NAME_COLUMN
+                + ", "  + Resource.DEPARTURECITY_COLUMN + "," + Resource.ARRIVALCITY_COLUMN
+                + ","  + Resource.DEPARTURETIME_COLUMN + ","  + Resource.ARRIVALTIME_COLUMN + ","  + Resource.FLIGHTCLASS_COLUMN
+                + ","  + Resource.NOOFSEATS_COLUMN + ","  + Resource.CURRENTSEATSAVAILABLE_COLUMN + "," 
+                + Resource.COSTPERSEAT_COLUMN + " from " + Resource.FLIGHT_TICKET_TABLE_NAME + " INNER JOIN " + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + " ON "
+                + Resource.FLIGHT_TICKET_TABLE_NAME + "."+ Resource.FLIGHTNUMBER_COLUMN + "=" + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "."
+                 + Resource.FLIGHTNUMBER_COLUMN + " where " +Resource.FLIGHT_TICKET_TABLE_NAME + "." + Resource.DEPARTURECITY_COLUMN + "='"
+                + depcity + "' and " + Resource.FLIGHT_TICKET_TABLE_NAME + "." + Resource.ARRIVALCITY_COLUMN + "='" + arrcity + "' and "
+                + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "." + Resource.CURRENTSEATSAVAILABLE_COLUMN + ">="
                 + String.valueOf(NofSeats) + (depdate.length() == 0 ? "" : alternateDeptimeStr) + " and "
-                + flightBookingAvailablity + "." + Resource.FLIGHTCLASS_COLUMN + "='" + flightClass + "'";
+                + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "." + Resource.FLIGHTCLASS_COLUMN + "='" + flightClass + "'";
     }
 
     public static String updateFlightCurrentSeatsquery(int noOfSeats, String flightId, String sign) {
@@ -106,7 +104,7 @@ public class SqlQuery {
 
     public static String depArrivalCityFlightNamequery(String flightNumber) {
         return "select " + Resource.DEPARTURECITY_COLUMN + "," + Resource.ARRIVALCITY_COLUMN + ","
-                + Resource.FLIGHT_COLUMN + " from " + Resource.FLIGHT_TICKET_TABLE_NAME + " where "
+                + Resource.FLIGHT_NAME_COLUMN + " from " + Resource.FLIGHT_TICKET_TABLE_NAME + " where "
                 + Resource.FLIGHTNUMBER_COLUMN + "='" + flightNumber + "'";
     }
 
@@ -131,32 +129,30 @@ public class SqlQuery {
     }
 
     // search functions
-    public static String search(String flight, String flightBookingAvailablity) {
-        return "select " + flight + "." + Resource.FLIGHTNUMBER_COLUMN + ", " + flight + "." + Resource.FLIGHT_COLUMN
-                + ", " + flight + "." + Resource.DEPARTURECITY_COLUMN + "," + flight + "." + Resource.ARRIVALCITY_COLUMN
-                + "," + flightBookingAvailablity + "." + Resource.DEPARTURETIME_COLUMN + "," + flightBookingAvailablity
-                + "." + Resource.ARRIVALTIME_COLUMN + "," + flightBookingAvailablity + "." + Resource.FLIGHTCLASS_COLUMN
-                + "," + flightBookingAvailablity + "." + Resource.NOOFSEATS_COLUMN + "," + flightBookingAvailablity
-                + "." + Resource.CURRENTSEATSAVAILABLE_COLUMN + "," + flightBookingAvailablity + "."
-                + Resource.COSTPERSEAT_COLUMN + " from " + flight + " INNER JOIN " + flightBookingAvailablity + " ON "
-                + flight + "." + Resource.FLIGHTNUMBER_COLUMN + "=" + flightBookingAvailablity + "."
+    public static String search() {
+        return "select " + Resource.FLIGHT_TICKET_TABLE_NAME + "."+Resource.FLIGHTNUMBER_COLUMN + ", " + Resource.FLIGHT_NAME_COLUMN
+                + ", " + Resource.DEPARTURECITY_COLUMN + "," +  Resource.ARRIVALCITY_COLUMN
+                + "," + Resource.DEPARTURETIME_COLUMN + "," + Resource.ARRIVALTIME_COLUMN + "," +Resource.FLIGHTCLASS_COLUMN
+                + ","  + Resource.NOOFSEATS_COLUMN + ","  + Resource.CURRENTSEATSAVAILABLE_COLUMN + "," 
+                + Resource.COSTPERSEAT_COLUMN + " from " + Resource.FLIGHT_TICKET_TABLE_NAME + " INNER JOIN " + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + " ON "
+                + Resource.FLIGHT_TICKET_TABLE_NAME + "." + Resource.FLIGHTNUMBER_COLUMN + "=" + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME+ "."
                 + Resource.FLIGHTNUMBER_COLUMN;
     }
 
-    public static String searchByFlight(String flight, String flightBookingAvailablity, String flightName) {
-        return search(flight, flightBookingAvailablity) + " where " + flight + "." + Resource.FLIGHT_COLUMN + "='"
+    public static String searchByFlight(String flightName) {
+        return search() + " where " + Resource.FLIGHT_TICKET_TABLE_NAME + "." + Resource.FLIGHT_NAME_COLUMN + "='"
                 + flightName + "'";
     }
 
-    public static String searchByCity(String flight, String flightBookingAvailablity, String cityName) {
-        return search(flight, flightBookingAvailablity) + " where " + flight + "." + Resource.DEPARTURECITY_COLUMN
-                + "='" + cityName + "' or " + flight + "." + Resource.ARRIVALCITY_COLUMN + "='" + cityName + "'";
+    public static String searchByCity(String cityName) {
+        return search() + " where " + Resource.FLIGHT_TICKET_TABLE_NAME + "." + Resource.DEPARTURECITY_COLUMN
+                + "='" + cityName + "' or " + Resource.FLIGHT_TICKET_TABLE_NAME + "." + Resource.ARRIVALCITY_COLUMN + "='" + cityName + "'";
 
     }
 
-    public static String searchByDate(String flight, String flightBookingAvailablity, String date) {
-        return search(flight, flightBookingAvailablity) + " where " + flightBookingAvailablity
-                + ".Departuretime like '%" + date + "%' or " + flightBookingAvailablity + ".Arrivaltime='%" + date
+    public static String searchByDate( String date) {
+        return search() + " where " + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME
+                + "."+Resource.DEPARTURETIME_COLUMN+" like '%" + date + "%' or " + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "."+Resource.ARRIVALTIME_COLUMN+"='%" + date
                 + "%'";
     }
 

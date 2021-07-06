@@ -35,7 +35,7 @@ public class RefundCancel {
   }
 
   // Used to list and cancel the booked tickets of the user
-  public TicketInfo listOfBookings() {
+  public TicketInfo listOfBookings(ProfileDetails currentUserDetails ) {
 
     int optionSelection = 0;
 
@@ -46,7 +46,7 @@ public class RefundCancel {
     bookingHistoryTable.setHeaders("  CODE  ", "  FlightId  ", "   BookingId   ", "   AirLines   ",
         "   DepartureTime   ", "   ArrivalTime  ", "   DepartureCity      ", "      ArrivalCity    ", "  Class  ");
 
-    for (BookedTickets bookedTickets : databaseHandler.getBookedList(Resource.currentUserDetails.getId(), "no")) {
+    for (BookedTickets bookedTickets : databaseHandler.getBookedList(currentUserDetails.getId(), "no")) {
       if (!distinctOrder.contains(bookedTickets.getBookingId())) {
         distinctOrder.add(bookedTickets.getBookingId());
         optionSelection += 1;
@@ -125,7 +125,7 @@ public class RefundCancel {
       noOfseats = options.size();
 
       TicketInfo ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass,
-          Resource.currentUserDetails.getEmail(), departureTime, arrivalTime, flightName,
+          currentUserDetails.getEmail(), departureTime, arrivalTime, flightName,
           distinctOrder.get(optionSelected - 1), ticketid);
 
       int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightNumber());

@@ -2,7 +2,6 @@ package Utils;
 
 import java.util.*;
 
-import Database.DBTableClass.ProfileDetails;
 
 /**
  * This class contains the Constant values for the application
@@ -27,7 +26,7 @@ public class Resource {
     public static final String FLIGHTID_COLUMN = "flight_number";
     public static final String TICKETID_COLUMN = "seat_number";
     public static final String BOOKINGID_COLUMN = "booking_id";
-    public static final String FLIGHT_COLUMN = "flight_name";
+    public static final String FLIGHT_NAME_COLUMN = "flight_name";
     public static final String DEPARTURETIME_COLUMN = "departure_time";
     public static final String ARRIVALTIME_COLUMN = "arrival_time";
     public static final String BOOKEDON_COLUMN = "booked_on";
@@ -47,7 +46,7 @@ public class Resource {
 
     public static final String EMPTY_DATA = "  -  ";
     // used to store current user info
-    public static ProfileDetails currentUserDetails = new ProfileDetails();
+   // public static ProfileDetails currentUserDetails = new ProfileDetails();
 
     // Table creation Queries
     static public ArrayList<String> tableCreationList() {
@@ -59,7 +58,7 @@ public class Resource {
                         + " varchar(100) unique," + PASSWORD_COLUMN + " varchar(100)," + PHONENUMBER_COLUMN
                         + " varchar(200) );");
                 add("create table IF NOT EXISTS " + FLIGHT_TICKET_TABLE_NAME + "(" + FLIGHTNUMBER_COLUMN
-                        + " varchar(200) primary key," + FLIGHT_COLUMN + " varchar(100)," + DEPARTURECITY_COLUMN
+                        + " varchar(200) primary key," + FLIGHT_NAME_COLUMN + " varchar(100)," + DEPARTURECITY_COLUMN
                         + " varchar(100)," + ARRIVALCITY_COLUMN + " varchar(100) );");
                 add("create table IF NOT EXISTS " + FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "("
                         + FLIGHTNUMBER_COLUMN + " varchar(200)," + DEPARTURETIME_COLUMN + " varchar(100),"
