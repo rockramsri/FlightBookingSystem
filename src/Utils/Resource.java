@@ -45,7 +45,7 @@ public class Resource {
     public static final String COUNT_COLUMN = "count(*)";
     public static final String AUTO_ID_COLUMN = "last_insert_id()";
 
-    public static final String EMPTY_DATA = "No Info";
+    public static final String EMPTY_DATA = "  -  ";
     // used to store current user info
     public static ProfileDetails currentUserDetails = new ProfileDetails();
 
