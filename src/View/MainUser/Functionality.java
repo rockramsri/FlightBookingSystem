@@ -22,15 +22,14 @@ public class Functionality {
     }
 
     // For booking tickets
-    public void book_Tickets(Member member,ProfileDetails currentProfileDetails) {
+    public void book_Tickets(Member member, ProfileDetails currentProfileDetails) {
         member.userBookingTickets.requestTickets();
         boolean available = member.userBookingTickets.listingTickets();
         if (available) {
             TicketInfo ticketInfo = member.userBookingTickets.bookingRegister(currentProfileDetails);
             if (!flightUtils.internetConnectiviityCheck())
                 System.out.println("--You are not connected to the Internet,Kindly connect to your Internet--");
-            flightUtils.mailThreader(ticketInfo, "BC",currentProfileDetails.getEmail());
-            // This static methond is to send mail for the Booking Confirmation
+            flightUtils.mailThreader(ticketInfo, "BC", currentProfileDetails.getEmail());
             CommandLineTable confirmationTable = new CommandLineTable();
             String finalPrint = "Your Booking Id is :" + ticketInfo.getBookingId();
             String finalTicketIds = "Your Tickets Are   :";
@@ -48,14 +47,14 @@ public class Functionality {
     }
 
     // For Ticket Cancellation
-    public void ticket_Cancellation(Member member,ProfileDetails currentProfileDetails) {
-        TicketInfo ticketInfo = member.refundCancel.listOfBookings(currentProfileDetails); // booked ticketInformation is stored in this
-                                                                      // ticketInfo Object
+    public void ticket_Cancellation(Member member, ProfileDetails currentProfileDetails) {
+        TicketInfo ticketInfo = member.refundCancel.listOfBookings(currentProfileDetails); // booked ticketInformation
+                                                                                           // is stored in this
+        // ticketInfo Object
         if (ticketInfo != null) {
             if (!flightUtils.internetConnectiviityCheck())
                 System.out.println("--You are not connected to the Internet,Kindly connec to your Internet--");
-            flightUtils.mailThreader(ticketInfo, "CC",currentProfileDetails.getEmail());
-            // MailSender.bookingRefundMail(ticketInfo,"CC");
+            flightUtils.mailThreader(ticketInfo, "CC", currentProfileDetails.getEmail());
             CommandLineTable confirmationTable = new CommandLineTable();
             String finalPrint = "Your Booking Id is         :" + ticketInfo.getBookingId();
             String finalTicketIds = "Your Cancelled Tickets Are   :";
@@ -116,7 +115,7 @@ public class Functionality {
     }
 
     // For viewing history of both booking and Cancelation
-    public void my_Transaction(Member member,ProfileDetails currentUserDetails) {
+    public void my_Transaction(Member member, ProfileDetails currentUserDetails) {
         inner: while (true) {
             System.out.println("1.Booked Ticket History ");
             System.out.println("2.Ticket Cancellation History ");
@@ -142,7 +141,7 @@ public class Functionality {
     // For changing Users password
     public void change_password(ProfileDetails currentProfileDetails) {
         if (flightUtils.currentNoOfPasswordChanged < flightUtils.noOfPasswordChangeAllowed)
-            new ProfileDetails().changeMyPassword(false,currentProfileDetails);
+            new ProfileDetails().changeMyPassword(false, currentProfileDetails);
         else {
             System.out.println("Your Limit of Password Changing is Exceeded,Please try again Later");
         }

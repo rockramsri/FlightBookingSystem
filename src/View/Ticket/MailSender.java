@@ -21,7 +21,7 @@ public class MailSender {
     static String htmlCodeBooking = "";
     static String htmlCodeCanceling = "";
 
-    public static void mailSender(TicketInfo iTicketInfo, String contentCode,String eMail)
+    public static void mailSender(TicketInfo iTicketInfo, String contentCode, String eMail)
 
     {
 
@@ -41,7 +41,7 @@ public class MailSender {
             }
         });
         try {
-            Message message = prepareMessage(session, myAccount, iTicketInfo, contentCode,eMail);
+            Message message = prepareMessage(session, myAccount, iTicketInfo, contentCode, eMail);
             try {
 
                 Transport.send(message);
@@ -61,8 +61,8 @@ public class MailSender {
     }
 
     // Used for preparing Message for sending Email
-    public static Message prepareMessage(Session session, String myEmail, TicketInfo messageTicketinfo, String code,String userEmail)
-            throws MessagingException {
+    public static Message prepareMessage(Session session, String myEmail, TicketInfo messageTicketinfo, String code,
+            String userEmail) throws MessagingException {
         FlightUtils flightUtils = FlightUtils.getInstance();
         htmlCodeBooking = "";
         Message message = new MimeMessage(session);

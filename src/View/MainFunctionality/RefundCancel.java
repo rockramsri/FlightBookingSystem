@@ -35,7 +35,7 @@ public class RefundCancel {
   }
 
   // Used to list and cancel the booked tickets of the user
-  public TicketInfo listOfBookings(ProfileDetails currentUserDetails ) {
+  public TicketInfo listOfBookings(ProfileDetails currentUserDetails) {
 
     int optionSelection = 0;
 
@@ -120,13 +120,11 @@ public class RefundCancel {
           System.out.println("sorry we could not cancel for Ticketnumber:" + bTickets.getSeatNumber());
         }
       }
-      // SeatsAllocate.seatStorer(SeatsAllocate.seats);
-      // Collections.sort(SeatsAllocate.seats.get(bookedTicketsList.get(0).getFlightId()));
       noOfseats = options.size();
 
       TicketInfo ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass,
-          currentUserDetails.getEmail(), departureTime, arrivalTime, flightName,
-          distinctOrder.get(optionSelected - 1), ticketid);
+          currentUserDetails.getEmail(), departureTime, arrivalTime, flightName, distinctOrder.get(optionSelected - 1),
+          ticketid);
 
       int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightNumber());
       if (isrestored == 0) {
@@ -135,7 +133,6 @@ public class RefundCancel {
 
       } else {
         System.out.println("*********Your Cancelation is Successfully processed********");
-        // System.out.println("SENDING YOUR MAIL PLEASE WAIT..............");
         return ticketInfo;
       }
 

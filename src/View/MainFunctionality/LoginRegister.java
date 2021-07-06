@@ -29,8 +29,8 @@ public class LoginRegister {
             System.out.print("Enter your Mail Id or User ID:");
             String regID = flightUtils.getStringInput();
             String regpassword = new String(passwordConsole.readPassword("Enter your password:"));
-            profileDetails=databaseHandler.loginCheck(regID, regpassword);
-            if(profileDetails!=null)
+            profileDetails = databaseHandler.loginCheck(regID, regpassword);
+            if (profileDetails != null)
                 break;
             else {
                 System.out.println("1.Do you want to try again \n2.Forgot password \n3.Back");
@@ -90,18 +90,13 @@ public class LoginRegister {
 
         System.out.println("Enter your Contact Number:");
         String regPhonenumber = flightUtils.getStringInput();
-         
-        ProfileDetails profileDetails=new ProfileDetails();
+
+        ProfileDetails profileDetails = new ProfileDetails();
         profileDetails.setDob(regDate);
         profileDetails.setEmail(regMail);
         profileDetails.setName(regName);
         profileDetails.setPassword(regPassword.toString());
         profileDetails.setPhonenumber(regPhonenumber);
-       /* Resource.currentUserDetails.setDob(regDate);
-        Resource.currentUserDetails.setEmail(regMail);
-        Resource.currentUserDetails.setName(regName);
-        Resource.currentUserDetails.setPassword();
-        Resource.currentUserDetails.setPhonenumber(); */
 
         int userIdValue = databaseHandler.registerCheck(
                 new ProfileDetails(null, regName, regDate, regMail, regPassword.toString(), regPhonenumber));

@@ -39,10 +39,10 @@ public class ProfileDetails {
     }
 
     // For changing the user password
-     public boolean changeMyPassword(boolean forgotPassBool,ProfileDetails currentUserDetails) {
-        String currentPassword ="";
-        String newPassword ;
-        String confirmNewPassword ;
+    public boolean changeMyPassword(boolean forgotPassBool, ProfileDetails currentUserDetails) {
+        String currentPassword = "";
+        String newPassword;
+        String confirmNewPassword;
         boolean success = false;
 
         if (!forgotPassBool) {
@@ -61,11 +61,10 @@ public class ProfileDetails {
 
                 }
 
-                confirmNewPassword = new String(
-                        passwordConsole.readPassword("Re-Enter Your New Password:"));
+                confirmNewPassword = new String(passwordConsole.readPassword("Re-Enter Your New Password:"));
                 if (confirmNewPassword.equals(newPassword)) {
                     success = true;
-                    databaseHandler.updatePassword(newPassword,currentUserDetails.getId());
+                    databaseHandler.updatePassword(newPassword, currentUserDetails.getId());
 
                     currentUserDetails.setPassword(confirmNewPassword);
                     System.out.println("*****Password has been changed successfully****");
@@ -85,15 +84,15 @@ public class ProfileDetails {
     }
 
     // Used to reset the forgotten password by send OTP to mail
-     public void forgotPassword() {
+    public void forgotPassword() {
         final int I_HAVE_RECOVERY_CODE = 1;
         final int I_DONT_HAVE_RECOVERY_CODE = 2;
         final int BACK = 3;
 
         System.out.print("Enter your Mail Id or User ID:");
         String registeredID = flightUtils.getStringInput();
-        ProfileDetails profileDetails=databaseHandler.loginCheck(registeredID, "");
-        if (profileDetails!=null) {
+        ProfileDetails profileDetails = databaseHandler.loginCheck(registeredID, "");
+        if (profileDetails != null) {
             int tryCount = 0;
             whileexit: while (tryCount <= 3) {
 
@@ -131,7 +130,7 @@ public class ProfileDetails {
         System.out.println("Recovery Code has been sent to Your Mail");
         if (!flightUtils.internetConnectiviityCheck())
             System.out.println("--You are not connected to the Internet,Kindly connect to your Internet--");
-        flightUtils.mailThreader(null, "PP",currentProfileDetails.getEmail());
+        flightUtils.mailThreader(null, "PP", currentProfileDetails.getEmail());
         return randomNumber;
     }
 
@@ -140,7 +139,7 @@ public class ProfileDetails {
         String code = flightUtils.getStringInput();
         if (flightUtils.randomCodeForPassword.length() != 0
                 && code.equals(flightUtils.randomCodeForPassword.toString())) {
-            changeMyPassword(true,profileDetails);
+            changeMyPassword(true, profileDetails);
 
         }
 

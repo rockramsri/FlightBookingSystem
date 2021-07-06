@@ -53,9 +53,9 @@ public class DatabaseHandler {
     }
 
     // Used to Update the password of the user
-    public void updatePassword(String password,String userId) {
+    public void updatePassword(String password, String userId) {
         try {
-            dbStatement.executeUpdate(SqlQuery.passwordUpdater(password,userId));
+            dbStatement.executeUpdate(SqlQuery.passwordUpdater(password, userId));
         } catch (SQLException sqlException) {
             System.out.println("--Could not update password Please try again later--");
         }
@@ -64,7 +64,7 @@ public class DatabaseHandler {
 
     // Used to validate the login info
     public ProfileDetails loginCheck(String registrationUserIDorMailId, String password) {
-        ProfileDetails currentUserDetails=new ProfileDetails();
+        ProfileDetails currentUserDetails = new ProfileDetails();
         String registrationUserID = "";
         try {
             if (registrationUserIDorMailId.contains("@")) {
@@ -109,7 +109,7 @@ public class DatabaseHandler {
             dbStatement.executeUpdate(SqlQuery.userRecordInsertQuery(profileRegister.getName(),
                     profileRegister.getDob(), profileRegister.getEmail(), profileRegister.getPassword(),
                     profileRegister.getPhonenumber()));
-            
+
             dbStatement.executeUpdate(SqlQuery.uniqueKeySetter(profileRegister.getEmail()));
             dbResult = dbStatement.executeQuery(SqlQuery.uniqueKeyGetter(profileRegister.getEmail()));
             dbResult.next();
@@ -130,16 +130,16 @@ public class DatabaseHandler {
         List<Airlines> airlinesList = new ArrayList<Airlines>();
 
         try {
-            dbResult = dbStatement.executeQuery(SqlQuery.availableFlightDetailsquery( departureCity, arrivalCity, dateTicket,
-                    nofSeats, flightClass));
+            dbResult = dbStatement.executeQuery(SqlQuery.availableFlightDetailsquery(departureCity, arrivalCity,
+                    dateTicket, nofSeats, flightClass));
             while (dbResult.next()) {
                 airlinesList.add(new Airlines(dbResult.getString(Resource.ARRIVALCITY_COLUMN),
                         dbResult.getString(Resource.ARRIVALTIME_COLUMN), dbResult.getInt(Resource.COSTPERSEAT_COLUMN),
                         dbResult.getInt(Resource.CURRENTSEATSAVAILABLE_COLUMN),
                         dbResult.getString(Resource.DEPARTURECITY_COLUMN),
-                        dbResult.getString(Resource.DEPARTURETIME_COLUMN), dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
-                        flightClass, dbResult.getString(Resource.FLIGHTNUMBER_COLUMN),
-                        dbResult.getInt(Resource.NOOFSEATS_COLUMN)));
+                        dbResult.getString(Resource.DEPARTURETIME_COLUMN),
+                        dbResult.getString(Resource.FLIGHT_NAME_COLUMN), flightClass,
+                        dbResult.getString(Resource.FLIGHTNUMBER_COLUMN), dbResult.getInt(Resource.NOOFSEATS_COLUMN)));
             }
         } catch (SQLException sqlException) {
             System.out.println("--Couldn't fetch data Please try again later--");
@@ -315,7 +315,8 @@ public class DatabaseHandler {
                         dbResult.getString(Resource.ARRIVALTIME_COLUMN), dbResult.getInt(Resource.COSTPERSEAT_COLUMN),
                         dbResult.getInt(Resource.CURRENTSEATSAVAILABLE_COLUMN),
                         dbResult.getString(Resource.DEPARTURECITY_COLUMN),
-                        dbResult.getString(Resource.DEPARTURETIME_COLUMN), dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
+                        dbResult.getString(Resource.DEPARTURETIME_COLUMN),
+                        dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
                         dbResult.getString(Resource.FLIGHTCLASS_COLUMN),
                         dbResult.getString(Resource.FLIGHTNUMBER_COLUMN), dbResult.getInt(Resource.NOOFSEATS_COLUMN)));
             }
@@ -331,13 +332,14 @@ public class DatabaseHandler {
         List<Airlines> airlinesList = new ArrayList<Airlines>();
         try {
 
-            dbResult = dbStatement.executeQuery(SqlQuery.searchByCity( city));
+            dbResult = dbStatement.executeQuery(SqlQuery.searchByCity(city));
             while (dbResult.next()) {
                 airlinesList.add(new Airlines(dbResult.getString(Resource.ARRIVALCITY_COLUMN),
                         dbResult.getString(Resource.ARRIVALTIME_COLUMN), dbResult.getInt(Resource.COSTPERSEAT_COLUMN),
                         dbResult.getInt(Resource.CURRENTSEATSAVAILABLE_COLUMN),
                         dbResult.getString(Resource.DEPARTURECITY_COLUMN),
-                        dbResult.getString(Resource.DEPARTURETIME_COLUMN), dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
+                        dbResult.getString(Resource.DEPARTURETIME_COLUMN),
+                        dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
                         dbResult.getString(Resource.FLIGHTCLASS_COLUMN),
                         dbResult.getString(Resource.FLIGHTNUMBER_COLUMN), dbResult.getInt(Resource.NOOFSEATS_COLUMN)));
             }
@@ -352,14 +354,15 @@ public class DatabaseHandler {
     public List<Airlines> searchAirlinesByDate(String date) {
         List<Airlines> airlinesList = new ArrayList<Airlines>();
         try {
-             System.out.println(SqlQuery.searchByDate(date));
+            System.out.println(SqlQuery.searchByDate(date));
             dbResult = dbStatement.executeQuery(SqlQuery.searchByDate(date));
             while (dbResult.next()) {
                 airlinesList.add(new Airlines(dbResult.getString(Resource.ARRIVALCITY_COLUMN),
                         dbResult.getString(Resource.ARRIVALTIME_COLUMN), dbResult.getInt(Resource.COSTPERSEAT_COLUMN),
                         dbResult.getInt(Resource.CURRENTSEATSAVAILABLE_COLUMN),
                         dbResult.getString(Resource.DEPARTURECITY_COLUMN),
-                        dbResult.getString(Resource.DEPARTURETIME_COLUMN), dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
+                        dbResult.getString(Resource.DEPARTURETIME_COLUMN),
+                        dbResult.getString(Resource.FLIGHT_NAME_COLUMN),
                         dbResult.getString(Resource.FLIGHTCLASS_COLUMN),
                         dbResult.getString(Resource.FLIGHTNUMBER_COLUMN), dbResult.getInt(Resource.NOOFSEATS_COLUMN)));
             }

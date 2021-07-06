@@ -187,9 +187,8 @@ public class BookingTickets {
     }
 
     TicketInfo bookTicketInfo = new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(),
-        nofSeats, selectedAirlines.getFlightClass(), currentUserDetails.getEmail(),
-        selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlightName(),
-        bookingId, ticketList);
+        nofSeats, selectedAirlines.getFlightClass(), currentUserDetails.getEmail(), selectedAirlines.getDepartureTime(),
+        selectedAirlines.getArrivalTime(), selectedAirlines.getFlightName(), bookingId, ticketList);
 
     return bookTicketInfo;
   }

@@ -2,7 +2,6 @@ package Utils;
 
 import java.util.*;
 
-
 /**
  * This class contains the Constant values for the application
  */
@@ -45,8 +44,6 @@ public class Resource {
     public static final String USER_AUTO_ID_COLUMN = "last_insert_id()";
 
     public static final String EMPTY_DATA = "  -  ";
-    // used to store current user info
-   // public static ProfileDetails currentUserDetails = new ProfileDetails();
 
     // Table creation Queries
     static public ArrayList<String> tableCreationList() {
