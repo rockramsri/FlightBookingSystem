@@ -77,7 +77,7 @@ public class LoginRegister {
         }
         StringBuffer regPassword = new StringBuffer("");
         while (true) {
-            regPassword.replace(-1, regPassword.length(),
+            regPassword.replace(0, regPassword.length(),
                     new String(passwordConsole.readPassword("Enter your password:")));
             if (flightUtils.passwordValidate(regPassword.toString()))
                 break;
@@ -89,6 +89,12 @@ public class LoginRegister {
         System.out.println("Enter your Contact Number:");
         String regPhonenumber = flightUtils.getStringInput();
 
+        Resource.currentUserDetails.setDob(regDate);
+        Resource.currentUserDetails.setEmail(regMail);
+        Resource.currentUserDetails.setName(regName);
+        Resource.currentUserDetails.setPassword(regPassword.toString());
+        Resource.currentUserDetails.setPhonenumber(regPhonenumber);
+
         int userIdValue = databaseHandler.registerCheck(
                 new ProfileDetails(null, regName, regDate, regMail, regPassword.toString(), regPhonenumber));
 
@@ -97,11 +103,7 @@ public class LoginRegister {
         System.out.println("SuccessFully Registered And your User ID is: Usr" + String.valueOf(userIdValue));
 
         Resource.currentUserDetails.setId("Usr" + String.valueOf(userIdValue));
-        Resource.currentUserDetails.setDob(regDate);
-        Resource.currentUserDetails.setEmail(regMail);
-        Resource.currentUserDetails.setName(regName);
-        Resource.currentUserDetails.setPassword(regPassword.toString());
-        Resource.currentUserDetails.setPhonenumber(regPhonenumber);
+
         return true;
 
     }

@@ -1,7 +1,6 @@
 package Database.DBTableClass;
 /* POJO Class for Airlines table in the MySqlDatabase */
 
-
 public class Airlines {
     private String flightNumber;
     private String flightName;
