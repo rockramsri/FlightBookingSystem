@@ -39,17 +39,17 @@ public class ProfileDetails {
     }
 
     // For changing the user password
-    public boolean changeMypassword(boolean fobool) {
+    public boolean changeMyPassword(boolean forgotPassBool) {
         String currentPassword = "";
         String newPassword = "";
         String confirmNewPassword = "";
         boolean success = false;
 
-        if (!fobool) {
+        if (!forgotPassBool) {
             System.out.println("Enter Your Current Password:");
             currentPassword = flightUtils.getStringInput();
         }
-        if (fobool || currentPassword.equals(Resource.currentUserDetails.getPassword())) {
+        if (forgotPassBool || currentPassword.equals(Resource.currentUserDetails.getPassword())) {
             while (true) {
                 while (true) {
                     newPassword = new String(passwordConsole.readPassword("Enter your New password:"));
@@ -104,7 +104,7 @@ public class ProfileDetails {
 
                         break whileexit;
                     case I_DONT_HAVE_RECOVERY_CODE:
-                        recoveryCodegentrator();
+                        recoveryCodeGentrator();
                         tryCount = 2;
                         break;
                     case BACK:
@@ -123,9 +123,10 @@ public class ProfileDetails {
 
     }
 
-    int recoveryCodegentrator() {
+    int recoveryCodeGentrator() {
         int randomNumber = flightUtils.sizeRandomizer(1000, 1000000);
-        flightUtils.randomCodeForPassword.replace(0, flightUtils.randomCodeForPassword.length(),String.valueOf(randomNumber))                         ;
+        flightUtils.randomCodeForPassword.replace(0, flightUtils.randomCodeForPassword.length(),
+                String.valueOf(randomNumber));
         System.out.println("Recovery Code has been sent to Your Mail");
         if (!flightUtils.internetConnectiviityCheck())
             System.out.println("--You are not connected to the Internet,Kindly connect to your Internet--");
@@ -136,8 +137,9 @@ public class ProfileDetails {
     void recoveryCodeChecking() {
         System.out.print("Enter the Recovery Code:");
         String code = flightUtils.getStringInput();
-        if (flightUtils.randomCodeForPassword.length() != 0 && code.equals(flightUtils.randomCodeForPassword.toString())) {
-            changeMypassword(true);
+        if (flightUtils.randomCodeForPassword.length() != 0
+                && code.equals(flightUtils.randomCodeForPassword.toString())) {
+            changeMyPassword(true);
 
         }
 

@@ -14,12 +14,14 @@ public class Functionality {
         flightUtils = FlightUtils.getInstance();
     }
 
+    // For Single Instance
     static public Functionality getInstance() {
         if (functionality == null)
             functionality = new Functionality();
         return functionality;
     }
 
+    // For booking tickets
     public void book_Tickets(Member member) {
         member.userBookingTickets.requestTickets();
         boolean available = member.userBookingTickets.listingTickets();
@@ -45,6 +47,7 @@ public class Functionality {
 
     }
 
+    // For Ticket Cancellation
     public void ticket_Cancellation(Member member) {
         TicketInfo ticketInfo = member.refundCancel.listOfBookings(); // booked ticketInformation is stored in this
                                                                       // ticketInfo Object
@@ -69,6 +72,7 @@ public class Functionality {
 
     }
 
+    // For Searching available Flights
     public void search(Non_Member non_member) {
         final int SEARCH_BY_CITY = 1;
         final int SEARCH_BY_FLIGHT = 2;
@@ -111,6 +115,7 @@ public class Functionality {
         }
     }
 
+    // For viewing history of both booking and Cancelation
     public void my_Transaction(Member member) {
         inner: while (true) {
             System.out.println("1.Booked Ticket History ");
@@ -134,9 +139,10 @@ public class Functionality {
         }
     }
 
+    // For changing Users password
     public void change_password() {
         if (flightUtils.currentNoOfPasswordChanged < flightUtils.noOfPasswordChangeAllowed)
-            new ProfileDetails().changeMypassword(false);
+            new ProfileDetails().changeMyPassword(false);
         else {
             System.out.println("Your Limit of Password Changing is Exceeded,Please try again Later");
         }
