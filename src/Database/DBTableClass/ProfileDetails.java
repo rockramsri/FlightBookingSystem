@@ -1,4 +1,5 @@
 package Database.DBTableClass;
+
 import java.io.*;
 import Utils.*;
 import Database.*;
@@ -90,8 +91,8 @@ public class ProfileDetails {
         final int BACK = 3;
 
         System.out.print("Enter your Mail Id or User ID:");
-        String RegID = flightUtils.getStringInput();
-        if (databaseHandler.loginCheck(RegID, "")) {
+        String regID = flightUtils.getStringInput();
+        if (databaseHandler.loginCheck(regID, "")) {
             int tryCount = 0;
             whileexit: while (tryCount <= 3) {
 

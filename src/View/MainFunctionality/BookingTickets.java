@@ -1,4 +1,5 @@
 package View.MainFunctionality;
+
 import java.util.*;
 import java.util.Date;
 import java.text.ParseException;
@@ -10,14 +11,14 @@ import View.Ticket.*;
 
 public class BookingTickets {
 
-  private String dateTicket;
+  private String dateTicket = "";
 
-  private String departureCity;
-  private String arrivalCity;
-  private int nofSeats;
-  private String flightClass;
-  private int seatPrice;
-  private List<UserDetails> userList;
+  private String departureCity = "";
+  private String arrivalCity = "";
+  private int nofSeats = 0;
+  private String flightClass = "";
+  private int seatPrice = 0;
+  private List<PassengerDetails> passengerList;
   private List<String> ticketList;
   private boolean ticketAvailable = false;
 
@@ -26,57 +27,11 @@ public class BookingTickets {
   DatabaseHandler databaseHandler;
 
   // Getter and setters for data members
-  public String getDate() {
-    return dateTicket;
-  }
-
-  public void setDate(String date) {
-    dateTicket = date;
-  }
-
-  public String getDeparturecity() {
-    return departureCity;
-  }
-
-  public void setDeparturecity(String departurecity) {
-    departureCity = departurecity;
-  }
-
-  public String getArrivalcity() {
-    return arrivalCity;
-  }
-
-  public void setArrivalcity(String arrivalcity) {
-    arrivalCity = arrivalcity;
-  }
-
-  public int getNofSeats() {
-    return nofSeats;
-  }
-
-  public void setNofSeats(int nOfSeats) {
-    nofSeats = nOfSeats;
-  }
-
-  public void setFlightClass(String flightClass) {
-    this.flightClass = flightClass;
-  }
-
-  public String getFlightClass() {
-    return this.flightClass;
-  }
 
   public BookingTickets() // intializing values
   {
     flightUtils = FlightUtils.getInstance();
-    seatPrice = 0;
-    dateTicket = "";
-    departureCity = "";
-    arrivalCity = "";
-    nofSeats = 0;
-    flightClass = "Business";
-
-    userList = new ArrayList<UserDetails>();
+    passengerList = new ArrayList<PassengerDetails>();
     ticketList = new ArrayList<String>();
     databaseHandler = DatabaseHandler.getInstance();
   }
@@ -143,7 +98,7 @@ public class BookingTickets {
 
     for (int i = 1; i <= nofSeats; i++) {
       System.out.println("Enter the Passenger:" + String.valueOf(i) + " Details");
-      userList.add(new UserDetails());
+      passengerList.add(new PassengerDetails());
     }
 
     // ExtraProcess.clearscreen();
@@ -173,7 +128,7 @@ public class BookingTickets {
 
     for (Airlines aobject : lAirlines) {
       optionCount += 1;
-      tablebook.addRow(String.valueOf(optionCount), aobject.getFlight(), aobject.getDepartureCity(),
+      tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
           aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
           "Rs." + String.valueOf(aobject.getCostPerSeat()));
     }
@@ -190,7 +145,7 @@ public class BookingTickets {
       selectedAirlines = lAirlines.get(optionselection - 1);
       seatPrice = selectedAirlines.getCostPerSeat();
 
-      databaseHandler.airlinesUpdater(selectedAirlines.getFlightId(), nofSeats, "-");
+      databaseHandler.airlinesUpdater(selectedAirlines.getFlightNumber(), nofSeats, "-");
 
     }
 
@@ -204,41 +159,37 @@ public class BookingTickets {
       return null;
 
     int i = 0;
-    String orderId = "";
+    String bookingId = "";
     while (true) {
-      orderId = "ord" + String.valueOf(flightUtils.sizeRandomizer(1000, 9999));
+      bookingId = "ord" + String.valueOf(flightUtils.sizeRandomizer(1000, 9999));
       List<String> allBookingIds = databaseHandler.distinctColumns(Resource.BOOKED_TICKET_TABLE_NAME,
           Resource.BOOKINGID_COLUMN);
-      if (!allBookingIds.contains(orderId))
+      if (!allBookingIds.contains(bookingId))
         break;
     }
     for (i = 1; i <= nofSeats; i++) {
 
-      float cost = (float) (userList.get(i - 1).getUage() > 12 ? seatPrice : seatPrice * (0.75));
+      float cost = (float) (passengerList.get(i - 1).getPassengerAge() > 12 ? seatPrice : seatPrice * (0.75));
 
       String cancelledOn = "null";
       String bookedOn = flightUtils.dateTimeGetter();
       String isCancelled = "no";
-      BookedTickets bookedTickets = new BookedTickets(cost, bookedOn, orderId, cancelledOn,
-          selectedAirlines.getFlightId(), Resource.currentUserDetails.getId(), isCancelled,
-          "P" + String.valueOf(
-              SeatsAllocate.seats.get(selectedAirlines.getFlightId() + '-' + selectedAirlines.getFlightClass()).get(0)),
-          userList.get(i - 1), selectedAirlines.getFlightClass());
+      BookedTickets bookedTickets = new BookedTickets(cost, bookedOn, bookingId, cancelledOn,
+          selectedAirlines.getFlightNumber(), Resource.currentUserDetails.getId(), isCancelled,
+          "P" + String.valueOf(SeatsAllocate.seats
+              .get(selectedAirlines.getFlightNumber() + '-' + selectedAirlines.getFlightClass()).get(0)),
+          passengerList.get(i - 1), selectedAirlines.getFlightClass());
       databaseHandler.bookingRegister(bookedTickets);
 
-      ticketList.add("P" + String.valueOf(
-          SeatsAllocate.seats.get(selectedAirlines.getFlightId() + '-' + selectedAirlines.getFlightClass()).get(0)));
-      SeatsAllocate.seats.get(selectedAirlines.getFlightId() + '-' + selectedAirlines.getFlightClass()).remove(0);
+      ticketList.add("P" + String.valueOf(SeatsAllocate.seats
+          .get(selectedAirlines.getFlightNumber() + '-' + selectedAirlines.getFlightClass()).get(0)));
+      SeatsAllocate.seats.get(selectedAirlines.getFlightNumber() + '-' + selectedAirlines.getFlightClass()).remove(0);
     }
-
-    // SeatsAllocate.seatStorer(SeatsAllocate.seats);
-    // System.out.println("**SENDING YOUR MAIL PLEASE
-    // WAIT............................");
 
     TicketInfo bookTicketInfo = new TicketInfo(selectedAirlines.getDepartureCity(), selectedAirlines.getArrivalCity(),
         nofSeats, selectedAirlines.getFlightClass(), Resource.currentUserDetails.getEmail(),
-        selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlight(), orderId,
-        ticketList, userList);
+        selectedAirlines.getDepartureTime(), selectedAirlines.getArrivalTime(), selectedAirlines.getFlightName(),
+        bookingId, ticketList);
 
     return bookTicketInfo;
   }

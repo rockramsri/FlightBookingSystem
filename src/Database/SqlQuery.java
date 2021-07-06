@@ -1,8 +1,9 @@
 package Database;
+
 import Utils.*;
- 
+
 /**
- * This Classs is used to return the SqlQuery 
+ * This Classs is used to return the SqlQuery
  */
 public class SqlQuery {
 
@@ -17,22 +18,12 @@ public class SqlQuery {
                 + "' where " + Resource.ID_COLUMN + "='" + Resource.currentUserDetails.getId() + "'";
     }
 
-    public static String userInfoQuery(String tablename) {
-        return selectquery(tablename) + "where " + Resource.ID_COLUMN + "='" + Resource.currentUserDetails.getId()
-                + "'";
-    }
-
     public static String getIdByMailQuery(String tablename, String mail) {
         return "select " + Resource.ID_COLUMN + " from " + tablename + " where " + Resource.EMAIL_COLUMN + "='" + mail
                 + "'";
     }
 
-    public static String getMailByIdQuery(String tablename, String id) {
-        return "select " + Resource.EMAIL_COLUMN + " from " + tablename + " where " + Resource.ID_COLUMN + "='" + id
-                + "'";
-    }
-
-    public static String insertQuery(String tablename, String name, String dob, String email, String password,
+    public static String userRecordInsertQuery(String tablename, String name, String dob, String email, String password,
             String Phonenumber) {
         return "insert into " + tablename + " (" + Resource.NAME_COLUMN + "," + Resource.DOB_COLUMN + ","
                 + Resource.EMAIL_COLUMN + "," + Resource.PASSWORD_COLUMN + "," + Resource.PHONENUMBER_COLUMN
@@ -53,13 +44,13 @@ public class SqlQuery {
                 + (pass.length() == 0 ? "" : " and " + Resource.PASSWORD_COLUMN + "='" + pass + "'") + ")";
     }
 
-    public static String recordExistIDQuery(String tablename, String userid, String pass) {
+    public static String recordExistByUserinfoQuery(String tablename, String userid, String pass) {
         return "select exists(" + selectquery(tablename) + " where " + Resource.ID_COLUMN + "='" + userid + "'"
                 + (pass.length() == 0 ? "" : " and " + Resource.PASSWORD_COLUMN + "='" + pass + "'") + ")";
     }
 
-    public static String availableFlightquery(String flight, String flightdetails, String depcity, String arrcity,
-            String depdate, int NofSeats, String flightClass) {
+    public static String availableFlightDetailsquery(String flight, String flightdetails, String depcity,
+            String arrcity, String depdate, int NofSeats, String flightClass) {
         String alternateDeptimeStr = " and " + Resource.DEPARTURETIME_COLUMN + " like '%" + depdate + "%'";
 
         return "select " + flight + "." + Resource.FLIGHTNUMBER_COLUMN + ", " + flight + "." + Resource.FLIGHT_COLUMN
@@ -77,7 +68,7 @@ public class SqlQuery {
                 + Resource.FLIGHTCLASS_COLUMN + "='" + flightClass + "'";
     }
 
-    public static String updateFlightquery(String tablename, int noofseats, String flightId, String sign) {
+    public static String updateFlightCurrentSeatsquery(String tablename, int noofseats, String flightId, String sign) {
         return "Update " + tablename + " SET " + Resource.CURRENTSEATSAVAILABLE_COLUMN + "="
                 + Resource.CURRENTSEATSAVAILABLE_COLUMN + "" + sign + String.valueOf(noofseats) + " Where "
                 + Resource.FLIGHTNUMBER_COLUMN + "='" + flightId + "'";
@@ -107,7 +98,7 @@ public class SqlQuery {
                 + "' and " + Resource.TICKETID_COLUMN + " like '_" + ticketId + "'";
     }
 
-    public static String depArrivalCityFlightquery(String tablename, String flightId) {
+    public static String depArrivalCityFlightNamequery(String tablename, String flightId) {
         return "select " + Resource.DEPARTURECITY_COLUMN + "," + Resource.ARRIVALCITY_COLUMN + ","
                 + Resource.FLIGHT_COLUMN + " from " + tablename + " where " + Resource.FLIGHTNUMBER_COLUMN + "='"
                 + flightId + "'";

@@ -1,4 +1,5 @@
 package View.MainFunctionality;
+
 import Utils.*;
 import Database.*;
 import Database.DBTableClass.*;
@@ -6,8 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
-
-
 
 public class SearchingTicket {
   FlightUtils flightUtils;
@@ -29,8 +28,6 @@ public class SearchingTicket {
     int nofSeatsInfant = 0;
     int nofSeatsChild = 0;
 
-    // System.out.println("*********FOR THE BELOW DETAILS IF YOU DONT KNOW THE
-    // INFORMATION TYPE AS (no)**************");
     flightUtils.clearScreen();
 
     ArrayList<String> cList = Resource.citiesList();
@@ -138,7 +135,7 @@ public class SearchingTicket {
                   + (nofSeatsAdult * aobject.getCostPerSeat()
                       + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75);
 
-              tablebook.addRow(String.valueOf(optionCount), aobject.getFlight(), aobject.getDepartureCity(),
+              tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
                   aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(),
                   aobject.getFlightClass(), "Rs." + String.valueOf(totalCost));
               break;
@@ -154,7 +151,7 @@ public class SearchingTicket {
         double totalCost = nofSeatsAdult * aobject.getCostPerSeat()
             + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75;
 
-        tablebook.addRow(String.valueOf(optionCount), aobject.getFlight(), aobject.getDepartureCity(),
+        tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
             aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
             "Rs." + String.valueOf(totalCost));
       }
@@ -188,9 +185,10 @@ public class SearchingTicket {
     tablebook.setHeaders("  Code ", "      AirLines  ", " DepartureCity ", "  ArrivalCity  ", "   DepartureTime     ",
         "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
     options = 0;
-    for (Airlines airlines : databaseHandler.searchAirlinesbyflight(Resource.flightList().get(optionSelected - 1))) {
+    for (Airlines airlines : databaseHandler
+        .searchAirlinesByFlightName(Resource.flightList().get(optionSelected - 1))) {
       options += 1;
-      tablebook.addRow(String.valueOf(options), airlines.getFlight(), airlines.getDepartureCity(),
+      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
           airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
           String.valueOf(airlines.getCurrentSeatsAvailable()), "Rs." + String.valueOf(airlines.getCostPerSeat()));
 
@@ -236,9 +234,9 @@ public class SearchingTicket {
     tablebook.setHeaders("  Code ", "      AirLines  ", " DepartureCity ", "  ArrivalCity  ", "   DepartureTime     ",
         "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
 
-    for (Airlines airlines : databaseHandler.searchAirlinesbyDate(dateTicket)) {
+    for (Airlines airlines : databaseHandler.searchAirlinesByDate(dateTicket)) {
       options += 1;
-      tablebook.addRow(String.valueOf(options), airlines.getFlight(), airlines.getDepartureCity(),
+      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
           airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
           String.valueOf(airlines.getCurrentSeatsAvailable()), "Rs." + String.valueOf(airlines.getCostPerSeat()));
 
@@ -271,9 +269,9 @@ public class SearchingTicket {
     tablebook.setHeaders("  Code ", "      AirLines  ", " DepartureCity ", "  ArrivalCity  ", "   DepartureTime     ",
         "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
     options = 0;
-    for (Airlines airlines : databaseHandler.searchAirlinesbycity(Resource.citiesList().get(optionSelected - 1))) {
+    for (Airlines airlines : databaseHandler.searchAirlinesByCity(Resource.citiesList().get(optionSelected - 1))) {
       options += 1;
-      tablebook.addRow(String.valueOf(options), airlines.getFlight(), airlines.getDepartureCity(),
+      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
           airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
           String.valueOf(airlines.getCurrentSeatsAvailable()), "Rs." + String.valueOf(airlines.getCostPerSeat()));
 

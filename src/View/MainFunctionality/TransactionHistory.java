@@ -1,4 +1,5 @@
 package View.MainFunctionality;
+
 import java.util.*;
 import Database.*;
 import Database.DBTableClass.*;
@@ -28,9 +29,10 @@ public class TransactionHistory {
       if (!distinctOrder.contains(bTickets.getBookingId())) {
         distinctOrder.add(bTickets.getBookingId());
         optionSelection += 1;
-        HashMap<String, String> depArrFlightList = databaseHandler.depArrivalGetter(bTickets.getFlightId());
+        HashMap<String, String> depArrFlightList = databaseHandler
+            .depArrivalFlightNameGetter(bTickets.getFlightNumber());
         String noofseats = databaseHandler.noOfSeats(bTickets.getBookingId(), "no");
-        bookTickeTable.addRow(String.valueOf(optionSelection), bTickets.getFlightId(), bTickets.getBookingId(),
+        bookTickeTable.addRow(String.valueOf(optionSelection), bTickets.getFlightNumber(), bTickets.getBookingId(),
             depArrFlightList.get("flightname"), depArrFlightList.get("departuretime"),
             depArrFlightList.get("arrivaltime"), depArrFlightList.get("departurecity"),
             depArrFlightList.get("arrivalcity"), bTickets.getFlightClass(), bTickets.getBookedOn(), noofseats);
@@ -65,9 +67,10 @@ public class TransactionHistory {
       if (!distinctOrder.contains(bTickets.getBookingId())) {
         distinctOrder.add(bTickets.getBookingId());
         optionSelection += 1;
-        HashMap<String, String> depArrFlightList = databaseHandler.depArrivalGetter(bTickets.getFlightId());
+        HashMap<String, String> depArrFlightList = databaseHandler
+            .depArrivalFlightNameGetter(bTickets.getFlightNumber());
         String noofseats = databaseHandler.noOfSeats(bTickets.getBookingId(), "yes");
-        bookTickeTable.addRow(String.valueOf(optionSelection), bTickets.getFlightId(), bTickets.getBookingId(),
+        bookTickeTable.addRow(String.valueOf(optionSelection), bTickets.getFlightNumber(), bTickets.getBookingId(),
             depArrFlightList.get("flightname"), depArrFlightList.get("departuretime"),
             depArrFlightList.get("arrivaltime"), depArrFlightList.get("departurecity"),
             depArrFlightList.get("arrivalcity"), bTickets.getFlightClass(), bTickets.getBookedOn(), noofseats);

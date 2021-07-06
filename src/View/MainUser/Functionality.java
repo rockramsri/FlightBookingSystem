@@ -30,9 +30,9 @@ public class Functionality {
             flightUtils.mailThreader(ticketInfo, "BC");
             // This static methond is to send mail for the Booking Confirmation
             CommandLineTable confirmationTable = new CommandLineTable();
-            String finalPrint = "Your Booking Id is :" + ticketInfo.getOrderId();
+            String finalPrint = "Your Booking Id is :" + ticketInfo.getBookingId();
             String finalTicketIds = "Your Tickets Are   :";
-            for (String item : ticketInfo.getTicketIds()) {
+            for (String item : ticketInfo.getSeatNumbers()) {
                 finalTicketIds += item + " ";
             }
             confirmationTable.addRow("------------------------------");
@@ -54,9 +54,9 @@ public class Functionality {
             flightUtils.mailThreader(ticketInfo, "CC");
             // MailSender.bookingRefundMail(ticketInfo,"CC");
             CommandLineTable confirmationTable = new CommandLineTable();
-            String finalPrint = "Your Booking Id is         :" + ticketInfo.getOrderId();
+            String finalPrint = "Your Booking Id is         :" + ticketInfo.getBookingId();
             String finalTicketIds = "Your Cancelled Tickets Are   :";
-            for (String item : ticketInfo.getTicketIds()) {
+            for (String item : ticketInfo.getSeatNumbers()) {
                 finalTicketIds += item + " ";
             }
             confirmationTable.addRow("------------------------------");

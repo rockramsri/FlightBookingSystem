@@ -1,4 +1,5 @@
 package View.MainFunctionality;
+
 import java.util.*;
 import View.Ticket.*;
 import Database.*;
@@ -11,7 +12,6 @@ public class RefundCancel {
   private DatabaseHandler databaseHandler;
 
   private int noOfseats = 0;
-  // private String flightId="";
 
   private String departureCity;
   private String arrivalCity;
@@ -50,8 +50,9 @@ public class RefundCancel {
       if (!distinctOrder.contains(bookedTickets.getBookingId())) {
         distinctOrder.add(bookedTickets.getBookingId());
         optionSelection += 1;
-        HashMap<String, String> deparrlist = databaseHandler.depArrivalGetter(bookedTickets.getFlightId());
-        bookingHistoryTable.addRow(String.valueOf(optionSelection), bookedTickets.getFlightId(),
+        HashMap<String, String> deparrlist = databaseHandler
+            .depArrivalFlightNameGetter(bookedTickets.getFlightNumber());
+        bookingHistoryTable.addRow(String.valueOf(optionSelection), bookedTickets.getFlightNumber(),
             bookedTickets.getBookingId(), deparrlist.get("flightname"), deparrlist.get("departuretime"),
             deparrlist.get("arrivaltime"), deparrlist.get("departurecity"), deparrlist.get("arrivalcity"),
             bookedTickets.getFlightClass());
@@ -75,7 +76,8 @@ public class RefundCancel {
       for (BookedTickets bTickets : bookedTicketsList) {
         optionSelection += 1;
 
-        HashMap<String, String> deparrtimeclasslist = databaseHandler.depArrivalGetter(bTickets.getFlightId());
+        HashMap<String, String> deparrtimeclasslist = databaseHandler
+            .depArrivalFlightNameGetter(bTickets.getFlightNumber());
 
         departureCity = deparrtimeclasslist.get("departurecity");
         arrivalCity = deparrtimeclasslist.get("arrivalcity");
@@ -83,11 +85,12 @@ public class RefundCancel {
         arrivalTime = deparrtimeclasslist.get("arrivaltime");
         flightName = deparrtimeclasslist.get("flightname");
         flightClass = bTickets.getFlightClass();
-        listOrderId.addRow(String.valueOf(optionSelection), bTickets.getUserlist().getUname(),
-            String.valueOf(bTickets.getUserlist().getUage()), bTickets.getUserlist().getUgender(),
-            bTickets.getFlightId(), bTickets.getTicketId(), bTickets.getBookingId(), flightName,
-            deparrtimeclasslist.get("departurecity"), deparrtimeclasslist.get("arrivalcity"), departureTime,
-            arrivalTime, bTickets.getFlightClass(), "Rs." + String.valueOf(bTickets.getAmount()));
+        listOrderId.addRow(String.valueOf(optionSelection), bTickets.getPassengerlist().getPassengerName(),
+            String.valueOf(bTickets.getPassengerlist().getPassengerAge()),
+            bTickets.getPassengerlist().getPassengerGender(), bTickets.getFlightNumber(), bTickets.getSeatNumber(),
+            bTickets.getBookingId(), flightName, deparrtimeclasslist.get("departurecity"),
+            deparrtimeclasslist.get("arrivalcity"), departureTime, arrivalTime, bTickets.getFlightClass(),
+            "Rs." + String.valueOf(bTickets.getAmount()));
 
       }
 
@@ -110,12 +113,12 @@ public class RefundCancel {
 
       for (String tickets : options) {
         BookedTickets bTickets = bookedTicketsList.get(Integer.parseInt(tickets) - 1);
-        if (databaseHandler.ticketCanceling(distinctOrder.get(optionSelected - 1), bTickets.getTicketId())) {
-          SeatsAllocate.seats.get(bTickets.getFlightId() + '-' + bTickets.getFlightClass())
-              .add(Integer.parseInt(bTickets.getTicketId().substring(1)));
-          ticketid.add(bTickets.getTicketId());
+        if (databaseHandler.ticketCanceling(distinctOrder.get(optionSelected - 1), bTickets.getSeatNumber())) {
+          SeatsAllocate.seats.get(bTickets.getFlightNumber() + '-' + bTickets.getFlightClass())
+              .add(Integer.parseInt(bTickets.getSeatNumber().substring(1)));
+          ticketid.add(bTickets.getSeatNumber());
         } else {
-          System.out.println("sorry we could not cancel for Ticketnumber:" + bTickets.getTicketId());
+          System.out.println("sorry we could not cancel for Ticketnumber:" + bTickets.getSeatNumber());
         }
       }
       // SeatsAllocate.seatStorer(SeatsAllocate.seats);
@@ -124,9 +127,9 @@ public class RefundCancel {
 
       TicketInfo ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass,
           Resource.currentUserDetails.getEmail(), departureTime, arrivalTime, flightName,
-          distinctOrder.get(optionSelected - 1), ticketid, null);
+          distinctOrder.get(optionSelected - 1), ticketid);
 
-      int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightId());
+      int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightNumber());
       if (isrestored == 0) {
 
         System.out.println("*********Your Cancelation coundnt get processed.Please try again later********");

@@ -1,8 +1,8 @@
 package View.MainUser;
+
 import View.Ticket.*;
 import Utils.*;
 import Database.*;
-
 
 /* This is the starting of the program
   This is is an application used for for FlightBooking

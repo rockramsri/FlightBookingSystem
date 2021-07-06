@@ -1,8 +1,10 @@
 package View.MainUser;
+
 import View.MainFunctionality.*;
 
-/**Non-Member class has only Search feature
- * Memebr class has  non-member class feature and booking,Cancellation Features 
+/**
+ * Non-Member class has only Search feature Memebr class has non-member class
+ * feature and booking,Cancellation Features
  */
 class Non_Member {
 

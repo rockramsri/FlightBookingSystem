@@ -1,4 +1,5 @@
 package Database;
+
 import java.sql.*;
 
 public class DatabaseLoader {
@@ -7,7 +8,7 @@ public class DatabaseLoader {
 
     // Used to load the crate connection object and load the statment for the
     // database
-    public static Statement databaseloadcaller() {
+    public static Statement databaseLoadCaller() {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

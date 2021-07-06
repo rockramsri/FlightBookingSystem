@@ -1,9 +1,10 @@
 package Utils;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.LocalDateTime;  
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 
 import javax.mail.internet.InternetAddress;
 
-import View.Ticket.*;  
+import View.Ticket.*;
 
 public class FlightUtils {
 
@@ -70,8 +71,6 @@ public class FlightUtils {
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 10, 1, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<Runnable>());
-
-        // inside your getSalesUserData() method
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -89,11 +88,7 @@ public class FlightUtils {
 
         int range = max - min + 1;
 
-        // generate random numbers within 1 to 10
-
         return (int) (Math.random() * range) + min;
-
-        // Output is different everytime this code is executed
 
     }
 
@@ -146,6 +141,5 @@ public class FlightUtils {
         }
         return isValid;
     }
-    // Used to convert gender based on number to String
 
 }

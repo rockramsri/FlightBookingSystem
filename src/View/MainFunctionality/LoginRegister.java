@@ -1,4 +1,5 @@
 package View.MainFunctionality;
+
 import java.io.*;
 import Database.*;
 import Utils.*;
@@ -25,9 +26,9 @@ public class LoginRegister {
 
         while (true) {
             System.out.print("Enter your Mail Id or User ID:");
-            String RegID = flightUtils.getStringInput();
-            String Regpassword = new String(passwordConsole.readPassword("Enter your password:"));
-            if (databaseHandler.loginCheck(RegID, Regpassword))
+            String regID = flightUtils.getStringInput();
+            String regpassword = new String(passwordConsole.readPassword("Enter your password:"));
+            if (databaseHandler.loginCheck(regID, regpassword))
                 break;
             else {
                 System.out.println("1.Do you want to try again \n2.Forgot password \n3.Back");
@@ -61,23 +62,24 @@ public class LoginRegister {
     public boolean register() {
         Console passwordConsole = System.console();
         System.out.print("Enter your name:");
-        String RegName = flightUtils.getStringInput();
+        String regName = flightUtils.getStringInput();
         System.out.print("Enter your DOB:");
-        String RegDate = flightUtils.getStringInput();
-        String RegMail = "";
+        String regDate = flightUtils.getStringInput();
+        String regMail = "";
         while (true) {
             System.out.print("Enter your Mail:");
-            RegMail = flightUtils.getStringInput();
-            if (flightUtils.validateEmail(RegMail))
+            regMail = flightUtils.getStringInput();
+            if (flightUtils.validateEmail(regMail))
                 break;
             else
                 System.out.println("**Entered Email is not vaild**");
 
         }
-        String Regpassword = "";
+        StringBuffer regPassword = new StringBuffer("");
         while (true) {
-            Regpassword = new String(passwordConsole.readPassword("Enter your password:"));
-            if (flightUtils.passwordValidate(Regpassword))
+            regPassword.replace(-1, regPassword.length(),
+                    new String(passwordConsole.readPassword("Enter your password:")));
+            if (flightUtils.passwordValidate(regPassword.toString()))
                 break;
             else
                 System.out.println("****Entered password is too short****");
@@ -85,21 +87,21 @@ public class LoginRegister {
         }
 
         System.out.println("Enter your Contact Number:");
-        String RegPhonenumber = flightUtils.getStringInput();
+        String regPhonenumber = flightUtils.getStringInput();
 
-        int tempcount = databaseHandler
-                .registerCheck(new ProfileDetails(null, RegName, RegDate, RegMail, Regpassword, RegPhonenumber));
+        int userIdValue = databaseHandler.registerCheck(
+                new ProfileDetails(null, regName, regDate, regMail, regPassword.toString(), regPhonenumber));
 
-        if (tempcount == 0)
+        if (userIdValue == 0)
             return false;
-        System.out.println("SuccessFully Registered And your User ID is: Usr" + String.valueOf(tempcount));
+        System.out.println("SuccessFully Registered And your User ID is: Usr" + String.valueOf(userIdValue));
 
-        Resource.currentUserDetails.setId("Usr" + String.valueOf(tempcount));
-        Resource.currentUserDetails.setDob(RegDate);
-        Resource.currentUserDetails.setEmail(RegMail);
-        Resource.currentUserDetails.setName(RegName);
-        Resource.currentUserDetails.setPassword(Regpassword);
-        Resource.currentUserDetails.setPhonenumber(RegPhonenumber);
+        Resource.currentUserDetails.setId("Usr" + String.valueOf(userIdValue));
+        Resource.currentUserDetails.setDob(regDate);
+        Resource.currentUserDetails.setEmail(regMail);
+        Resource.currentUserDetails.setName(regName);
+        Resource.currentUserDetails.setPassword(regPassword.toString());
+        Resource.currentUserDetails.setPhonenumber(regPhonenumber);
         return true;
 
     }
