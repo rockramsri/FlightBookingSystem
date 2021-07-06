@@ -10,14 +10,13 @@ public class CommandLineTable {
     private List<String[]> rows = new ArrayList<>();
     private boolean rightAlign;
 
-    static CommandLineTable commandLineTable_Insatnce = null;
+    // static CommandLineTable commandLineTable_Insatnce = null;
 
-    static CommandLineTable getInstance() {
-        if (commandLineTable_Insatnce == null) {
-            commandLineTable_Insatnce = new CommandLineTable();
-        }
-        return commandLineTable_Insatnce;
-    }
+    /*
+     * static CommandLineTable getInstance() { if (commandLineTable_Insatnce ==
+     * null) { commandLineTable_Insatnce = new CommandLineTable(); } return
+     * commandLineTable_Insatnce; }
+     */
 
     public CommandLineTable() {
         setShowVerticalLines(true);
