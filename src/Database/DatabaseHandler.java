@@ -22,7 +22,7 @@ public class DatabaseHandler {
     }
 
     public DatabaseHandler() {
-        dbStatement = DatabaseLoader.databaseLoadCaller();
+        dbStatement = DatabaseLoader.getDatabaseStatement();
     }
 
     public void databaseCloser() {

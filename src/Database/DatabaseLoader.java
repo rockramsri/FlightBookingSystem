@@ -8,7 +8,7 @@ public class DatabaseLoader {
 
     // Used to load the statment for the database
 
-    public static Statement databaseLoadCaller() {
+    public static Statement getDatabaseStatement() {
         loadDatabaseClass();
         setDatabaseConnection();
 
