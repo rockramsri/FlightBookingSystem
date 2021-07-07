@@ -60,8 +60,8 @@ public class Member extends NonMember {
 
     // For Ticket Cancellation
     public void ticketCancellation(ProfileDetails currentProfileDetails) {
-        TicketInfo ticketInfo = refundCancel.listOfBookings(currentProfileDetails); // booked ticketInformation
-                                                                                    // is stored in this
+        TicketInfo ticketInfo = refundCancel.userTicketCancellation(currentProfileDetails); // booked ticketInformation
+        // is stored in this
         // ticketInfo Object
         if (ticketInfo != null) {
             if (!flightUtils.internetConnectiviityCheck())
