@@ -32,7 +32,8 @@ public class App {
     SeatsAllocate.seatUpdater();
 
     exitprogram: while (true) {
-
+      FlightUtils.getInstance().randomCodeForPassword.replace(0,
+          FlightUtils.getInstance().randomCodeForPassword.length(), "");
       System.out.println("***************FLIGHT TICKET BOOKING PORTAL********************");
       System.out.println("1.New User?");
       System.out.println("2.Already have an account?");
