@@ -14,7 +14,6 @@ import Database.DBTableClass.ProfileDetails;
 public class App {
   // static Scanner inputScanner=new Scanner(System.in);
   static FlightUtils flightUtils = FlightUtils.getInstance();
-  static Functionality functionality = Functionality.getInstance();
   static final int NEW_USER = 1;
   static final int LOGIN = 2;
   static final int SEARCH = 3;
@@ -75,7 +74,7 @@ public class App {
     ProfileDetails profileDetails = member.loginRegister.register(); // navigate to the register methond of
                                                                      // loginRegister class in Member class
     if (profileDetails != null)
-      return functionality_Methond(member, profileDetails);
+      return functionalityMethond(member, profileDetails);
     else
       return false;
 
@@ -86,19 +85,19 @@ public class App {
     Member member = new Member();
     ProfileDetails profileDetails = member.loginRegister.login();
     if (profileDetails != null) {
-      return functionality_Methond(member, profileDetails);
+      return functionalityMethond(member, profileDetails);
     }
     return false;
   }
 
   // For searching Available Flights
   public static void search() {
-    Non_Member non_Member = new Non_Member();
-    functionality.search(non_Member);
+    NonMember nonMember = new NonMember();
+    nonMember.search();
 
   }
 
-  public static boolean functionality_Methond(Member member, ProfileDetails currentUserDetails) {
+  public static boolean functionalityMethond(Member member, ProfileDetails currentUserDetails) {
     while (true) {
       System.out.println("1.Book Tickets");
       System.out.println("2.Ticket Cancellation");
@@ -107,22 +106,22 @@ public class App {
       System.out.println("5.Change My Password");
       System.out.println("6.Logout");
       System.out.println("7.Exit");
-      int functionality_option = flightUtils.getIntegerInput();
-      switch (functionality_option) {
+      int functionalityOption = flightUtils.getIntegerInput();
+      switch (functionalityOption) {
         case BOOK_TICKETS:
-          functionality.book_Tickets(member, currentUserDetails);
+          member.bookTickets(currentUserDetails);
           break;
         case TICKET_CANCELLATION:
-          functionality.ticket_Cancellation(member, currentUserDetails);
+          member.ticketCancellation(currentUserDetails);
           break;
         case SEARCH:
-          functionality.search(member);
+          member.search();
           break;
         case MY_TRANSACTION:
-          functionality.my_Transaction(member, currentUserDetails);
+          member.myTransaction(currentUserDetails);
           break;
         case CHANGE_MY_PASSWORD:
-          functionality.change_password(currentUserDetails);
+          member.changePassword(currentUserDetails);
           break;
         case LOGOUT:
           return false;

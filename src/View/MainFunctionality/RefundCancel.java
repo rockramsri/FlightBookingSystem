@@ -39,103 +39,111 @@ public class RefundCancel {
 
     int optionSelection = 0;
 
-    List<String> distinctOrder = new ArrayList<String>();
+    List<String> distinctBookingId = new ArrayList<String>();
     CommandLineTable bookingHistoryTable = new CommandLineTable();
-    CommandLineTable listOrderId = new CommandLineTable();
+   
 
     bookingHistoryTable.setHeaders("  CODE  ", "  FlightId  ", "   BookingId   ", "   AirLines   ",
         "   DepartureTime   ", "   ArrivalTime  ", "   DepartureCity      ", "      ArrivalCity    ", "  Class  ");
 
     for (BookedTickets bookedTickets : databaseHandler.getBookedList(currentUserDetails.getId(), "no")) {
-      if (!distinctOrder.contains(bookedTickets.getBookingId())) {
-        distinctOrder.add(bookedTickets.getBookingId());
+      if (!distinctBookingId.contains(bookedTickets.getBookingId())) {
+        distinctBookingId.add(bookedTickets.getBookingId());
         optionSelection += 1;
         HashMap<String, String> deparrlist = databaseHandler
-            .depArrivalFlightNameGetter(bookedTickets.getFlightNumber());
+            .getDepartureArrivalFlightName(bookedTickets.getFlightNumber());
         bookingHistoryTable.addRow(String.valueOf(optionSelection), bookedTickets.getFlightNumber(),
-            bookedTickets.getBookingId(), deparrlist.get("flightname"), deparrlist.get("departuretime"),
-            deparrlist.get("arrivaltime"), deparrlist.get("departurecity"), deparrlist.get("arrivalcity"),
+            bookedTickets.getBookingId(), deparrlist.get(Resource.FLIGHT_NAME_COLUMN), deparrlist.get(Resource.DEPARTURETIME_COLUMN),
+            deparrlist.get(Resource.ARRIVALTIME_COLUMN), deparrlist.get(Resource.DEPARTURECITY_COLUMN), deparrlist.get(Resource.ARRIVALCITY_COLUMN),
             bookedTickets.getFlightClass());
       }
 
     }
     if (optionSelection == 0) {
       System.out.println("********Empty Booking history *******");
-    } else {
-      bookingHistoryTable.print();
-      System.out.println("Enter the Corresponding CODE for Cancelation:");
-      int optionSelected = flightUtils.getIntegerInput();
+    } else { bookingHistoryTable.print();
+            return ticketCancelation(distinctBookingId, currentUserDetails);
+      
 
-      optionSelection = 0;
-      listOrderId.setHeaders("Code", "Username", "UserAge", "Usergender", "FlightId ", "TicketNumber", "BookingId",
+    }
+    return null;
+
+  }
+  TicketInfo ticketCancelation(List<String> distinctBookingId,ProfileDetails currentUserDetails)
+  {
+    CommandLineTable listOrderId = new CommandLineTable();
+   
+    System.out.println("Enter the Corresponding CODE for Cancelation:");
+    int optionSelected = flightUtils.getIntegerInput();
+
+    int optionSelection = 0;
+     listOrderId.setHeaders("Code", "Username", "UserAge", "Usergender", "FlightId ", "TicketNumber", "BookingId",
           "AirLines ", " DepartureCity ", " ArrivalCity ", "  DepartureTime ", "  ArrivalTime ", " FlightClass ",
           " Amount");
-      List<BookedTickets> bookedTicketsList = databaseHandler
-          .getBookedIdsBookingList(distinctOrder.get(optionSelected - 1));
-      for (BookedTickets bTickets : bookedTicketsList) {
+    List<BookedTickets> bookedTicketsList = databaseHandler
+         .getBookedIdsBookingList(distinctBookingId.get(optionSelected - 1));
+    for (BookedTickets bTickets : bookedTicketsList) {
         optionSelection += 1;
 
         HashMap<String, String> deparrtimeclasslist = databaseHandler
-            .depArrivalFlightNameGetter(bTickets.getFlightNumber());
+            .getDepartureArrivalFlightName(bTickets.getFlightNumber());
 
-        departureCity = deparrtimeclasslist.get("departurecity");
-        arrivalCity = deparrtimeclasslist.get("arrivalcity");
-        departureTime = deparrtimeclasslist.get("departuretime");
-        arrivalTime = deparrtimeclasslist.get("arrivaltime");
-        flightName = deparrtimeclasslist.get("flightname");
+        departureCity = deparrtimeclasslist.get(Resource.DEPARTURECITY_COLUMN);
+        arrivalCity = deparrtimeclasslist.get(Resource.ARRIVALCITY_COLUMN);
+        departureTime = deparrtimeclasslist.get(Resource.DEPARTURETIME_COLUMN);
+        arrivalTime = deparrtimeclasslist.get(Resource.ARRIVALTIME_COLUMN);
+        flightName = deparrtimeclasslist.get(Resource.FLIGHT_NAME_COLUMN);
         flightClass = bTickets.getFlightClass();
         listOrderId.addRow(String.valueOf(optionSelection), bTickets.getPassengerlist().getPassengerName(),
             String.valueOf(bTickets.getPassengerlist().getPassengerAge()),
             bTickets.getPassengerlist().getPassengerGender(), bTickets.getFlightNumber(), bTickets.getSeatNumber(),
-            bTickets.getBookingId(), flightName, deparrtimeclasslist.get("departurecity"),
-            deparrtimeclasslist.get("arrivalcity"), departureTime, arrivalTime, bTickets.getFlightClass(),
+            bTickets.getBookingId(), flightName, deparrtimeclasslist.get(Resource.DEPARTURECITY_COLUMN),
+            deparrtimeclasslist.get(Resource.ARRIVALCITY_COLUMN), departureTime, arrivalTime, bTickets.getFlightClass(),
             "Rs." + String.valueOf(bTickets.getAmount()));
 
       }
 
-      listOrderId.print();
+    listOrderId.print();
 
-      System.out.println("1.Do you want to Cancel all \n2.Do you want to Cancel specific:");
-      int tempchoice = flightUtils.getIntegerInput();
+    System.out.println("1.Do you want to Cancel all \n2.Do you want to Cancel specific:");
+    int tempchoice = flightUtils.getIntegerInput();
 
-      List<String> options = new ArrayList<String>();
-      if (tempchoice == 1) {
+    List<String> options = new ArrayList<String>();
+    if (tempchoice == 1) {
 
-        for (int i = 1; i <= optionSelection; i++)
-          options.add(String.valueOf(i));
+      for (int i = 1; i <= optionSelection; i++)
+        options.add(String.valueOf(i));
 
+    } else {
+      System.out.println("Enter the Corresponding CODE Separated by space for Cancelation:");
+      options = Arrays.asList(flightUtils.getStringInput().split(" "));
+
+    }
+
+    for (String tickets : options) {
+      BookedTickets ticketsBooked = bookedTicketsList.get(Integer.parseInt(tickets) - 1);
+      if (databaseHandler.ticketCanceling(distinctBookingId.get(optionSelected - 1),ticketsBooked .getSeatNumber())) {
+        SeatsAllocate.seats.get(ticketsBooked .getFlightNumber() + '-' + ticketsBooked .getFlightClass())
+            .add(Integer.parseInt(ticketsBooked .getSeatNumber().substring(1)));
+        ticketid.add(ticketsBooked .getSeatNumber());
       } else {
-        System.out.println("Enter the Corresponding CODE Separated by space for Cancelation:");
-        options = Arrays.asList(flightUtils.getStringInput().split(" "));
-
+        System.out.println("sorry we could not cancel for Ticketnumber:" + ticketsBooked .getSeatNumber());
       }
+    }
+    noOfseats = options.size();
 
-      for (String tickets : options) {
-        BookedTickets bTickets = bookedTicketsList.get(Integer.parseInt(tickets) - 1);
-        if (databaseHandler.ticketCanceling(distinctOrder.get(optionSelected - 1), bTickets.getSeatNumber())) {
-          SeatsAllocate.seats.get(bTickets.getFlightNumber() + '-' + bTickets.getFlightClass())
-              .add(Integer.parseInt(bTickets.getSeatNumber().substring(1)));
-          ticketid.add(bTickets.getSeatNumber());
-        } else {
-          System.out.println("sorry we could not cancel for Ticketnumber:" + bTickets.getSeatNumber());
-        }
-      }
-      noOfseats = options.size();
+    TicketInfo ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass,
+        currentUserDetails.getEmail(), departureTime, arrivalTime, flightName, distinctBookingId.get(optionSelected - 1),
+        ticketid);
 
-      TicketInfo ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass,
-          currentUserDetails.getEmail(), departureTime, arrivalTime, flightName, distinctOrder.get(optionSelected - 1),
-          ticketid);
+    int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightNumber());
+    if (isrestored == 0) {
 
-      int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightNumber());
-      if (isrestored == 0) {
+      System.out.println("*********Your Cancelation coundnt get processed.Please try again later********");
 
-        System.out.println("*********Your Cancelation coundnt get processed.Please try again later********");
-
-      } else {
-        System.out.println("*********Your Cancelation is Successfully processed********");
-        return ticketInfo;
-      }
-
+    } else {
+      System.out.println("*********Your Cancelation is Successfully processed********");
+      return ticketInfo;
     }
     return null;
 

@@ -15,15 +15,17 @@ public class SeatsAllocate {
 
     public static void seatUpdater() {
         if (SeatsAllocate.seats != null) {
-            List<BookedTickets> bookedTicketsList = new DatabaseHandler().fullBookedTicketStable();
-            for (BookedTickets bTickets : bookedTicketsList) {
-                int element = Integer.parseInt(bTickets.getSeatNumber().substring(1));
-                SeatsAllocate.seats.get(bTickets.getFlightNumber() + '-' + bTickets.getFlightClass())
-                        .remove(SeatsAllocate.seats.get(bTickets.getFlightNumber() + '-' + bTickets.getFlightClass())
+            List<BookedTickets> bookedTicketsList = new DatabaseHandler().bookedTicketTable();
+            for (BookedTickets bookedTickets : bookedTicketsList) {
+                int element = Integer.parseInt(bookedTickets.getSeatNumber().substring(1));
+                SeatsAllocate.seats.get(bookedTickets.getFlightNumber() + '-' + bookedTickets.getFlightClass())
+                        .remove(SeatsAllocate.seats
+                                .get(bookedTickets.getFlightNumber() + '-' + bookedTickets.getFlightClass())
                                 .indexOf(element));
-                if (bTickets.getIsCancelled().equals("yes")) {
+                if (bookedTickets.getIsCancelled().equals("yes")) {
 
-                    SeatsAllocate.seats.get(bTickets.getFlightNumber() + '-' + bTickets.getFlightClass()).add(element);
+                    SeatsAllocate.seats.get(bookedTickets.getFlightNumber() + '-' + bookedTickets.getFlightClass())
+                            .add(element);
 
                 }
 

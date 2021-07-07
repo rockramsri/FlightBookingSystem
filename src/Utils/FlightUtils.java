@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.*;
 import java.util.regex.Pattern;
 
 import javax.mail.internet.InternetAddress;
@@ -27,7 +30,7 @@ public class FlightUtils {
     public int noOfPasswordChangeAllowed = 5;
     public int currentNoOfPasswordChanged = 0;
 
-    public HashMap<Integer, String> getGenederCal() {
+    public HashMap<Integer, String> getGenderString() {
         HashMap<Integer, String> genderMap = new HashMap<Integer, String>();
 
         /* Adding elements to HashMap */
@@ -68,6 +71,71 @@ public class FlightUtils {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public String getDepartureDate() {
+        Date currentDate = new Date();
+        StringBuffer departureDate = new StringBuffer("");
+        while (true) {
+
+            System.out.println("Enter your Departure Date(DD/MM/YYY):");
+            departureDate.replace(0, departureDate.length(), getStringInput());
+            String pattern = "dd/MM/yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+            try {
+                Date ticket_Date = simpleDateFormat.parse(departureDate.toString());
+                if (currentDate.compareTo(ticket_Date) != 1) {
+                    break;
+                }
+                System.out.println("The entered date is not Available");
+            } catch (ParseException parseException) {
+                System.out.println("--Please check your Entered date format--");
+            }
+
+        }
+        return departureDate.toString();
+    }
+
+    public HashMap<String, String> getDepartureCityAndArrivalCity() {
+        clearScreen();
+        HashMap<String, String> departureArrivalCityMap = new HashMap<String, String>();
+        departureArrivalCityMap.put(Resource.DEPARTURECITY_COLUMN, "");
+        departureArrivalCityMap.put(Resource.ARRIVALCITY_COLUMN, "");
+
+        ArrayList<String> cList = Resource.citiesList();
+        int citynumber = 0; // for count of Cities available
+
+        CommandLineTable cityTable = new CommandLineTable();
+        cityTable.setHeaders("CODE", "CITY");
+        for (String city : cList) {
+            citynumber = citynumber + 1;
+            cityTable.addRow(String.valueOf(citynumber), city);
+
+        }
+        cityTable.print();
+        while (true) {
+            int depcitychoice;
+            System.out.println("Enter the  city of Departure (Corresponding Number):");
+            depcitychoice = getIntegerInput();
+
+            if (depcitychoice >= 0 && depcitychoice <= cList.size()) {
+                departureArrivalCityMap.put(Resource.DEPARTURECITY_COLUMN, cList.get(depcitychoice - 1));
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.println("Enter the  city for Arrival (Corresponding Number)::");
+            int arrCityChoice = getIntegerInput();
+
+            if (arrCityChoice >= 0 && arrCityChoice <= cList.size()) {
+                departureArrivalCityMap.put(Resource.ARRIVALCITY_COLUMN, cList.get(arrCityChoice - 1));
+
+                break;
+            }
+        }
+        return departureArrivalCityMap;
     }
 
     // Used to set the Mail sending process in separate Thread

@@ -40,7 +40,7 @@ public class CommandLineTable {
             rows.add(cells);
         } else if (headers.length != 0 && cells.length == headers.length) {
             for (int i = 0; i < cells.length; i++) {
-                if (cells[i].equals("null")) {
+                if (cells[i] == null) {
                     cells[i] = Resource.EMPTY_DATA;
                 }
             }

@@ -40,6 +40,9 @@ public class Resource {
     public static final String CURRENTSEATSAVAILABLE_COLUMN = "current_seats_available";
     public static final String COSTPERSEAT_COLUMN = "cost_per_seat";
 
+    public static final String ECONOMIC_FLIGHT_CLASS = "Economic";
+    public static final String BUSINESS_FLIGHT_CLASS = "Business";
+
     public static final String COUNT_COLUMN = "count(*)";
     public static final String USER_AUTO_ID_COLUMN = "last_insert_id()";
 
