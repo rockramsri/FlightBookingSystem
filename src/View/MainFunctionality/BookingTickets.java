@@ -80,9 +80,15 @@ public class BookingTickets {
     boolean available = false;
 
     int optionCount = 0;
-    CommandLineTable tablebook = new CommandLineTable();
+
     List<Airlines> lAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket, nofSeats,
         flightClass);
+    if (lAirlines.size() == 0) {
+      flightUtils.clearScreen();
+      System.out.println("********No Flights is available Now*******");
+      return available;
+    }
+    CommandLineTable tablebook = new CommandLineTable();
     tablebook.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURECITY_HEADER,
         Resource.ARRIVALCITY_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_COLUMN,
         Resource.FLIGHTCLASS_HEADER, Resource.COST_HEADER);
@@ -93,22 +99,17 @@ public class BookingTickets {
           aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
           Resource.CURRENCY_SIGN + String.valueOf(aobject.getCostPerSeat()));
     }
-    if (optionCount == 0) {
-      flightUtils.clearScreen();
-      System.out.println("********No Flights is available Now*******");
-    } else {
-      tablebook.print();
-      available = true;
-      System.out.println("Enter the Corresponding CODE for Booking:");
-      int optionselection = flightUtils.getIntegerInput();
 
-      ticketAvailable = true;
-      selectedAirlines = lAirlines.get(optionselection - 1);
-      seatPrice = selectedAirlines.getCostPerSeat();
+    tablebook.print();
+    available = true;
+    System.out.println("Enter the Corresponding CODE for Booking:");
+    int optionselection = flightUtils.getIntegerInput();
 
-      databaseHandler.airlinesUpdater(selectedAirlines.getFlightNumber(), nofSeats, "-");
+    ticketAvailable = true;
+    selectedAirlines = lAirlines.get(optionselection - 1);
+    seatPrice = selectedAirlines.getCostPerSeat();
 
-    }
+    databaseHandler.airlinesUpdater(selectedAirlines.getFlightNumber(), nofSeats, "-");
 
     return available;
 
