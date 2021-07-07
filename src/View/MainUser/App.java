@@ -62,7 +62,7 @@ public class App {
     }
     databaseHandler.databaseCloser();
 
-    DatabaseLoader.connectionCloser(); // For closing database connection
+    DatabaseLoader.databaseConnectionCloser(); // For closing database connection
 
     FlightUtils.getInstance().utilCloser();
 

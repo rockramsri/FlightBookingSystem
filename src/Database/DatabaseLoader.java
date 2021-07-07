@@ -9,7 +9,7 @@ public class DatabaseLoader {
     // Used to load the statment for the database
 
     public static Statement getDatabaseStatement() {
-        loadDatabaseClass();
+        loadDatabaseDriverClass();
         setDatabaseConnection();
 
         try {
@@ -30,7 +30,7 @@ public class DatabaseLoader {
     }
 
     // Used to load Database driver Class
-    static void loadDatabaseClass() {
+    static void loadDatabaseDriverClass() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException classNotFoundException) {
@@ -62,7 +62,7 @@ public class DatabaseLoader {
     }
 
     // Used to close the connection and statment of the database
-    public static void connectionCloser() {
+    public static void databaseConnectionCloser() {
         try {
             if (databaseConnection != null)
                 databaseConnection.close();
