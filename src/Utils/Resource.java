@@ -61,7 +61,6 @@ public class Resource {
     public static final String BOOKING_ID_HEADER = " Booking Id ";
 
     public static final String COUNT_COLUMN = "count(*)";
-    public static final String USER_AUTO_ID_COLUMN = "last_insert_id()";
 
     public static final String EMPTY_DATA = "  -  ";
 
