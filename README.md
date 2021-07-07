@@ -1,4 +1,4 @@
-![DBFinalDesign](https://user-images.githubusercontent.com/52700162/124498451-fb60d100-ddd9-11eb-94d6-55ac4a6a3492.png)
+![DBFinalDesign](https://user-images.githubusercontent.com/52700162/124748258-7f34cd80-df40-11eb-9c73-9f88ae79ec75.png)
 ## Getting Started
 
 
