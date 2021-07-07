@@ -6,10 +6,10 @@ import java.util.*;
  * This class contains the Constant values for the application
  */
 public class Resource {
-    public static final String BOOKED_TICKET_TABLE_NAME = "bookedtickets";
-    public static final String FLIGHT_TICKET_TABLE_NAME = "flight";
-    public static final String FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME = "flightbookingavailablity";
-    public static final String USER_INFO_TABLE_NAME = "userprofile";
+    public static final String BOOKED_TICKET_TABLE_NAME = "BookedTickets";
+    public static final String FLIGHT_TICKET_TABLE_NAME = "Flight";
+    public static final String FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME = "FlightBookingAvailablity";
+    public static final String USER_INFO_TABLE_NAME = "UserProfile";
     public static final String MYACCOUNT_ID = "internzh2021@gmail.com";
     public static final String MYACCOUNT_PASSWORD = "internzh";
     public static final String AUTO_COLUMN = "id_increment";
