@@ -6,22 +6,21 @@ import Utils.FlightUtils;
  * This class contains the UserInformations of the people bookings
  */
 public class PassengerDetails {
-    private String passengerName;
-    private int passengerAge;
-    private String passengerGender;
+    private final String passengerName;
+    private final int passengerAge;
+    private final String passengerGender;
 
     public PassengerDetails() {
-        FlightUtils flightUtils = FlightUtils.getInstance();
 
         System.out.println("Enter the Name:");
 
-        passengerName = flightUtils.getStringInput();
+        passengerName = FlightUtils.getInstance().getStringInput();
         System.out.println("Enter the Age:");
-        passengerAge = flightUtils.getIntegerInput();
+        passengerAge = FlightUtils.getInstance().getIntegerInput();
         System.out.println("Select the Gender: \n 1.Male \n 2.Female \n 3.Others");
 
-        int genderOption = flightUtils.getIntegerInput();
-        passengerGender = flightUtils.getGenderString().get(genderOption);
+        int genderOption = FlightUtils.getInstance().getIntegerInput();
+        passengerGender = FlightUtils.getInstance().getGenderString().get(genderOption);
 
     }
 

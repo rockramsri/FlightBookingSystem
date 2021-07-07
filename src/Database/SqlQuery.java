@@ -9,7 +9,7 @@ public class SqlQuery {
 
     private static FlightUtils flightUtils = FlightUtils.getInstance();
 
-    public static String selectquery(String tablename) {
+    public static String selectQuery(String tablename) {
         return "select * from " + tablename;
     }
 
@@ -42,18 +42,18 @@ public class SqlQuery {
     }
 
     public static String recordExistMailQuery(String email, String pass) {
-        return "select exists(" + selectquery(Resource.USER_INFO_TABLE_NAME) + " where " + Resource.EMAIL_COLUMN + "='"
+        return "select exists(" + selectQuery(Resource.USER_INFO_TABLE_NAME) + " where " + Resource.EMAIL_COLUMN + "='"
                 + email + "'" + (pass.length() == 0 ? "" : " and " + Resource.PASSWORD_COLUMN + "='" + pass + "'")
                 + ")";
     }
 
     public static String recordExistByUserinfoQuery(String userid, String pass) {
-        return "select exists(" + selectquery(Resource.USER_INFO_TABLE_NAME) + " where " + Resource.ID_COLUMN + "='"
+        return "select exists(" + selectQuery(Resource.USER_INFO_TABLE_NAME) + " where " + Resource.ID_COLUMN + "='"
                 + userid + "'" + (pass.length() == 0 ? "" : " and " + Resource.PASSWORD_COLUMN + "='" + pass + "'")
                 + ")";
     }
 
-    public static String availableFlightDetailsquery(String depcity, String arrcity, String depdate, int NofSeats,
+    public static String availableFlightDetailsQuery(String depcity, String arrcity, String depdate, int NofSeats,
             String flightClass) {
         String alternateDeptimeStr = " and " + Resource.DEPARTURETIME_COLUMN + " like '%" + depdate + "%'";
 
@@ -74,7 +74,7 @@ public class SqlQuery {
                 + flightClass + "'";
     }
 
-    public static String updateFlightCurrentSeatsquery(int noOfSeats, String flightId, String sign) {
+    public static String updateFlightCurrentSeatsQuery(int noOfSeats, String flightId, String sign) {
         return "Update " + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + " SET "
                 + Resource.CURRENTSEATSAVAILABLE_COLUMN + "=" + Resource.CURRENTSEATSAVAILABLE_COLUMN + "" + sign
                 + String.valueOf(noOfSeats) + " Where " + Resource.FLIGHTNUMBER_COLUMN + "='" + flightId + "'";
@@ -94,7 +94,7 @@ public class SqlQuery {
                 + "' and " + Resource.ISCANCELLED_COLUMN + "='" + status + "'";
     }
 
-    public static String ticketlistquery(String bookingId) {
+    public static String ticketListQuery(String bookingId) {
         return "select * from " + Resource.BOOKED_TICKET_TABLE_NAME + " where " + Resource.BOOKINGID_COLUMN + "='"
                 + bookingId + "' and " + Resource.ISCANCELLED_COLUMN + "='no'";
     }
@@ -106,13 +106,13 @@ public class SqlQuery {
                 + ticketId + "'";
     }
 
-    public static String depArrivalCityFlightNamequery(String flightNumber) {
+    public static String departureArrivalCityFlightNameQuery(String flightNumber) {
         return "select " + Resource.DEPARTURECITY_COLUMN + "," + Resource.ARRIVALCITY_COLUMN + ","
                 + Resource.FLIGHT_NAME_COLUMN + " from " + Resource.FLIGHT_TICKET_TABLE_NAME + " where "
                 + Resource.FLIGHTNUMBER_COLUMN + "='" + flightNumber + "'";
     }
 
-    public static String depArrivalTimequery(String flightNumber) {
+    public static String departureArrivalTimeQuery(String flightNumber) {
         return "select " + Resource.DEPARTURETIME_COLUMN + "," + Resource.ARRIVALTIME_COLUMN + " from "
                 + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + " where " + Resource.FLIGHTNUMBER_COLUMN
                 + "='" + flightNumber + "'";

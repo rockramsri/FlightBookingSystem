@@ -4,16 +4,17 @@ import View.Ticket.*;
 /* POJO Class for bookedtickets table in the MySqlDatabase */
 
 public class BookedTickets {
-    private String userId;
-    private PassengerDetails passengerList;
-    private String flightNumber;
-    private String seatNumber;
-    private String bookingId;
-    private String bookedOn;
-    private String cancelledOn;
-    private String isCancelled;
-    private float amount;
-    private String flightClass;
+    private final String userId;
+    private final String flightNumber;
+    private final String seatNumber;
+    private final String bookingId;
+    private final String bookedOn;
+    private final String cancelledOn;
+    private final String isCancelled;
+    private final float amount;
+    private final String flightClass;
+
+    private final PassengerDetails passengerList;
 
     public BookedTickets(float amount, String bookedOn, String bookingId, String cancelledOn, String flightId,
             String userId, String isCancelled, String seatNumber, PassengerDetails passengerlist, String flightclass) {

@@ -6,11 +6,9 @@ import View.MainFunctionality.SearchingTicket;
 public class NonMember {
 
     public SearchingTicket searchingTicket;
-    public FlightUtils flightUtils;
 
     NonMember() {
         searchingTicket = new SearchingTicket();
-        flightUtils = new FlightUtils();
     }
 
     // For Searching available Flights
@@ -28,7 +26,7 @@ public class NonMember {
             System.out.println("3.Search by Date");
             System.out.println("4.Search Specific");
 
-            internalOption = flightUtils.getIntegerInput();
+            internalOption = FlightUtils.getInstance().getIntegerInput();
 
             switch (internalOption) {
                 case SEARCH_BY_CITY:
@@ -49,7 +47,7 @@ public class NonMember {
 
             System.out.println("1.Do you want to Search ");
             System.out.println("2.Back");
-            int searchOption = flightUtils.getIntegerInput();
+            int searchOption = FlightUtils.getInstance().getIntegerInput();
 
             if (searchOption == 2)
                 break;

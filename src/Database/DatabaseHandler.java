@@ -12,19 +12,17 @@ import View.Ticket.*;
 public class DatabaseHandler {
     ResultSet dbResult;
     Statement dbStatement;
-    FlightUtils flightUtils;
 
-    private static DatabaseHandler databaseHandler_instance = null;
+    private static DatabaseHandler databaseHandlerInstance = null;
 
     public static DatabaseHandler getInstance() {
-        if (databaseHandler_instance == null)
-            databaseHandler_instance = new DatabaseHandler();
-        return databaseHandler_instance;
+        if (databaseHandlerInstance == null)
+            databaseHandlerInstance = new DatabaseHandler();
+        return databaseHandlerInstance;
     }
 
     public DatabaseHandler() {
         dbStatement = DatabaseLoader.databaseLoadCaller();
-        flightUtils = FlightUtils.getInstance();
     }
 
     public void databaseCloser() {
@@ -42,15 +40,28 @@ public class DatabaseHandler {
     }
 
     public void createTable() {
-        for (String createQuery : Resource.tableCreationList()) {
-            try {
-                dbStatement.executeUpdate(createQuery);
-            } catch (SQLException e) {
-                System.out.println("Failed for creation of table");
-                continue;
-            }
 
+        try {
+            dbStatement.executeUpdate(Resource.getUserTableCreationQuery());
+        } catch (SQLException e) {
+            System.out.println("Failed for creation of user table");
         }
+        try {
+            dbStatement.executeUpdate(Resource.getFlightTableCreationQuery());
+        } catch (SQLException e) {
+            System.out.println("Failed for creation of Flight table");
+        }
+        try {
+            dbStatement.executeUpdate(Resource.getFlightBookingAvailablityTableCreationQuery());
+        } catch (SQLException e) {
+            System.out.println("Failed for creation of FlightBookingAvailablity table");
+        }
+        try {
+            dbStatement.executeUpdate(Resource.getBookedTicketTableCreationQuery());
+        } catch (SQLException e) {
+            System.out.println("Failed for creation of BookedTicket table");
+        }
+
     }
 
     // Used to Update the password of the user
@@ -64,64 +75,92 @@ public class DatabaseHandler {
     }
 
     // Used to validate the login info
-    public ProfileDetails loginCheck(String registrationUserIDorMailId, String password) {
-        ProfileDetails currentUserDetails = new ProfileDetails();
-        String registrationUserID = "";
+    public ProfileDetails getLoggedInUserInfo(String registrationUserIDorMailId, String password) {
+        ProfileDetails currentUserDetails = null;
+        String registeredUserID = getLoggedInUserIdIfExist(registrationUserIDorMailId, password);
         try {
+            if (registeredUserID != null && registeredUserID.length() != 0) {
+                dbResult = dbStatement.executeQuery(SqlQuery.getUserInfo(registeredUserID));
+                dbResult.next();
+                currentUserDetails = new ProfileDetails(registeredUserID, dbResult.getString(Resource.NAME_COLUMN),
+                        dbResult.getString(Resource.DOB_COLUMN), dbResult.getString(Resource.EMAIL_COLUMN),
+                        dbResult.getString(Resource.PASSWORD_COLUMN), dbResult.getString(Resource.PHONENUMBER_COLUMN));
+            }
+
+        } catch (SQLException sqlException) {
+            System.out.println("--Login issue in database--" + sqlException.toString() + "1");
+
+        }
+        return currentUserDetails;
+    }
+
+    // Used to get the LoggedIn User Id if Exist
+    private String getLoggedInUserIdIfExist(String registrationUserIDorMailId, String password) {
+        String registeredUserID = null;
+        try {
+
             if (registrationUserIDorMailId.contains("@")) {
                 dbResult = dbStatement
                         .executeQuery(SqlQuery.recordExistMailQuery(registrationUserIDorMailId, password));
             } else {
                 dbResult = dbStatement
                         .executeQuery(SqlQuery.recordExistByUserinfoQuery(registrationUserIDorMailId, password));
-                registrationUserID = registrationUserIDorMailId;
+                registeredUserID = registrationUserIDorMailId;
             }
             dbResult.next();
             if (dbResult.getInt(1) == 1) {
-                if (registrationUserID.length() == 0) {
+                if (registeredUserID == null) {
                     dbResult = dbStatement.executeQuery(SqlQuery.getIdByMailQuery(registrationUserIDorMailId));
                     dbResult.next();
-                    registrationUserID = dbResult.getString(Resource.ID_COLUMN);
+                    registeredUserID = dbResult.getString(Resource.ID_COLUMN);
 
                 }
-                currentUserDetails.setId(registrationUserID);
 
-                dbResult = dbStatement.executeQuery(SqlQuery.getUserInfo(registrationUserID));
-                dbResult.next();
-                currentUserDetails.setId(registrationUserID);
-                currentUserDetails.setDob(dbResult.getString(Resource.DOB_COLUMN));
-                currentUserDetails.setEmail(dbResult.getString(Resource.EMAIL_COLUMN));
-                currentUserDetails.setName(dbResult.getString(Resource.NAME_COLUMN));
-                currentUserDetails.setPassword(dbResult.getString(Resource.PASSWORD_COLUMN));
-                currentUserDetails.setPhonenumber(dbResult.getString(Resource.PHONENUMBER_COLUMN));
-
-                return currentUserDetails;
-            } else
-                return null;
+            } else {
+                registeredUserID = null;
+            }
         } catch (SQLException sqlException) {
-            System.out.println("--Login issue in database--");
-            return null;
+            System.out.println("--Login issue in database--" + sqlException.toString());
         }
+
+        return registeredUserID;
     }
 
     // Used to register the and add the data in the database
-    public int registerCheck(ProfileDetails profileRegister) {
+    public int getRegisteredUserId(ProfileDetails profileDetails) {
         try {
-            dbStatement.executeUpdate(SqlQuery.userRecordInsertQuery(profileRegister.getName(),
-                    profileRegister.getDob(), profileRegister.getEmail(), profileRegister.getPassword(),
-                    profileRegister.getPhonenumber()));
+            if (insertUserInfo(profileDetails)) {
+                dbResult = dbStatement.executeQuery(SqlQuery.uniqueKeyGetter(profileDetails.getEmail()));
+                dbResult.next();
+                return dbResult.getInt(Resource.AUTO_COLUMN);
+            }
 
-            dbStatement.executeUpdate(SqlQuery.uniqueKeySetter(profileRegister.getEmail()));
-            dbResult = dbStatement.executeQuery(SqlQuery.uniqueKeyGetter(profileRegister.getEmail()));
-            dbResult.next();
-            return dbResult.getInt(Resource.AUTO_COLUMN);
         } catch (SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
             System.out.println("--Your Mail is Already been used--");
-            return 0;
+
         } catch (SQLException sqlException) {
-            System.out.println("--User Registration Failed--");
-            return 0;
+            System.out.println("--User Registration Failed--" + sqlException.toString());
+
         }
+        return 0;
+
+    }
+
+    private boolean insertUserInfo(ProfileDetails profileDetails) {
+        try {
+            dbStatement.executeUpdate(SqlQuery.userRecordInsertQuery(profileDetails.getName(), profileDetails.getDob(),
+                    profileDetails.getEmail(), profileDetails.getPassword(), profileDetails.getPhonenumber()));
+
+            dbStatement.executeUpdate(SqlQuery.uniqueKeySetter(profileDetails.getEmail()));
+            return true;
+        } catch (SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
+            System.out.println("--Your Mail is Already been used--");
+
+        } catch (SQLException sqlException) {
+            System.out.println("--User Registration Failed--" + sqlException.toString());
+
+        }
+        return false;
 
     }
 
@@ -131,7 +170,7 @@ public class DatabaseHandler {
         List<Airlines> airlinesList = new ArrayList<Airlines>();
 
         try {
-            dbResult = dbStatement.executeQuery(SqlQuery.availableFlightDetailsquery(departureCity, arrivalCity,
+            dbResult = dbStatement.executeQuery(SqlQuery.availableFlightDetailsQuery(departureCity, arrivalCity,
                     dateTicket, nofSeats, flightClass));
             while (dbResult.next()) {
                 airlinesList.add(new Airlines(dbResult.getString(Resource.ARRIVALCITY_COLUMN),
@@ -150,9 +189,9 @@ public class DatabaseHandler {
     }
 
     // Used to update the tickets in the airlines
-    public int airlinesUpdater(String flightId, int noOfSeats, String sign) {
+    public int updateAirlines(String flightNumber, int noOfSeats, String sign) {
         try {
-            dbStatement.executeUpdate(SqlQuery.updateFlightCurrentSeatsquery(noOfSeats, flightId, sign));
+            dbStatement.executeUpdate(SqlQuery.updateFlightCurrentSeatsQuery(noOfSeats, flightNumber, sign));
             return 1;
         } catch (SQLException sqlException) {
             System.out.println("--Couldn't Update Cancelled or booked tickets--");
@@ -161,7 +200,7 @@ public class DatabaseHandler {
     }
 
     // used to register the booked ticket in the Bookedtickets table in the database
-    public void bookingRegister(BookedTickets bookedTickets) {
+    public void insertBookedTickets(BookedTickets bookedTickets) {
         try {
             dbStatement.executeUpdate(SqlQuery.insertBookedTicketsQuery(bookedTickets.getUserId(),
                     bookedTickets.getPassengerlist().getPassengerName(),
@@ -216,7 +255,7 @@ public class DatabaseHandler {
         HashMap<String, String> journeyInfoList = new HashMap<String, String>();
 
         try {
-            dbResult = dbStatement.executeQuery(SqlQuery.depArrivalCityFlightNamequery(flightNumber));
+            dbResult = dbStatement.executeQuery(SqlQuery.departureArrivalCityFlightNameQuery(flightNumber));
             dbResult.next();
             try {
                 journeyInfoList.put(Resource.DEPARTURECITY_COLUMN, dbResult.getString(Resource.DEPARTURECITY_COLUMN));
@@ -235,7 +274,7 @@ public class DatabaseHandler {
                 journeyInfoList.put(Resource.FLIGHT_NAME_COLUMN, Resource.EMPTY_DATA);
             }
 
-            dbResult = dbStatement.executeQuery(SqlQuery.depArrivalTimequery(flightNumber));
+            dbResult = dbStatement.executeQuery(SqlQuery.departureArrivalTimeQuery(flightNumber));
             dbResult.next();
             try {
                 journeyInfoList.put(Resource.DEPARTURETIME_COLUMN, dbResult.getString(Resource.DEPARTURETIME_COLUMN));
@@ -251,14 +290,20 @@ public class DatabaseHandler {
         } catch (SQLException sqlException) {
             System.out.println("--Couldn't fetch departure arrival  Info--");
 
-            journeyInfoList.put(Resource.DEPARTURECITY_COLUMN, Resource.EMPTY_DATA);
-            journeyInfoList.put(Resource.ARRIVALCITY_COLUMN, Resource.EMPTY_DATA);
-            journeyInfoList.put(Resource.FLIGHT_NAME_COLUMN, Resource.EMPTY_DATA);
-            journeyInfoList.put(Resource.DEPARTURETIME_COLUMN, Resource.EMPTY_DATA);
-            journeyInfoList.put(Resource.ARRIVALTIME_COLUMN, Resource.EMPTY_DATA);
+            journeyInfoList = getEmptyJourneyInfoList();
 
         }
 
+        return journeyInfoList;
+    }
+
+    private HashMap<String, String> getEmptyJourneyInfoList() {
+        HashMap<String, String> journeyInfoList = new HashMap<String, String>();
+        journeyInfoList.put(Resource.DEPARTURECITY_COLUMN, Resource.EMPTY_DATA);
+        journeyInfoList.put(Resource.ARRIVALCITY_COLUMN, Resource.EMPTY_DATA);
+        journeyInfoList.put(Resource.FLIGHT_NAME_COLUMN, Resource.EMPTY_DATA);
+        journeyInfoList.put(Resource.DEPARTURETIME_COLUMN, Resource.EMPTY_DATA);
+        journeyInfoList.put(Resource.ARRIVALTIME_COLUMN, Resource.EMPTY_DATA);
         return journeyInfoList;
     }
 
@@ -266,7 +311,7 @@ public class DatabaseHandler {
     public List<BookedTickets> getBookedIdsBookingList(String bookingId) {
         try {
 
-            dbResult = dbStatement.executeQuery(SqlQuery.ticketlistquery(bookingId));
+            dbResult = dbStatement.executeQuery(SqlQuery.ticketListQuery(bookingId));
             List<BookedTickets> bookedTicketsList = new ArrayList<BookedTickets>();
             while (dbResult.next()) {
                 try {
@@ -383,14 +428,14 @@ public class DatabaseHandler {
             dbResult.next();
             return dbResult.getString(Resource.COUNT_COLUMN);
         } catch (SQLException sqlException) {
-            return "No Info";
+            return Resource.EMPTY_DATA;
         }
     }
 
     public List<BookedTickets> bookedTicketTable() {
 
         try {
-            dbResult = dbStatement.executeQuery(SqlQuery.selectquery(Resource.BOOKED_TICKET_TABLE_NAME));
+            dbResult = dbStatement.executeQuery(SqlQuery.selectQuery(Resource.BOOKED_TICKET_TABLE_NAME));
             List<BookedTickets> bookedTicketsList = new ArrayList<BookedTickets>();
             while (dbResult.next()) {
                 try {

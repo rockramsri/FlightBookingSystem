@@ -64,32 +64,38 @@ public class Resource {
 
     public static final String EMPTY_DATA = "  -  ";
 
-    // Table creation Queries
-    static public ArrayList<String> tableCreationList() {
-        ArrayList<String> tableCreationList = new ArrayList<String>() {
-            {
-                add("create table IF NOT EXISTS " + USER_INFO_TABLE_NAME + "( " + AUTO_COLUMN
-                        + " int NOT NULL AUTO_INCREMENT unique," + ID_COLUMN + " varchar(100) primary key default '',"
-                        + NAME_COLUMN + " varchar(100)," + DOB_COLUMN + " varchar(100)," + EMAIL_COLUMN
-                        + " varchar(100) unique," + PASSWORD_COLUMN + " varchar(100)," + PHONENUMBER_COLUMN
-                        + " varchar(200) );");
-                add("create table IF NOT EXISTS " + FLIGHT_TICKET_TABLE_NAME + "(" + FLIGHTNUMBER_COLUMN
-                        + " varchar(200) primary key," + FLIGHT_NAME_COLUMN + " varchar(100)," + DEPARTURECITY_COLUMN
-                        + " varchar(100)," + ARRIVALCITY_COLUMN + " varchar(100) );");
-                add("create table IF NOT EXISTS " + FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "("
-                        + FLIGHTNUMBER_COLUMN + " varchar(200)," + DEPARTURETIME_COLUMN + " varchar(100),"
-                        + ARRIVALTIME_COLUMN + " varchar(100)," + FLIGHTCLASS_COLUMN + " varchar(100),"
-                        + NOOFSEATS_COLUMN + " int," + CURRENTSEATSAVAILABLE_COLUMN + " int," + COSTPERSEAT_COLUMN
-                        + " bigint ); ");
-                add("create table IF NOT EXISTS " + BOOKED_TICKET_TABLE_NAME + "(" + ID_COLUMN + " varchar(100),"
-                        + USERNAME_COLUMN + " varchar(100)," + USERAGE_COLUMN + " varchar(100)," + USERGENDER_COLUMN
-                        + " varchar(100)," + FLIGHTID_COLUMN + " varchar(100)," + TICKETID_COLUMN + " varchar(100),"
-                        + BOOKINGID_COLUMN + " varchar(100)," + BOOKEDON_COLUMN + " varchar(100)," + CANCELLEDON_COLUMN
-                        + " varchar(100)," + ISCANCELLED_COLUMN + " varchar(100)," + FLIGHTCLASS_COLUMN
-                        + " varchar(100)," + AMOUNT_COLUMN + " float);");
-            }
-        };
-        return tableCreationList;
+    // UserTable creation Query
+    static public String getUserTableCreationQuery() {
+        return "create table IF NOT EXISTS " + USER_INFO_TABLE_NAME + "( " + AUTO_COLUMN
+                + " int NOT NULL AUTO_INCREMENT unique," + ID_COLUMN + " varchar(100) primary key default '',"
+                + NAME_COLUMN + " varchar(100)," + DOB_COLUMN + " varchar(100)," + EMAIL_COLUMN
+                + " varchar(100) unique," + PASSWORD_COLUMN + " varchar(100)," + PHONENUMBER_COLUMN
+                + " varchar(200) );";
+    }
+
+    // FlightTable creation Query
+    static public String getFlightTableCreationQuery() {
+        return "create table IF NOT EXISTS " + FLIGHT_TICKET_TABLE_NAME + "(" + FLIGHTNUMBER_COLUMN
+                + " varchar(200) primary key," + FLIGHT_NAME_COLUMN + " varchar(100)," + DEPARTURECITY_COLUMN
+                + " varchar(100)," + ARRIVALCITY_COLUMN + " varchar(100) );";
+    }
+
+    // FlightBookingAvailablity Table Creation Query
+    static public String getFlightBookingAvailablityTableCreationQuery() {
+        return "create table IF NOT EXISTS " + FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "(" + FLIGHTNUMBER_COLUMN
+                + " varchar(200)," + DEPARTURETIME_COLUMN + " varchar(100)," + ARRIVALTIME_COLUMN + " varchar(100),"
+                + FLIGHTCLASS_COLUMN + " varchar(100)," + NOOFSEATS_COLUMN + " int," + CURRENTSEATSAVAILABLE_COLUMN
+                + " int," + COSTPERSEAT_COLUMN + " bigint ); ";
+    }
+
+    // BookedTicket Table Creation Query
+    static public String getBookedTicketTableCreationQuery() {
+        return "create table IF NOT EXISTS " + BOOKED_TICKET_TABLE_NAME + "(" + ID_COLUMN + " varchar(100),"
+                + USERNAME_COLUMN + " varchar(100)," + USERAGE_COLUMN + " varchar(100)," + USERGENDER_COLUMN
+                + " varchar(100)," + FLIGHTID_COLUMN + " varchar(100)," + TICKETID_COLUMN + " varchar(100),"
+                + BOOKINGID_COLUMN + " varchar(100)," + BOOKEDON_COLUMN + " varchar(100)," + CANCELLEDON_COLUMN
+                + " varchar(100)," + ISCANCELLED_COLUMN + " varchar(100)," + FLIGHTCLASS_COLUMN + " varchar(100),"
+                + AMOUNT_COLUMN + " float);";
     }
 
     // returns Cities List available

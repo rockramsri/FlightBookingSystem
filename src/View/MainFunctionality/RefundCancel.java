@@ -8,9 +8,6 @@ import Database.DBTableClass.*;
 
 public class RefundCancel {
 
-  private FlightUtils flightUtils;
-  private DatabaseHandler databaseHandler;
-
   private int noOfseats = 0;
 
   private String departureCity;
@@ -22,15 +19,10 @@ public class RefundCancel {
 
   private List<String> ticketid = new ArrayList<String>();
 
-  public RefundCancel() {
-    flightUtils = FlightUtils.getInstance();
-    databaseHandler = DatabaseHandler.getInstance();
-  }
-
   // Used to update the number of seats in the Airlines
   int updateAirlines(String flightId) {
 
-    return databaseHandler.airlinesUpdater(flightId, noOfseats, "+");
+    return DatabaseHandler.getInstance().updateAirlines(flightId, noOfseats, "+");
 
   }
 
@@ -52,11 +44,11 @@ public class RefundCancel {
         Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
         Resource.DEPARTURECITY_HEADER, Resource.ARRIVALCITY_HEADER, Resource.FLIGHTCLASS_HEADER);
 
-    for (BookedTickets bookedTickets : databaseHandler.getBookedList(currentUserDetails.getId(), "no")) {
+    for (BookedTickets bookedTickets : DatabaseHandler.getInstance().getBookedList(currentUserDetails.getId(), "no")) {
       if (!distinctBookingId.contains(bookedTickets.getBookingId())) {
         distinctBookingId.add(bookedTickets.getBookingId());
         optionSelection += 1;
-        HashMap<String, String> deparrlist = databaseHandler
+        HashMap<String, String> deparrlist = DatabaseHandler.getInstance()
             .getDepartureArrivalFlightName(bookedTickets.getFlightNumber());
         bookingHistoryTable.addRow(String.valueOf(optionSelection), bookedTickets.getFlightNumber(),
             bookedTickets.getBookingId(), deparrlist.get(Resource.FLIGHT_NAME_COLUMN),
@@ -71,7 +63,7 @@ public class RefundCancel {
     } else {
       bookingHistoryTable.print();
       System.out.println("Enter the Corresponding CODE for Cancelation:");
-      int optionSelected = flightUtils.getIntegerInput();
+      int optionSelected = FlightUtils.getInstance().getIntegerInput();
       return distinctBookingId.get(optionSelected - 1);
 
     }
@@ -82,6 +74,7 @@ public class RefundCancel {
   // used for Cancelling the tickets
   private TicketInfo ticketCancelation(String bookingId, ProfileDetails currentUserDetails) {
     CommandLineTable listOrderId = new CommandLineTable();
+    TicketInfo ticketInfo = null;
 
     int optionSelection = 0;
     listOrderId.setHeaders(Resource.CODE_HEADER, " Passenger name ", " Passenger Age ", " Passenger gender ",
@@ -89,11 +82,11 @@ public class RefundCancel {
         Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURECITY_HEADER, Resource.ARRIVALCITY_HEADER,
         Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER, Resource.FLIGHTCLASS_HEADER,
         Resource.AMOUNT_HEADER);
-    List<BookedTickets> bookedTicketsList = databaseHandler.getBookedIdsBookingList(bookingId);
+    List<BookedTickets> bookedTicketsList = DatabaseHandler.getInstance().getBookedIdsBookingList(bookingId);
     for (BookedTickets bTickets : bookedTicketsList) {
       optionSelection += 1;
 
-      HashMap<String, String> deparrtimeclasslist = databaseHandler
+      HashMap<String, String> deparrtimeclasslist = DatabaseHandler.getInstance()
           .getDepartureArrivalFlightName(bTickets.getFlightNumber());
 
       departureCity = deparrtimeclasslist.get(Resource.DEPARTURECITY_COLUMN);
@@ -114,7 +107,7 @@ public class RefundCancel {
     listOrderId.print();
 
     System.out.println("1.Do you want to Cancel all \n2.Do you want to Cancel specific:");
-    int tempchoice = flightUtils.getIntegerInput();
+    int tempchoice = FlightUtils.getInstance().getIntegerInput();
 
     List<String> options = new ArrayList<String>();
     if (tempchoice == 1) {
@@ -124,13 +117,13 @@ public class RefundCancel {
 
     } else {
       System.out.println("Enter the Corresponding CODE Separated by space for Cancelation:");
-      options = Arrays.asList(flightUtils.getStringInput().split(" "));
+      options = Arrays.asList(FlightUtils.getInstance().getStringInput().split(" "));
 
     }
 
     for (String tickets : options) {
       BookedTickets ticketsBooked = bookedTicketsList.get(Integer.parseInt(tickets) - 1);
-      if (databaseHandler.ticketCanceling(bookingId, ticketsBooked.getSeatNumber())) {
+      if (DatabaseHandler.getInstance().ticketCanceling(bookingId, ticketsBooked.getSeatNumber())) {
         SeatsAllocate.seats.get(ticketsBooked.getFlightNumber() + '-' + ticketsBooked.getFlightClass())
             .add(Integer.parseInt(ticketsBooked.getSeatNumber().substring(1)));
         ticketid.add(ticketsBooked.getSeatNumber());
@@ -140,8 +133,8 @@ public class RefundCancel {
     }
     noOfseats = options.size();
 
-    TicketInfo ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass,
-        currentUserDetails.getEmail(), departureTime, arrivalTime, flightName, bookingId, ticketid);
+    ticketInfo = new TicketInfo(departureCity, arrivalCity, noOfseats, flightClass, currentUserDetails.getEmail(),
+        departureTime, arrivalTime, flightName, bookingId, ticketid);
 
     int isrestored = updateAirlines(bookedTicketsList.get(0).getFlightNumber());
     if (isrestored == 0) {
@@ -150,9 +143,9 @@ public class RefundCancel {
 
     } else {
       System.out.println("*********Your Cancelation is Successfully processed********");
-      return ticketInfo;
+
     }
-    return null;
+    return ticketInfo;
 
   }
 

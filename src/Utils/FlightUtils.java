@@ -21,7 +21,7 @@ import View.Ticket.*;
 
 public class FlightUtils {
 
-    private static FlightUtils flightUtils_instance = null;
+    private static FlightUtils flightUtilsInstance = null;
 
     // Used for storing generatedCode for password Verification
     public StringBuffer randomCodeForPassword = new StringBuffer("");
@@ -42,9 +42,9 @@ public class FlightUtils {
 
     // returns Single Instance of Flightutils class
     public static FlightUtils getInstance() {
-        if (flightUtils_instance == null)
-            flightUtils_instance = new FlightUtils();
-        return flightUtils_instance;
+        if (flightUtilsInstance == null)
+            flightUtilsInstance = new FlightUtils();
+        return flightUtilsInstance;
     }
 
     public void utilCloser() {

@@ -1,19 +1,15 @@
 package Database.DBTableClass;
 
-import java.io.*;
 import Utils.*;
 import Database.*;
 
 public class ProfileDetails {
     private String id;
-    private String name;
-    private String dob;
-    private String email;
+    private final String name;
+    private final String dob;
+    private final String email;
     private String password;
-    private String phonenumber;
-    Console passwordConsole;
-    private FlightUtils flightUtils;
-    private DatabaseHandler databaseHandler;
+    private final String phonenumber;
 
     public ProfileDetails(String id, String name, String dob, String email, String password, String phonenumber) {
         this.dob = dob;
@@ -22,38 +18,25 @@ public class ProfileDetails {
         this.id = id;
         this.password = password;
         this.phonenumber = phonenumber;
-        flightUtils = FlightUtils.getInstance();
-        databaseHandler = DatabaseHandler.getInstance();
-        passwordConsole = System.console();
-    }
-
-    public ProfileDetails() {
-        flightUtils = FlightUtils.getInstance();
-        passwordConsole = System.console();
-        try {
-            databaseHandler = DatabaseHandler.getInstance();
-        } catch (Exception e) {
-
-        }
 
     }
 
     // For changing the user password
-    public boolean changeMyPassword(boolean forgotPassBool, ProfileDetails currentUserDetails) {
+    public static boolean changeMyPassword(boolean forgotPassBool, ProfileDetails currentUserDetails) {
+
         String currentPassword = "";
         String newPassword;
         String confirmNewPassword;
         boolean success = false;
 
         if (!forgotPassBool) {
-            System.out.println("Enter Your Current Password:");
-            currentPassword = flightUtils.getStringInput();
+            currentPassword = new String(System.console().readPassword("Enter Your Current Password:"));
         }
         if (forgotPassBool || currentPassword.equals(currentUserDetails.getPassword())) {
             while (true) {
                 while (true) {
-                    newPassword = new String(passwordConsole.readPassword("Enter your New password:"));
-                    if (flightUtils.passwordValidate(newPassword)
+                    newPassword = new String(System.console().readPassword("Enter your New password:"));
+                    if (FlightUtils.getInstance().passwordValidate(newPassword)
                             && !newPassword.equals(currentUserDetails.getPassword()))
                         break;
                     else
@@ -61,10 +44,10 @@ public class ProfileDetails {
 
                 }
 
-                confirmNewPassword = new String(passwordConsole.readPassword("Re-Enter Your New Password:"));
+                confirmNewPassword = new String(System.console().readPassword("Re-Enter Your New Password:"));
                 if (confirmNewPassword.equals(newPassword)) {
                     success = true;
-                    databaseHandler.updatePassword(newPassword, currentUserDetails.getId());
+                    DatabaseHandler.getInstance().updatePassword(newPassword, currentUserDetails.getId());
 
                     currentUserDetails.setPassword(confirmNewPassword);
                     System.out.println("*****Password has been changed successfully****");
@@ -84,20 +67,20 @@ public class ProfileDetails {
     }
 
     // Used to reset the forgotten password by send OTP to mail
-    public void forgotPassword() {
+    public static void forgotPassword() {
         final int I_HAVE_RECOVERY_CODE = 1;
         final int I_DONT_HAVE_RECOVERY_CODE = 2;
         final int BACK = 3;
 
         System.out.print("Enter your Mail Id or User ID:");
-        String registeredID = flightUtils.getStringInput();
-        ProfileDetails profileDetails = databaseHandler.loginCheck(registeredID, "");
+        String registeredID = FlightUtils.getInstance().getStringInput();
+        ProfileDetails profileDetails = DatabaseHandler.getInstance().getLoggedInUserInfo(registeredID, "");
         if (profileDetails != null) {
             int tryCount = 0;
             whileexit: while (tryCount <= 3) {
 
                 System.out.println("Do You  Have an Recovery Code: \n1.Yes I have \n2.I Dont Have \n3.Back");
-                int recoveryCodeAvailableOption = flightUtils.getIntegerInput();
+                int recoveryCodeAvailableOption = FlightUtils.getInstance().getIntegerInput();
                 switch (recoveryCodeAvailableOption) {
                     case I_HAVE_RECOVERY_CODE:
                         recoveryCodeChecking(profileDetails);
@@ -123,22 +106,22 @@ public class ProfileDetails {
 
     }
 
-    int recoveryCodeGentrator(ProfileDetails currentProfileDetails) {
-        int randomNumber = flightUtils.sizeRandomizer(1000, 1000000);
-        flightUtils.randomCodeForPassword.replace(0, flightUtils.randomCodeForPassword.length(),
-                String.valueOf(randomNumber));
+    static int recoveryCodeGentrator(ProfileDetails currentProfileDetails) {
+        int randomNumber = FlightUtils.getInstance().sizeRandomizer(1000, 1000000);
+        FlightUtils.getInstance().randomCodeForPassword.replace(0,
+                FlightUtils.getInstance().randomCodeForPassword.length(), String.valueOf(randomNumber));
         System.out.println("Recovery Code has been sent to Your Mail");
-        if (!flightUtils.internetConnectiviityCheck())
+        if (!FlightUtils.getInstance().internetConnectiviityCheck())
             System.out.println("--You are not connected to the Internet,Kindly connect to your Internet--");
-        flightUtils.mailThreader(null, "PP", currentProfileDetails.getEmail());
+        FlightUtils.getInstance().mailThreader(null, "PP", currentProfileDetails.getEmail());
         return randomNumber;
     }
 
-    void recoveryCodeChecking(ProfileDetails profileDetails) {
+    static void recoveryCodeChecking(ProfileDetails profileDetails) {
         System.out.print("Enter the Recovery Code:");
-        String code = flightUtils.getStringInput();
-        if (flightUtils.randomCodeForPassword.length() != 0
-                && code.equals(flightUtils.randomCodeForPassword.toString())) {
+        String code = FlightUtils.getInstance().getStringInput();
+        if (FlightUtils.getInstance().randomCodeForPassword.length() != 0
+                && code.equals(FlightUtils.getInstance().randomCodeForPassword.toString())) {
             changeMyPassword(true, profileDetails);
 
         }
@@ -147,10 +130,6 @@ public class ProfileDetails {
 
     public String getDob() {
         return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
     }
 
     public String getEmail() {
@@ -173,24 +152,12 @@ public class ProfileDetails {
         return phonenumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
     }
 
 }

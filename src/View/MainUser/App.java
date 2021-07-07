@@ -13,7 +13,6 @@ import Database.DBTableClass.ProfileDetails;
 
 public class App {
   // static Scanner inputScanner=new Scanner(System.in);
-  static FlightUtils flightUtils = FlightUtils.getInstance();
   static final int NEWUSER = 1;
   static final int LOGIN = 2;
   static final int SEARCH = 3;
@@ -39,7 +38,7 @@ public class App {
       System.out.println("2.Already have an account?");
       System.out.println("3.Search");
       System.out.println("4.Exit");
-      int choice = flightUtils.getIntegerInput();
+      int choice = FlightUtils.getInstance().getIntegerInput();
 
       switch (choice) {
         case NEWUSER:
@@ -64,15 +63,15 @@ public class App {
 
     DatabaseLoader.connectionCloser(); // For closing database connection
 
-    flightUtils.utilCloser();
+    FlightUtils.getInstance().utilCloser();
 
   }
 
   // Registration or Sign up
   public static boolean newUser() {
     Member member = new Member();
-    ProfileDetails profileDetails = member.loginRegister.register(); // navigate to the register methond of
-                                                                     // loginRegister class in Member class
+    ProfileDetails profileDetails = member.loginRegister.registerUser(); // navigate to the register methond of
+    // loginRegister class in Member class
     if (profileDetails != null)
       return performMemberFunction(member, profileDetails);
     else
@@ -106,7 +105,7 @@ public class App {
       System.out.println("5.Change My Password");
       System.out.println("6.Logout");
       System.out.println("7.Exit");
-      int functionalityOption = flightUtils.getIntegerInput();
+      int functionalityOption = FlightUtils.getInstance().getIntegerInput();
       switch (functionalityOption) {
         case BOOKTICKETS:
           member.bookTickets(currentUserDetails);

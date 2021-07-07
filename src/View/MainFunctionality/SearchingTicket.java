@@ -9,17 +9,10 @@ import java.util.*;
 import java.util.Date;
 
 public class SearchingTicket {
-  FlightUtils flightUtils;
-  DatabaseHandler databaseHandler;
-
-  public SearchingTicket() {
-    flightUtils = FlightUtils.getInstance();
-    databaseHandler = DatabaseHandler.getInstance();
-  }
 
   void print(List<Airlines> airlinesList) {
     if (airlinesList.size() == 0) {
-      flightUtils.clearScreen();
+      FlightUtils.getInstance().clearScreen();
       System.out.println("No Flights available");
       return;
     }
@@ -47,9 +40,9 @@ public class SearchingTicket {
     tablebook.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURECITY_HEADER,
         Resource.ARRIVALCITY_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
         Resource.FLIGHT_NAME_HEADER, Resource.CODE_HEADER);
-    List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
+    List<Airlines> listOfAirlines = DatabaseHandler.getInstance().bookingList(departureCity, arrivalCity, dateTicket,
         nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
-    List<Airlines> roundTripAirlines = databaseHandler.bookingList(arrivalCity, departureCity, "",
+    List<Airlines> roundTripAirlines = DatabaseHandler.getInstance().bookingList(arrivalCity, departureCity, "",
         nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
     String patternwithTime = "dd/MM/yyyy hh:mm";
     SimpleDateFormat roundTripDateFormat = new SimpleDateFormat(patternwithTime);
@@ -78,7 +71,7 @@ public class SearchingTicket {
       }
     }
     if (optionCount == 0) {
-      flightUtils.clearScreen();
+      FlightUtils.getInstance().clearScreen();
       System.out.println("********No Flights is available Now*******");
     } else {
       tablebook.print();
@@ -89,10 +82,10 @@ public class SearchingTicket {
   void singleTripSearch(String arrivalCity, String departureCity, int nofSeatsAdult, int nofSeatsChild,
       int nofSeatsInfant, String flightClass, String dateTicket) {
     int optionCount = 0;
-    List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
+    List<Airlines> listOfAirlines = DatabaseHandler.getInstance().bookingList(departureCity, arrivalCity, dateTicket,
         nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
     if (listOfAirlines.size() == 0) {
-      flightUtils.clearScreen();
+      FlightUtils.getInstance().clearScreen();
       System.out.println("********No Flights is available Now*******");
       return;
     }
@@ -128,25 +121,25 @@ public class SearchingTicket {
     int nofSeatsInfant = 0;
     int nofSeatsChild = 0;
 
-    dateTicket = flightUtils.getDepartureDate();
+    dateTicket = FlightUtils.getInstance().getDepartureDate();
 
-    HashMap<String, String> cityMap = flightUtils.getDepartureCityAndArrivalCity();
+    HashMap<String, String> cityMap = FlightUtils.getInstance().getDepartureCityAndArrivalCity();
     departureCity = cityMap.get(Resource.DEPARTURECITY_COLUMN);
     arrivalCity = cityMap.get(Resource.ARRIVALCITY_COLUMN);
 
     System.out.println("Enter Number of seats for Adults(age above 15):");
-    nofSeatsAdult = flightUtils.getIntegerInput();
+    nofSeatsAdult = FlightUtils.getInstance().getIntegerInput();
 
     System.out.println("Enter Number of seats for child(age below 16):");
-    nofSeatsChild = flightUtils.getIntegerInput();
+    nofSeatsChild = FlightUtils.getInstance().getIntegerInput();
 
     System.out.println("Enter Number of seats for infants(age above 3):");
-    nofSeatsInfant = flightUtils.getIntegerInput();
+    nofSeatsInfant = FlightUtils.getInstance().getIntegerInput();
 
     classwhile: while (true) {
       System.out.println("1.Economic:");
       System.out.println("2.Business:");
-      switch (flightUtils.getIntegerInput()) {
+      switch (FlightUtils.getInstance().getIntegerInput()) {
         case ECONOMIC:
           flightClass = Resource.ECONOMIC_FLIGHT_CLASS;
 
@@ -165,7 +158,7 @@ public class SearchingTicket {
     triploop: while (true) {
       System.out.println("1.Round Trip\n2.Single Trip");
 
-      int tripOption = flightUtils.getIntegerInput();
+      int tripOption = FlightUtils.getInstance().getIntegerInput();
       switch (tripOption) {
         case ROUND_TRIP:
           roundTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass,
@@ -196,8 +189,8 @@ public class SearchingTicket {
     }
     flightTable.print();
     System.out.println("Enter the Corresponding number of the flight to Search:");
-    int optionSelected = flightUtils.getIntegerInput();
-    print(databaseHandler.searchAirlinesByFlightName(Resource.flightNameList().get(optionSelected - 1)));
+    int optionSelected = FlightUtils.getInstance().getIntegerInput();
+    print(DatabaseHandler.getInstance().searchAirlinesByFlightName(Resource.flightNameList().get(optionSelected - 1)));
 
   }
 
@@ -209,7 +202,7 @@ public class SearchingTicket {
     while (true) {
 
       System.out.println("Enter the  Date(DD/MM/YYY):");
-      dateTicket = flightUtils.getStringInput();
+      dateTicket = FlightUtils.getInstance().getStringInput();
       String pattern = "dd/MM/yyyy";
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
       try {
@@ -220,7 +213,7 @@ public class SearchingTicket {
         }
         System.out
             .println("The entered date is Not available\n1.Do you want to go back\n2.Do you want to Enter Date again:");
-        int internalOption = flightUtils.getIntegerInput();
+        int internalOption = FlightUtils.getInstance().getIntegerInput();
         if (internalOption == 1)
           return;
       } catch (ParseException parseException) {
@@ -228,7 +221,7 @@ public class SearchingTicket {
       }
 
     }
-    print(databaseHandler.searchAirlinesByDate(dateTicket));
+    print(DatabaseHandler.getInstance().searchAirlinesByDate(dateTicket));
 
   }
 
@@ -245,8 +238,8 @@ public class SearchingTicket {
     }
     cityTable.print();
     System.out.println("Enter the Corresponding CODE of the city to Search:");
-    int optionSelected = flightUtils.getIntegerInput();
-    print(databaseHandler.searchAirlinesByCity(Resource.citiesList().get(optionSelected - 1)));
+    int optionSelected = FlightUtils.getInstance().getIntegerInput();
+    print(DatabaseHandler.getInstance().searchAirlinesByCity(Resource.citiesList().get(optionSelected - 1)));
 
   }
 

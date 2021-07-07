@@ -2,15 +2,15 @@ package Database.DBTableClass;
 /* POJO Class for Airlines table in the MySqlDatabase */
 
 public class Airlines {
-    private String flightNumber;
-    private String flightName;
-    private String departureCity;
-    private String arrivalCity;
-    private String departureTime;
-    private String arrivalTime;
-    private String flightClass;
-    private int currentSeatsAvailable;
-    private int costPerSeat;
+    private final String flightNumber;
+    private final String flightName;
+    private final String departureCity;
+    private final String arrivalCity;
+    private final String departureTime;
+    private final String arrivalTime;
+    private final String flightClass;
+    private final int currentSeatsAvailable;
+    private final int costPerSeat;
 
     public Airlines(String arrivalCity, String arrivalTime, int costPerSeat, int currentSeatsAvailable,
             String departureCity, String departureTime, String flightName, String flightClass, String flightNumber,

@@ -6,16 +6,16 @@ import java.util.*;
  * This class is POJO class for ticket Information
  */
 public class TicketInfo {
-    private String departureCity;
-    private String arrivalCity;
-    private int nOfSeats;
-    private String flightClass;
-    private String userEmail;
-    private String bookingId;
-    private List<String> seatNumbers;
-    private String depTime;
-    private String arrTime;
-    private String flightName;
+    private final String departureCity;
+    private final String arrivalCity;
+    private final int nOfSeats;
+    private final String flightClass;
+    private final String userEmail;
+    private final String bookingId;
+    private final List<String> seatNumbers;
+    private final String depTime;
+    private final String arrTime;
+    private final String flightName;
 
     public TicketInfo(String departureCity, String arrivalCity, int nOfSeats, String flightClass, String userEmail,
             String depTime, String arrTime, String flightName, String bookingId, List<String> seatNumbers) {

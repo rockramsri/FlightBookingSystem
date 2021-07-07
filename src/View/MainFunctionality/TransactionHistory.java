@@ -68,14 +68,16 @@ public class TransactionHistory {
       if (!distinctBookings.contains(bookedTicket.getBookingId())) {
         distinctBookings.add(bookedTicket.getBookingId());
         optionSelection += 1;
-        HashMap<String, String> depArrFlightList = databaseHandler
+        HashMap<String, String> departureArrivalFlightList = databaseHandler
             .getDepartureArrivalFlightName(bookedTicket.getFlightNumber());
         String noofseats = databaseHandler.noOfSeats(bookedTicket.getBookingId(), "yes");
         bookTicketTable.addRow(String.valueOf(optionSelection), bookedTicket.getFlightNumber(),
-            bookedTicket.getBookingId(), depArrFlightList.get(Resource.FLIGHT_NAME_COLUMN),
-            depArrFlightList.get(Resource.DEPARTURETIME_COLUMN), depArrFlightList.get(Resource.ARRIVALTIME_COLUMN),
-            depArrFlightList.get(Resource.DEPARTURECITY_COLUMN), depArrFlightList.get(Resource.ARRIVALCITY_COLUMN),
-            bookedTicket.getBookedOn(), bookedTicket.getCancelledOn(), bookedTicket.getFlightClass(), noofseats);
+            bookedTicket.getBookingId(), departureArrivalFlightList.get(Resource.FLIGHT_NAME_COLUMN),
+            departureArrivalFlightList.get(Resource.DEPARTURETIME_COLUMN),
+            departureArrivalFlightList.get(Resource.ARRIVALTIME_COLUMN),
+            departureArrivalFlightList.get(Resource.DEPARTURECITY_COLUMN),
+            departureArrivalFlightList.get(Resource.ARRIVALCITY_COLUMN), bookedTicket.getBookedOn(),
+            bookedTicket.getCancelledOn(), bookedTicket.getFlightClass(), noofseats);
       }
 
     }

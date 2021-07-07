@@ -63,7 +63,6 @@ public class MailSender {
     // Used for preparing Message for sending Email
     public static Message prepareMessage(Session session, String myEmail, TicketInfo messageTicketinfo, String code,
             String userEmail) throws MessagingException {
-        FlightUtils flightUtils = FlightUtils.getInstance();
         htmlCodeBooking = "";
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(myEmail));
@@ -113,7 +112,7 @@ public class MailSender {
         {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
             message.setSubject("Recovery Password");
-            message.setText("Recovery Code:" + flightUtils.randomCodeForPassword.toString());
+            message.setText("Recovery Code:" + FlightUtils.getInstance().randomCodeForPassword.toString());
 
         }
 

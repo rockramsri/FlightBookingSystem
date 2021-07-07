@@ -15,7 +15,7 @@ public class SeatsAllocate {
 
     public static void seatUpdater() {
         if (SeatsAllocate.seats != null) {
-            List<BookedTickets> bookedTicketsList = new DatabaseHandler().bookedTicketTable();
+            List<BookedTickets> bookedTicketsList = DatabaseHandler.getInstance().bookedTicketTable();
             for (BookedTickets bookedTickets : bookedTicketsList) {
                 int element = Integer.parseInt(bookedTickets.getSeatNumber().substring(1));
                 SeatsAllocate.seats.get(bookedTickets.getFlightNumber() + '-' + bookedTickets.getFlightClass())
