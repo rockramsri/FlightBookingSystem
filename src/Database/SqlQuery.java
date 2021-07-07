@@ -9,6 +9,42 @@ public class SqlQuery {
 
     private static FlightUtils flightUtils = FlightUtils.getInstance();
 
+    // UserTable creation Query
+    static public String getUserTableCreationQuery() {
+        return "create table IF NOT EXISTS " + Resource.USER_INFO_TABLE_NAME + "( " + Resource.AUTO_COLUMN
+                + " int NOT NULL AUTO_INCREMENT unique," + Resource.ID_COLUMN + " varchar(100) primary key default '',"
+                + Resource.NAME_COLUMN + " varchar(100)," + Resource.DOB_COLUMN + " varchar(100),"
+                + Resource.EMAIL_COLUMN + " varchar(100) unique," + Resource.PASSWORD_COLUMN + " varchar(100),"
+                + Resource.PHONENUMBER_COLUMN + " varchar(200) );";
+    }
+
+    // FlightTable creation Query
+    static public String getFlightTableCreationQuery() {
+        return "create table IF NOT EXISTS " + Resource.FLIGHT_TICKET_TABLE_NAME + "(" + Resource.FLIGHTNUMBER_COLUMN
+                + " varchar(200) primary key," + Resource.FLIGHT_NAME_COLUMN + " varchar(100),"
+                + Resource.DEPARTURECITY_COLUMN + " varchar(100)," + Resource.ARRIVALCITY_COLUMN + " varchar(100) );";
+    }
+
+    // FlightBookingAvailablity Table Creation Query
+    static public String getFlightBookingAvailablityTableCreationQuery() {
+        return "create table IF NOT EXISTS " + Resource.FLIGHT_BOOKING_AVAILABLITY_TICKET_TABLE_NAME + "("
+                + Resource.FLIGHTNUMBER_COLUMN + " varchar(200)," + Resource.DEPARTURETIME_COLUMN + " varchar(100),"
+                + Resource.ARRIVALTIME_COLUMN + " varchar(100)," + Resource.FLIGHTCLASS_COLUMN + " varchar(100),"
+                + Resource.NOOFSEATS_COLUMN + " int," + Resource.CURRENTSEATSAVAILABLE_COLUMN + " int,"
+                + Resource.COSTPERSEAT_COLUMN + " bigint ); ";
+    }
+
+    // BookedTicket Table Creation Query
+    static public String getBookedTicketTableCreationQuery() {
+        return "create table IF NOT EXISTS " + Resource.BOOKED_TICKET_TABLE_NAME + "(" + Resource.ID_COLUMN
+                + " varchar(100)," + Resource.USERNAME_COLUMN + " varchar(100)," + Resource.USERAGE_COLUMN
+                + " varchar(100)," + Resource.USERGENDER_COLUMN + " varchar(100)," + Resource.FLIGHTID_COLUMN
+                + " varchar(100)," + Resource.TICKETID_COLUMN + " varchar(100)," + Resource.BOOKINGID_COLUMN
+                + " varchar(100)," + Resource.BOOKEDON_COLUMN + " varchar(100)," + Resource.CANCELLEDON_COLUMN
+                + " varchar(100)," + Resource.ISCANCELLED_COLUMN + " varchar(100)," + Resource.FLIGHTCLASS_COLUMN
+                + " varchar(100)," + Resource.AMOUNT_COLUMN + " float);";
+    }
+
     public static String selectQuery(String tablename) {
         return "select * from " + tablename;
     }

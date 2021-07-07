@@ -62,7 +62,7 @@ public class DatabaseLoader {
     }
 
     // Used to close the connection and statment of the database
-    public static void databaseConnectionCloser() {
+    public static void closeDatabaseConnection() {
         try {
             if (databaseConnection != null)
                 databaseConnection.close();

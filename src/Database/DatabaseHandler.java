@@ -40,28 +40,44 @@ public class DatabaseHandler {
     }
 
     public void createTable() {
+        createUserTable();
+        createFlightTable();
+        createFlightBookingAvailablityTable();
+        createBookedTicketTable();
 
+    }
+
+    public void createUserTable() {
         try {
-            dbStatement.executeUpdate(Resource.getUserTableCreationQuery());
+            dbStatement.executeUpdate(SqlQuery.getUserTableCreationQuery());
         } catch (SQLException e) {
             System.out.println("Failed for creation of user table");
         }
+    }
+
+    public void createFlightTable() {
         try {
-            dbStatement.executeUpdate(Resource.getFlightTableCreationQuery());
+            dbStatement.executeUpdate(SqlQuery.getFlightTableCreationQuery());
         } catch (SQLException e) {
             System.out.println("Failed for creation of Flight table");
         }
+    }
+
+    public void createFlightBookingAvailablityTable() {
         try {
-            dbStatement.executeUpdate(Resource.getFlightBookingAvailablityTableCreationQuery());
+            dbStatement.executeUpdate(SqlQuery.getFlightBookingAvailablityTableCreationQuery());
         } catch (SQLException e) {
             System.out.println("Failed for creation of FlightBookingAvailablity table");
         }
+    }
+
+    public void createBookedTicketTable() {
+
         try {
-            dbStatement.executeUpdate(Resource.getBookedTicketTableCreationQuery());
+            dbStatement.executeUpdate(SqlQuery.getBookedTicketTableCreationQuery());
         } catch (SQLException e) {
             System.out.println("Failed for creation of BookedTicket table");
         }
-
     }
 
     // Used to Update the password of the user
