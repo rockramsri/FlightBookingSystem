@@ -27,9 +27,9 @@ public class LoginRegister {
 
         while (true) {
             System.out.print("Enter your Mail Id or User ID:");
-            String regID = flightUtils.getStringInput();
-            String regpassword = new String(passwordConsole.readPassword("Enter your password:"));
-            profileDetails = databaseHandler.loginCheck(regID, regpassword);
+            String registerID = flightUtils.getStringInput();
+            String registerPassword = new String(passwordConsole.readPassword("Enter your password:"));
+            profileDetails = databaseHandler.loginCheck(registerID, registerPassword);
             if (profileDetails != null)
                 break;
             else {
@@ -92,6 +92,7 @@ public class LoginRegister {
         String regPhonenumber = flightUtils.getStringInput();
 
         ProfileDetails profileDetails = new ProfileDetails();
+        profileDetails.setId(null);
         profileDetails.setDob(regDate);
         profileDetails.setEmail(regMail);
         profileDetails.setName(regName);
@@ -99,7 +100,7 @@ public class LoginRegister {
         profileDetails.setPhonenumber(regPhonenumber);
 
         int userIdValue = databaseHandler.registerCheck(
-                new ProfileDetails(null, regName, regDate, regMail, regPassword.toString(), regPhonenumber));
+                profileDetails);
 
         if (userIdValue == 0)
             return null;

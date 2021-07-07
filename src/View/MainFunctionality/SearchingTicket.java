@@ -16,9 +16,83 @@ public class SearchingTicket {
     flightUtils = FlightUtils.getInstance();
     databaseHandler = DatabaseHandler.getInstance();
   }
+   
+  void roundTripSearch(String arrivalCity,String departureCity,int nofSeatsAdult,int nofSeatsChild,int nofSeatsInfant,String flightClass,String dateTicket)
+  {
+    int optionCount=0;
+    CommandLineTable tablebook = new CommandLineTable();
+    tablebook.setHeaders("  Code  ", "   AirLines  ", "   DepartureCity  ", "       ArrivalCity      ",
+        "      DepartureTime      ", "      ArrivalTime      ", "      FlightClass      ", "  Cost  ");
+    List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
+        nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
+    List<Airlines> roundTripAirlines = databaseHandler.bookingList(arrivalCity, departureCity, "",
+    nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
+     String patternwithTime = "dd/MM/yyyy hh:mm";
+     SimpleDateFormat roundTripDateFormat = new SimpleDateFormat(patternwithTime);
+
+     for (Airlines airline : listOfAirlines) {
+    for (Airlines roundTripAirline : roundTripAirlines) {
+      try {
+        Date roundtripDepDate = roundTripDateFormat.parse(roundTripAirline.getDepartureTime());
+        Date singletripArrDate = roundTripDateFormat.parse(airline.getArrivalTime());
+        if (singletripArrDate.compareTo(roundtripDepDate) != 1) {
+          optionCount += 1;
+          double totalCost = (nofSeatsAdult * roundTripAirline.getCostPerSeat()
+              + (nofSeatsChild + nofSeatsInfant) * roundTripAirline.getCostPerSeat() * 0.75)
+              + (nofSeatsAdult * airline.getCostPerSeat()
+                  + (nofSeatsChild + nofSeatsInfant) * airline.getCostPerSeat() * 0.75);
+
+          tablebook.addRow(String.valueOf(optionCount), airline.getFlightName(), airline.getDepartureCity(),
+          airline.getArrivalCity(), airline.getDepartureTime(),airline.getArrivalTime(),
+          airline.getFlightClass(), "Rs." + String.valueOf(totalCost));
+          break;
+        }
+      } catch (ParseException parseException) {
+        continue;
+      }
+
+    }
+  }
+  if (optionCount == 0) {
+    flightUtils.clearScreen();
+    System.out.println("********No Flights is available Now*******");
+  } else {
+    tablebook.print();
+  }
+
+  }
+  void singleTripSearch(String arrivalCity,String departureCity,int nofSeatsAdult,int nofSeatsChild,int nofSeatsInfant,String flightClass,String dateTicket)
+  {
+  int optionCount=0;
+  List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
+  nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
+  CommandLineTable tablebook = new CommandLineTable();
+    tablebook.setHeaders("  Code  ", "   AirLines  ", "   DepartureCity  ", "       ArrivalCity      ",
+        "      DepartureTime      ", "      ArrivalTime      ", "      FlightClass      ", "  Cost  ");
+    for (Airlines aobject : listOfAirlines) {
+    optionCount += 1;
+        double totalCost = nofSeatsAdult * aobject.getCostPerSeat()
+            + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75;
+
+        tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
+            aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
+            "Rs." + String.valueOf(totalCost));
+    }
+    if (optionCount == 0) {
+      flightUtils.clearScreen();
+      System.out.println("********No Flights is available Now*******");
+    } else {
+      tablebook.print();
+    }
+  }
+
 
   // used to search ticket Availablity based on Every criteria given
   public void seachBySpecific() {
+    
+    final int ROUND_TRIP=1;
+    final int SINGLE_TRIP=2;
+
 
     String dateTicket = "";
     String departureCity = "";
@@ -28,60 +102,11 @@ public class SearchingTicket {
     int nofSeatsInfant = 0;
     int nofSeatsChild = 0;
 
-    flightUtils.clearScreen();
+    dateTicket=flightUtils.getDepartureDate();
 
-    ArrayList<String> cList = Resource.citiesList();
-    int citynumber = 0; // Getting DepartureCity
-    Date current_date = new Date();
-    while (true) {
-
-      System.out.println("Enter your Departure Date(DD/MM/YYY):");
-      dateTicket = flightUtils.getStringInput();
-      String pattern = "dd/MM/yyyy";
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
-      try {
-        Date search_date = simpleDateFormat.parse(dateTicket);
-        if (current_date.compareTo(search_date) != 1) {
-          break;
-        }
-        System.out.println("The entered date is Expired");
-      } catch (ParseException parseException) {
-        System.out.println("--Please check your Entered date format--");
-      }
-
-    }
-    // here
-    CommandLineTable cityTable = new CommandLineTable();
-    cityTable.setHeaders("CODE", "CITY");
-    for (String city : cList) {
-      citynumber = citynumber + 1;
-      cityTable.addRow(String.valueOf(citynumber), city);
-
-    }
-    cityTable.print();
-    while (true) {
-      System.out.println("Enter the  city of Departure (Corresponding Number):");
-      int depcityChoice = flightUtils.getIntegerInput();
-
-      if (depcityChoice >= 0 && depcityChoice <= cList.size()) {
-        departureCity = cList.get(depcityChoice - 1);
-        cList.remove(depcityChoice - 1);
-        break;
-      }
-    }
-    // ExtraProcess.clearscreen();
-
-    while (true) {
-      System.out.println("Enter the  city for Arrival (Corresponding Number)::");
-      int arrCityChoice = flightUtils.getIntegerInput();
-
-      if (arrCityChoice >= 0 && arrCityChoice <= cList.size()) {
-        arrivalCity = cList.get(arrCityChoice - 1);
-        cList.remove(arrCityChoice - 1);
-        break;
-      }
-    }
+    HashMap<String,String> cityMap=flightUtils.getDepartureCityAndArrivalCity();
+    departureCity=cityMap.get(Resource.DEPARTURECITY_COLUMN);
+    arrivalCity=cityMap.get(Resource.ARRIVALCITY_COLUMN);
 
     // ExtraProcess.clearscreen();
     System.out.println("Enter Number of seats for Adults(age above 15):");
@@ -104,65 +129,25 @@ public class SearchingTicket {
     } else {
       flightClass = "Business";
     }
-    List<Airlines> lAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
-        nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
-    int optionCount = 0;
-    System.out.println("1.Round Trip\n2.Single Trip");
+   
+   
+    
+    triploop:
+    while(true)
+    {
+      System.out.println("1.Round Trip\n2.Single Trip");
 
-    int tripOption = flightUtils.getIntegerInput();
-
-    List<Airlines> roundTripAirlines = databaseHandler.bookingList(arrivalCity, departureCity, "",
-        nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
-    String patternwithTime = "dd/MM/yyyy hh:mm";
-    SimpleDateFormat roundTripDateFormat = new SimpleDateFormat(patternwithTime);
-
-    CommandLineTable tablebook = new CommandLineTable();
-    tablebook.setHeaders("  Code  ", "   AirLines  ", "   DepartureCity  ", "       ArrivalCity      ",
-        "      DepartureTime      ", "      ArrivalTime      ", "      FlightClass      ", "  Cost  ");
-
-    for (Airlines aobject : lAirlines) {
-
-      if (tripOption == 1) {
-
-        for (Airlines airline : roundTripAirlines) {
-          try {
-            Date roundtripDepDate = roundTripDateFormat.parse(airline.getDepartureTime());
-            Date singletripArrDate = roundTripDateFormat.parse(aobject.getArrivalTime());
-            if (singletripArrDate.compareTo(roundtripDepDate) != 1) {
-              optionCount += 1;
-              double totalCost = (nofSeatsAdult * airline.getCostPerSeat()
-                  + (nofSeatsChild + nofSeatsInfant) * airline.getCostPerSeat() * 0.75)
-                  + (nofSeatsAdult * aobject.getCostPerSeat()
-                      + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75);
-
-              tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
-                  aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(),
-                  aobject.getFlightClass(), "Rs." + String.valueOf(totalCost));
-              break;
-            }
-          } catch (ParseException parseException) {
-            continue;
-          }
-
-        }
-
-      } else {
-        optionCount += 1;
-        double totalCost = nofSeatsAdult * aobject.getCostPerSeat()
-            + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75;
-
-        tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
-            aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
-            "Rs." + String.valueOf(totalCost));
+      int tripOption = flightUtils.getIntegerInput();
+      switch(tripOption)
+      {
+        case ROUND_TRIP:roundTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass, dateTicket);
+                        break triploop;
+        case SINGLE_TRIP:singleTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass, dateTicket);
+                         break triploop;
+        default :System.out.println("Entered option is wrong .Please Enter Again");
+                        
       }
-
-    }
-    if (optionCount == 0) {
-      flightUtils.clearScreen();
-      System.out.println("********No Flights is available Now*******");
-    } else {
-      tablebook.print();
-    }
+     }
 
   }
 

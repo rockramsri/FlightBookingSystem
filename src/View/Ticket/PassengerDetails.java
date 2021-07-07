@@ -21,14 +21,14 @@ public class PassengerDetails {
         System.out.println("Select the Gender: \n 1.male \n 2.Female \n 3.others");
 
         int genderOption = flightUtils.getIntegerInput();
-        passengerGender = flightUtils.getGenederCal().get(genderOption);
+        passengerGender = flightUtils.getGenderString().get(genderOption);
 
     }
 
-    public PassengerDetails(String pName, int pAge, String pGender) {
-        passengerGender = pGender;
-        passengerAge = pAge;
-        passengerName = pName;
+    public PassengerDetails(String passengerName, int passengerAge, String passengerGender) {
+        this.passengerGender = passengerGender;
+        this.passengerAge = passengerAge;
+        this.passengerName = passengerName;
     }
 
     public int getPassengerAge() {

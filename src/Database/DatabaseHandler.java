@@ -46,6 +46,7 @@ public class DatabaseHandler {
             try {
                 dbStatement.executeUpdate(createQuery);
             } catch (SQLException e) {
+                System.out.println("Failed for creation of table");
                 continue;
             }
 
@@ -210,50 +211,50 @@ public class DatabaseHandler {
 
     // Used to get the departurecity,arrivalcity and flightclass form the Airlines
     // based in the flightId
-    public HashMap<String, String> depArrivalFlightNameGetter(String flightNumber) {
+    public HashMap<String, String> getDepartureArrivalFlightName(String flightNumber) {
         HashMap<String, String> journeyInfoList = new HashMap<String, String>();
 
         try {
             dbResult = dbStatement.executeQuery(SqlQuery.depArrivalCityFlightNamequery(flightNumber));
             dbResult.next();
             try {
-                journeyInfoList.put("departurecity", dbResult.getString(Resource.DEPARTURECITY_COLUMN));
+                journeyInfoList.put(Resource.DEPARTURECITY_COLUMN, dbResult.getString(Resource.DEPARTURECITY_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("departurecity", Resource.EMPTY_DATA);
+                journeyInfoList.put(Resource.DEPARTURECITY_COLUMN, Resource.EMPTY_DATA);
             }
             try {
-                journeyInfoList.put("arrivalcity", dbResult.getString(Resource.ARRIVALCITY_COLUMN));
+                journeyInfoList.put(Resource.ARRIVALCITY_COLUMN, dbResult.getString(Resource.ARRIVALCITY_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("arrivalcity", Resource.EMPTY_DATA);
+                journeyInfoList.put(Resource.ARRIVALCITY_COLUMN, Resource.EMPTY_DATA);
             }
 
             try {
-                journeyInfoList.put("flightname", dbResult.getString(Resource.FLIGHT_NAME_COLUMN));
+                journeyInfoList.put(Resource.FLIGHT_NAME_COLUMN, dbResult.getString(Resource.FLIGHT_NAME_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("flightname", Resource.EMPTY_DATA);
+                journeyInfoList.put(Resource.FLIGHT_NAME_COLUMN, Resource.EMPTY_DATA);
             }
 
             dbResult = dbStatement.executeQuery(SqlQuery.depArrivalTimequery(flightNumber));
             dbResult.next();
             try {
-                journeyInfoList.put("departuretime", dbResult.getString(Resource.DEPARTURETIME_COLUMN));
+                journeyInfoList.put(Resource.DEPARTURETIME_COLUMN, dbResult.getString(Resource.DEPARTURETIME_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("departuretime", Resource.EMPTY_DATA);
+                journeyInfoList.put(Resource.DEPARTURETIME_COLUMN, Resource.EMPTY_DATA);
             }
             try {
-                journeyInfoList.put("arrivaltime", dbResult.getString(Resource.ARRIVALTIME_COLUMN));
+                journeyInfoList.put(Resource.ARRIVALTIME_COLUMN, dbResult.getString(Resource.ARRIVALTIME_COLUMN));
             } catch (SQLDataException sqlDataException) {
-                journeyInfoList.put("arrivaltime", Resource.EMPTY_DATA);
+                journeyInfoList.put(Resource.ARRIVALTIME_COLUMN, Resource.EMPTY_DATA);
             }
 
         } catch (SQLException sqlException) {
             System.out.println("--Couldn't fetch departure arrival  Info--");
 
-            journeyInfoList.put("departurecity", Resource.EMPTY_DATA);
-            journeyInfoList.put("arrivalcity", Resource.EMPTY_DATA);
-            journeyInfoList.put("flightname", Resource.EMPTY_DATA);
-            journeyInfoList.put("departuretime", Resource.EMPTY_DATA);
-            journeyInfoList.put("arrivaltime", Resource.EMPTY_DATA);
+            journeyInfoList.put(Resource.DEPARTURECITY_COLUMN, Resource.EMPTY_DATA);
+            journeyInfoList.put(Resource.ARRIVALCITY_COLUMN, Resource.EMPTY_DATA);
+            journeyInfoList.put(Resource.FLIGHT_NAME_COLUMN, Resource.EMPTY_DATA);
+            journeyInfoList.put(Resource.DEPARTURETIME_COLUMN, Resource.EMPTY_DATA);
+            journeyInfoList.put(Resource.ARRIVALTIME_COLUMN, Resource.EMPTY_DATA);
 
         }
 
@@ -385,7 +386,7 @@ public class DatabaseHandler {
         }
     }
 
-    public List<BookedTickets> fullBookedTicketStable() {
+    public List<BookedTickets> bookedTicketTable() {
 
         try {
             dbResult = dbStatement.executeQuery(SqlQuery.selectquery(Resource.BOOKED_TICKET_TABLE_NAME));
