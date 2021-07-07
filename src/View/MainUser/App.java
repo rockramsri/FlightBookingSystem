@@ -43,7 +43,7 @@ public class App {
 
       switch (choice) {
         case NEWUSER:
-          if (new_User())
+          if (newUser())
             break exitprogram;
           break;
         case LOGIN:
@@ -69,12 +69,12 @@ public class App {
   }
 
   // Registration or Sign up
-  public static boolean new_User() {
+  public static boolean newUser() {
     Member member = new Member();
     ProfileDetails profileDetails = member.loginRegister.register(); // navigate to the register methond of
                                                                      // loginRegister class in Member class
     if (profileDetails != null)
-      return functionalityMethond(member, profileDetails);
+      return performMemberFunction(member, profileDetails);
     else
       return false;
 
@@ -85,7 +85,7 @@ public class App {
     Member member = new Member();
     ProfileDetails profileDetails = member.loginRegister.login();
     if (profileDetails != null) {
-      return functionalityMethond(member, profileDetails);
+      return performMemberFunction(member, profileDetails);
     }
     return false;
   }
@@ -97,7 +97,7 @@ public class App {
 
   }
 
-  public static boolean functionalityMethond(Member member, ProfileDetails currentUserDetails) {
+  public static boolean performMemberFunction(Member member, ProfileDetails currentUserDetails) {
     while (true) {
       System.out.println("1.Book Tickets");
       System.out.println("2.Ticket Cancellation");

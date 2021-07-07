@@ -21,8 +21,9 @@ public class TransactionHistory {
     CommandLineTable bookTicketTable = new CommandLineTable();
     int optionSelection = 0;
     List<String> distinctOrder = new ArrayList<String>();
-    bookTicketTable.setHeaders("  CODE  ", "  FlightId  ", "   BookingId   ", "   AirLines   ", "   DepartureTime   ",
-        "   ArrivalTime  ", "   DepartureCity      ", "      ArrivalCity    ", "  BookedOn  ", " FlightClass ",
+    bookTicketTable.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NUMBER_HEADER, Resource.BOOKING_ID_HEADER,
+        Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
+        Resource.DEPARTURECITY_HEADER, Resource.ARRIVALCITY_HEADER, "  BookedOn  ", Resource.FLIGHTCLASS_HEADER,
         "  Seats Booked ");
 
     for (BookedTickets bTickets : bookedTicketsList) {
@@ -35,7 +36,8 @@ public class TransactionHistory {
         bookTicketTable.addRow(String.valueOf(optionSelection), bTickets.getFlightNumber(), bTickets.getBookingId(),
             depArrFlightList.get(Resource.FLIGHT_NAME_COLUMN), depArrFlightList.get(Resource.DEPARTURETIME_COLUMN),
             depArrFlightList.get(Resource.ARRIVALTIME_COLUMN), depArrFlightList.get(Resource.DEPARTURECITY_COLUMN),
-            depArrFlightList.get(Resource.ARRIVALCITY_COLUMN), bTickets.getBookedOn(), bTickets.getFlightClass(), noofseats);
+            depArrFlightList.get(Resource.ARRIVALCITY_COLUMN), bTickets.getBookedOn(), bTickets.getFlightClass(),
+            noofseats);
       }
 
     }
@@ -57,23 +59,23 @@ public class TransactionHistory {
     int optionSelection = 0;
 
     List<String> distinctBookings = new ArrayList<String>();
-
-    bookTicketTable.setHeaders("  CODE  ", "  FlightId  ", "   BookingId   ", "   AirLines   ", "   DepartureTime   ",
-        "   ArrivalTime  ", "   DepartureCity      ", "      ArrivalCity    ", " BookedOn ", "  CancelledOn  ",
-        " FlightClass ", "  Seats Cancelled ");
+    bookTicketTable.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NUMBER_HEADER, Resource.BOOKING_ID_HEADER,
+        Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
+        Resource.DEPARTURECITY_HEADER, Resource.ARRIVALCITY_HEADER, "  BookedOn  ", "  CancelledOn ",
+        Resource.FLIGHTCLASS_HEADER, "  Seats Booked ");
     System.out.println(bookedTicketsList.size());
-    for (BookedTickets bTickets : bookedTicketsList) {
-      if (!distinctBookings.contains(bTickets.getBookingId())) {
-        distinctBookings.add(bTickets.getBookingId());
-                       optionSelection           += 1;
-        HashMap<String, String> depArrFlightList  = databaseHandler
-            .getDepartureArrivalFlightName(bTickets.getFlightNumber());
-        String noofseats = databaseHandler.noOfSeats(bTickets.getBookingId(), "yes");
-        bookTicketTable.addRow(String.valueOf(optionSelection), bTickets.getFlightNumber(), bTickets.getBookingId(),
-            depArrFlightList.get(Resource.FLIGHT_NAME_COLUMN), depArrFlightList.get(Resource.DEPARTURETIME_COLUMN),
-            depArrFlightList.get(Resource.ARRIVALTIME_COLUMN), depArrFlightList.get(Resource.DEPARTURECITY_COLUMN),
-            depArrFlightList.get(Resource.ARRIVALCITY_COLUMN), bTickets.getBookedOn(), bTickets.getCancelledOn(),
-            bTickets.getFlightClass(), noofseats);
+    for (BookedTickets bookedTicket : bookedTicketsList) {
+      if (!distinctBookings.contains(bookedTicket.getBookingId())) {
+        distinctBookings.add(bookedTicket.getBookingId());
+        optionSelection += 1;
+        HashMap<String, String> depArrFlightList = databaseHandler
+            .getDepartureArrivalFlightName(bookedTicket.getFlightNumber());
+        String noofseats = databaseHandler.noOfSeats(bookedTicket.getBookingId(), "yes");
+        bookTicketTable.addRow(String.valueOf(optionSelection), bookedTicket.getFlightNumber(),
+            bookedTicket.getBookingId(), depArrFlightList.get(Resource.FLIGHT_NAME_COLUMN),
+            depArrFlightList.get(Resource.DEPARTURETIME_COLUMN), depArrFlightList.get(Resource.ARRIVALTIME_COLUMN),
+            depArrFlightList.get(Resource.DEPARTURECITY_COLUMN), depArrFlightList.get(Resource.ARRIVALCITY_COLUMN),
+            bookedTicket.getBookedOn(), bookedTicket.getCancelledOn(), bookedTicket.getFlightClass(), noofseats);
       }
 
     }

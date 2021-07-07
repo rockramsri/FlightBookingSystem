@@ -18,7 +18,7 @@ public class PassengerDetails {
         passengerName = flightUtils.getStringInput();
         System.out.println("Enter the Age:");
         passengerAge = flightUtils.getIntegerInput();
-        System.out.println("Select the Gender: \n 1.male \n 2.Female \n 3.others");
+        System.out.println("Select the Gender: \n 1.Male \n 2.Female \n 3.Others");
 
         int genderOption = flightUtils.getIntegerInput();
         passengerGender = flightUtils.getGenderString().get(genderOption);

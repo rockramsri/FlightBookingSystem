@@ -191,8 +191,9 @@ public class DatabaseHandler {
 
                     bookedTicketsList.add(new BookedTickets(dbResult.getFloat(Resource.AMOUNT_COLUMN),
                             dbResult.getString(Resource.BOOKEDON_COLUMN), dbResult.getString(Resource.BOOKINGID_COLUMN),
-                            dbResult.getString(Resource.BOOKEDON_COLUMN), dbResult.getString(Resource.FLIGHTID_COLUMN),
-                            dbResult.getString(Resource.ID_COLUMN), dbResult.getString(Resource.ISCANCELLED_COLUMN),
+                            dbResult.getString(Resource.CANCELLEDON_COLUMN),
+                            dbResult.getString(Resource.FLIGHTID_COLUMN), dbResult.getString(Resource.ID_COLUMN),
+                            dbResult.getString(Resource.ISCANCELLED_COLUMN),
                             dbResult.getString(Resource.TICKETID_COLUMN), passengerDetails,
                             dbResult.getString(Resource.FLIGHTCLASS_COLUMN)));
                 } catch (SQLException sqlException) {

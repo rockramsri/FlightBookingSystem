@@ -43,6 +43,23 @@ public class Resource {
     public static final String ECONOMIC_FLIGHT_CLASS = "Economic";
     public static final String BUSINESS_FLIGHT_CLASS = "Business";
 
+    public static final String CURRENCY_SIGN = "Rs.";
+    public static final String BOOKING_ID_TAG = "ord";
+    public static final String USER_ID_TAG = "Usr";
+
+    public static final String CODE_HEADER = " Code ";
+    public static final String FLIGHT_NAME_HEADER = "  Airlines  ";
+    public static final String DEPARTURECITY_HEADER = " Departure City ";
+    public static final String ARRIVALCITY_HEADER = " Arrival City ";
+    public static final String DEPARTURETIME_HEADER = " Departure Time ";
+    public static final String ARRIVALTIME_HEADER = " Arrival Time ";
+    public static final String FLIGHTCLASS_HEADER = " Flight Class ";
+    public static final String COST_HEADER = " Cost ";
+    public static final String AMOUNT_HEADER = " Amount ";
+    public static final String FLIGHT_NUMBER_HEADER = " Flight Number ";
+    public static final String SEAT_NUMBER_HEADER = " Ticket Number ";
+    public static final String BOOKING_ID_HEADER = " Booking Id ";
+
     public static final String COUNT_COLUMN = "count(*)";
     public static final String USER_AUTO_ID_COLUMN = "last_insert_id()";
 

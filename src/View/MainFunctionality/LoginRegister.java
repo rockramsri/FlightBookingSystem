@@ -99,14 +99,14 @@ public class LoginRegister {
         profileDetails.setPassword(regPassword.toString());
         profileDetails.setPhonenumber(regPhonenumber);
 
-        int userIdValue = databaseHandler.registerCheck(
-                profileDetails);
+        int userIdValue = databaseHandler.registerCheck(profileDetails);
 
         if (userIdValue == 0)
             return null;
-        System.out.println("SuccessFully Registered And your User ID is: Usr" + String.valueOf(userIdValue));
+        System.out.println(
+                "SuccessFully Registered And your User ID is: " + Resource.USER_ID_TAG + String.valueOf(userIdValue));
 
-        profileDetails.setId("Usr" + String.valueOf(userIdValue));
+        profileDetails.setId(Resource.USER_ID_TAG + String.valueOf(userIdValue));
 
         return profileDetails;
 

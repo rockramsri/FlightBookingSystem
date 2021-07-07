@@ -31,8 +31,9 @@ public class SqlQuery {
     }
 
     public static String uniqueKeySetter(String eMail) {
-        return "UPDATE " + Resource.USER_INFO_TABLE_NAME + "  SET " + Resource.ID_COLUMN + "=concat('Usr',cast("
-                + Resource.AUTO_COLUMN + " as char(200))) WHERE " + Resource.EMAIL_COLUMN + "='" + eMail + "';";
+        return "UPDATE " + Resource.USER_INFO_TABLE_NAME + "  SET " + Resource.ID_COLUMN + "=concat('"
+                + Resource.USER_ID_TAG + "',cast(" + Resource.AUTO_COLUMN + " as char(200))) WHERE "
+                + Resource.EMAIL_COLUMN + "='" + eMail + "';";
     }
 
     public static String uniqueKeyGetter(String eMail) {

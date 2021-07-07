@@ -16,67 +16,66 @@ public class SearchingTicket {
     flightUtils = FlightUtils.getInstance();
     databaseHandler = DatabaseHandler.getInstance();
   }
-   
-  void roundTripSearch(String arrivalCity,String departureCity,int nofSeatsAdult,int nofSeatsChild,int nofSeatsInfant,String flightClass,String dateTicket)
-  {
-    int optionCount=0;
+
+  void print(List<Airlines> airlinesList) {
+    if (airlinesList.size() == 0) {
+      flightUtils.clearScreen();
+      System.out.println("No Flights available");
+      return;
+    }
     CommandLineTable tablebook = new CommandLineTable();
-    tablebook.setHeaders("  Code  ", "   AirLines  ", "   DepartureCity  ", "       ArrivalCity      ",
-        "      DepartureTime      ", "      ArrivalTime      ", "      FlightClass      ", "  Cost  ");
+    tablebook.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURECITY_HEADER,
+        Resource.ARRIVALCITY_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
+        Resource.FLIGHTCLASS_HEADER, " SeatsAvailabale  ", "  CostperSeat ");
+    int options = 0;
+    for (Airlines airlines : airlinesList) {
+      options += 1;
+      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
+          airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
+          String.valueOf(airlines.getCurrentSeatsAvailable()),
+          Resource.CURRENCY_SIGN + String.valueOf(airlines.getCostPerSeat()));
+
+    }
+    tablebook.print();
+
+  }
+
+  void roundTripSearch(String arrivalCity, String departureCity, int nofSeatsAdult, int nofSeatsChild,
+      int nofSeatsInfant, String flightClass, String dateTicket) {
+    int optionCount = 0;
+    CommandLineTable tablebook = new CommandLineTable();
+    tablebook.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURECITY_HEADER,
+        Resource.ARRIVALCITY_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
+        Resource.FLIGHT_NAME_HEADER, Resource.CODE_HEADER);
     List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
         nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
     List<Airlines> roundTripAirlines = databaseHandler.bookingList(arrivalCity, departureCity, "",
-    nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
-     String patternwithTime = "dd/MM/yyyy hh:mm";
-     SimpleDateFormat roundTripDateFormat = new SimpleDateFormat(patternwithTime);
+        nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
+    String patternwithTime = "dd/MM/yyyy hh:mm";
+    SimpleDateFormat roundTripDateFormat = new SimpleDateFormat(patternwithTime);
 
-     for (Airlines airline : listOfAirlines) {
-    for (Airlines roundTripAirline : roundTripAirlines) {
-      try {
-        Date roundtripDepDate = roundTripDateFormat.parse(roundTripAirline.getDepartureTime());
-        Date singletripArrDate = roundTripDateFormat.parse(airline.getArrivalTime());
-        if (singletripArrDate.compareTo(roundtripDepDate) != 1) {
-          optionCount += 1;
-          double totalCost = (nofSeatsAdult * roundTripAirline.getCostPerSeat()
-              + (nofSeatsChild + nofSeatsInfant) * roundTripAirline.getCostPerSeat() * 0.75)
-              + (nofSeatsAdult * airline.getCostPerSeat()
-                  + (nofSeatsChild + nofSeatsInfant) * airline.getCostPerSeat() * 0.75);
+    for (Airlines airline : listOfAirlines) {
+      for (Airlines roundTripAirline : roundTripAirlines) {
+        try {
+          Date roundtripDepDate = roundTripDateFormat.parse(roundTripAirline.getDepartureTime());
+          Date singletripArrDate = roundTripDateFormat.parse(airline.getArrivalTime());
+          if (singletripArrDate.compareTo(roundtripDepDate) != 1) {
+            optionCount += 1;
+            double totalCost = (nofSeatsAdult * roundTripAirline.getCostPerSeat()
+                + (nofSeatsChild + nofSeatsInfant) * roundTripAirline.getCostPerSeat() * 0.75)
+                + (nofSeatsAdult * airline.getCostPerSeat()
+                    + (nofSeatsChild + nofSeatsInfant) * airline.getCostPerSeat() * 0.75);
 
-          tablebook.addRow(String.valueOf(optionCount), airline.getFlightName(), airline.getDepartureCity(),
-          airline.getArrivalCity(), airline.getDepartureTime(),airline.getArrivalTime(),
-          airline.getFlightClass(), "Rs." + String.valueOf(totalCost));
-          break;
+            tablebook.addRow(String.valueOf(optionCount), airline.getFlightName(), airline.getDepartureCity(),
+                airline.getArrivalCity(), airline.getDepartureTime(), airline.getArrivalTime(),
+                airline.getFlightClass(), Resource.CURRENCY_SIGN + String.valueOf(totalCost));
+            break;
+          }
+        } catch (ParseException parseException) {
+          continue;
         }
-      } catch (ParseException parseException) {
-        continue;
+
       }
-
-    }
-  }
-  if (optionCount == 0) {
-    flightUtils.clearScreen();
-    System.out.println("********No Flights is available Now*******");
-  } else {
-    tablebook.print();
-  }
-
-  }
-  void singleTripSearch(String arrivalCity,String departureCity,int nofSeatsAdult,int nofSeatsChild,int nofSeatsInfant,String flightClass,String dateTicket)
-  {
-  int optionCount=0;
-  List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
-  nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
-  CommandLineTable tablebook = new CommandLineTable();
-    tablebook.setHeaders("  Code  ", "   AirLines  ", "   DepartureCity  ", "       ArrivalCity      ",
-        "      DepartureTime      ", "      ArrivalTime      ", "      FlightClass      ", "  Cost  ");
-    for (Airlines aobject : listOfAirlines) {
-    optionCount += 1;
-        double totalCost = nofSeatsAdult * aobject.getCostPerSeat()
-            + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75;
-
-        tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
-            aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
-            "Rs." + String.valueOf(totalCost));
     }
     if (optionCount == 0) {
       flightUtils.clearScreen();
@@ -84,15 +83,42 @@ public class SearchingTicket {
     } else {
       tablebook.print();
     }
+
   }
 
+  void singleTripSearch(String arrivalCity, String departureCity, int nofSeatsAdult, int nofSeatsChild,
+      int nofSeatsInfant, String flightClass, String dateTicket) {
+    int optionCount = 0;
+    List<Airlines> listOfAirlines = databaseHandler.bookingList(departureCity, arrivalCity, dateTicket,
+        nofSeatsAdult + nofSeatsChild + nofSeatsInfant, flightClass);
+    if (listOfAirlines.size() == 0) {
+      flightUtils.clearScreen();
+      System.out.println("********No Flights is available Now*******");
+      return;
+    }
+    CommandLineTable tablebook = new CommandLineTable();
+    tablebook.setHeaders(Resource.CODE_HEADER, Resource.FLIGHT_NAME_HEADER, Resource.DEPARTURECITY_HEADER,
+        Resource.ARRIVALCITY_HEADER, Resource.DEPARTURETIME_HEADER, Resource.ARRIVALTIME_HEADER,
+        Resource.FLIGHT_NAME_HEADER, Resource.CODE_HEADER);
+    for (Airlines aobject : listOfAirlines) {
+      optionCount += 1;
+      double totalCost = nofSeatsAdult * aobject.getCostPerSeat()
+          + (nofSeatsChild + nofSeatsInfant) * aobject.getCostPerSeat() * 0.75;
+
+      tablebook.addRow(String.valueOf(optionCount), aobject.getFlightName(), aobject.getDepartureCity(),
+          aobject.getArrivalCity(), aobject.getDepartureTime(), aobject.getArrivalTime(), aobject.getFlightClass(),
+          Resource.CURRENCY_SIGN + String.valueOf(totalCost));
+    }
+    tablebook.print();
+  }
 
   // used to search ticket Availablity based on Every criteria given
   public void seachBySpecific() {
-    
-    final int ROUND_TRIP=1;
-    final int SINGLE_TRIP=2;
 
+    final int ROUND_TRIP = 1;
+    final int SINGLE_TRIP = 2;
+    final int ECONOMIC = 1;
+    final int BUSINESS = 2;
 
     String dateTicket = "";
     String departureCity = "";
@@ -102,13 +128,12 @@ public class SearchingTicket {
     int nofSeatsInfant = 0;
     int nofSeatsChild = 0;
 
-    dateTicket=flightUtils.getDepartureDate();
+    dateTicket = flightUtils.getDepartureDate();
 
-    HashMap<String,String> cityMap=flightUtils.getDepartureCityAndArrivalCity();
-    departureCity=cityMap.get(Resource.DEPARTURECITY_COLUMN);
-    arrivalCity=cityMap.get(Resource.ARRIVALCITY_COLUMN);
+    HashMap<String, String> cityMap = flightUtils.getDepartureCityAndArrivalCity();
+    departureCity = cityMap.get(Resource.DEPARTURECITY_COLUMN);
+    arrivalCity = cityMap.get(Resource.ARRIVALCITY_COLUMN);
 
-    // ExtraProcess.clearscreen();
     System.out.println("Enter Number of seats for Adults(age above 15):");
     nofSeatsAdult = flightUtils.getIntegerInput();
 
@@ -118,36 +143,43 @@ public class SearchingTicket {
     System.out.println("Enter Number of seats for infants(age above 3):");
     nofSeatsInfant = flightUtils.getIntegerInput();
 
-    // ExtraProcess.clearscreen();
-    System.out.println("1.Economic:");
-    System.out.println("2.Business:");
-    int checker = flightUtils.getIntegerInput();
+    classwhile: while (true) {
+      System.out.println("1.Economic:");
+      System.out.println("2.Business:");
+      switch (flightUtils.getIntegerInput()) {
+        case ECONOMIC:
+          flightClass = Resource.ECONOMIC_FLIGHT_CLASS;
 
-    // System.out.println("\n");
-    if (checker == 1) {
-      flightClass = "Economic";
-    } else {
-      flightClass = "Business";
+          break classwhile;
+        case BUSINESS:
+          flightClass = Resource.BUSINESS_FLIGHT_CLASS;
+          break classwhile;
+
+        default:
+          System.out.println("Entered an Invaild Number.Please Enter Again");
+
+      }
+
     }
-   
-   
-    
-    triploop:
-    while(true)
-    {
+
+    triploop: while (true) {
       System.out.println("1.Round Trip\n2.Single Trip");
 
       int tripOption = flightUtils.getIntegerInput();
-      switch(tripOption)
-      {
-        case ROUND_TRIP:roundTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass, dateTicket);
-                        break triploop;
-        case SINGLE_TRIP:singleTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass, dateTicket);
-                         break triploop;
-        default :System.out.println("Entered option is wrong .Please Enter Again");
-                        
+      switch (tripOption) {
+        case ROUND_TRIP:
+          roundTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass,
+              dateTicket);
+          break triploop;
+        case SINGLE_TRIP:
+          singleTripSearch(arrivalCity, departureCity, nofSeatsAdult, nofSeatsChild, nofSeatsInfant, flightClass,
+              dateTicket);
+          break triploop;
+        default:
+          System.out.println("Entered option is wrong .Please Enter Again");
+
       }
-     }
+    }
 
   }
 
@@ -165,24 +197,7 @@ public class SearchingTicket {
     flightTable.print();
     System.out.println("Enter the Corresponding number of the flight to Search:");
     int optionSelected = flightUtils.getIntegerInput();
-
-    CommandLineTable tablebook = new CommandLineTable();
-    tablebook.setHeaders("  Code ", "      AirLines  ", " DepartureCity ", "  ArrivalCity  ", "   DepartureTime     ",
-        "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
-    options = 0;
-    for (Airlines airlines : databaseHandler
-        .searchAirlinesByFlightName(Resource.flightNameList().get(optionSelected - 1))) {
-      options += 1;
-      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
-          airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
-          String.valueOf(airlines.getCurrentSeatsAvailable()), "Rs." + String.valueOf(airlines.getCostPerSeat()));
-
-    }
-    tablebook.print();
-    if (options == 0) {
-      flightUtils.clearScreen();
-      System.out.println("No Flights available");
-    }
+    print(databaseHandler.searchAirlinesByFlightName(Resource.flightNameList().get(optionSelected - 1)));
 
   }
 
@@ -213,24 +228,7 @@ public class SearchingTicket {
       }
 
     }
-
-    int options = 0;
-    CommandLineTable tablebook = new CommandLineTable();
-    tablebook.setHeaders("  Code ", "      AirLines  ", " DepartureCity ", "  ArrivalCity  ", "   DepartureTime     ",
-        "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
-
-    for (Airlines airlines : databaseHandler.searchAirlinesByDate(dateTicket)) {
-      options += 1;
-      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
-          airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
-          String.valueOf(airlines.getCurrentSeatsAvailable()), "Rs." + String.valueOf(airlines.getCostPerSeat()));
-
-    }
-    tablebook.print();
-    if (options == 0) {
-      flightUtils.clearScreen();
-      System.out.println("No Flights available");
-    }
+    print(databaseHandler.searchAirlinesByDate(dateTicket));
 
   }
 
@@ -248,24 +246,7 @@ public class SearchingTicket {
     cityTable.print();
     System.out.println("Enter the Corresponding CODE of the city to Search:");
     int optionSelected = flightUtils.getIntegerInput();
-
-    CommandLineTable tablebook = new CommandLineTable();
-
-    tablebook.setHeaders("  Code ", "      AirLines  ", " DepartureCity ", "  ArrivalCity  ", "   DepartureTime     ",
-        "     ArrivalTime    ", "  FlightClass  ", " SeatsAvailabale  ", "     CostperSeat");
-    options = 0;
-    for (Airlines airlines : databaseHandler.searchAirlinesByCity(Resource.citiesList().get(optionSelected - 1))) {
-      options += 1;
-      tablebook.addRow(String.valueOf(options), airlines.getFlightName(), airlines.getDepartureCity(),
-          airlines.getArrivalCity(), airlines.getDepartureTime(), airlines.getArrivalTime(), airlines.getFlightClass(),
-          String.valueOf(airlines.getCurrentSeatsAvailable()), "Rs." + String.valueOf(airlines.getCostPerSeat()));
-
-    }
-    tablebook.print();
-    if (options == 0) {
-      flightUtils.clearScreen();
-      System.out.println("No Flights available");
-    }
+    print(databaseHandler.searchAirlinesByCity(Resource.citiesList().get(optionSelected - 1)));
 
   }
 
