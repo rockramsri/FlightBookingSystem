@@ -106,8 +106,8 @@ public class Resource {
     static public Map<String, Integer> flightNumbersMap() {
         Map<String, Integer> seatSizeMap = new HashMap<String, Integer>();
         for (int i = 1; i <= 15; i++) {
-            seatSizeMap.put("Fl00" + String.valueOf(i) + "-Economic", 20);
-            seatSizeMap.put("Fl00" + String.valueOf(i) + "-Business", 20);
+            seatSizeMap.put("Fl00" + String.valueOf(i) + "-" + Resource.ECONOMIC_FLIGHT_CLASS, 20);
+            seatSizeMap.put("Fl00" + String.valueOf(i) + "-" + Resource.BUSINESS_FLIGHT_CLASS, 20);
         }
 
         return seatSizeMap;
