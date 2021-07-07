@@ -171,6 +171,10 @@ public class FlightUtils {
         while (true) {
             try {
                 value = Integer.parseInt(scanner.nextLine());
+                if (value < 0) {
+                    System.out.println("Enter a Positive Number");
+                    continue;
+                }
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Entered Number is not valid.Please enter again");
