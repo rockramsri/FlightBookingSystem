@@ -36,12 +36,12 @@ public class RefundCancel {
 
   // Used to Cancel the tickets Booked by the user
   public TicketInfo userTicketCancellation(ProfileDetails currentUserDetails) {
-    String bookingId = listOfBookings(currentUserDetails);
+    String bookingId = getBookingIdForCancellation(currentUserDetails);
     return ticketCancelation(bookingId, currentUserDetails);
   }
 
   // Used to list and select the tickets to cancel
-  public String listOfBookings(ProfileDetails currentUserDetails) {
+  private String getBookingIdForCancellation(ProfileDetails currentUserDetails) {
 
     int optionSelection = 0;
 
@@ -80,7 +80,7 @@ public class RefundCancel {
   }
 
   // used for Cancelling the tickets
-  TicketInfo ticketCancelation(String bookingId, ProfileDetails currentUserDetails) {
+  private TicketInfo ticketCancelation(String bookingId, ProfileDetails currentUserDetails) {
     CommandLineTable listOrderId = new CommandLineTable();
 
     int optionSelection = 0;
