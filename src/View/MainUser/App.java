@@ -14,16 +14,16 @@ import Database.DBTableClass.ProfileDetails;
 public class App {
   // static Scanner inputScanner=new Scanner(System.in);
   static FlightUtils flightUtils = FlightUtils.getInstance();
-  static final int NEW_USER = 1;
+  static final int NEWUSER = 1;
   static final int LOGIN = 2;
   static final int SEARCH = 3;
   static final int EXIT = 4;
-  static final int BOOK_TICKETS = 1;
-  static final int TICKET_CANCELLATION = 2;
-  static final int MY_TRANSACTION = 4;
-  static final int CHANGE_MY_PASSWORD = 5;
+  static final int BOOKTICKETS = 1;
+  static final int TICKETCANCELLATION = 2;
+  static final int MYTRANSACTION = 4;
+  static final int CHANGEMYPASSWORD = 5;
   static final int LOGOUT = 6;
-  static final int FUNCTIONALITY_EXIT = 7;
+  static final int FUNCTIONALITYEXIT = 7;
 
   public static void main(String[] args) {
 
@@ -42,7 +42,7 @@ public class App {
       int choice = flightUtils.getIntegerInput();
 
       switch (choice) {
-        case NEW_USER:
+        case NEWUSER:
           if (new_User())
             break exitprogram;
           break;
@@ -108,24 +108,24 @@ public class App {
       System.out.println("7.Exit");
       int functionalityOption = flightUtils.getIntegerInput();
       switch (functionalityOption) {
-        case BOOK_TICKETS:
+        case BOOKTICKETS:
           member.bookTickets(currentUserDetails);
           break;
-        case TICKET_CANCELLATION:
+        case TICKETCANCELLATION:
           member.ticketCancellation(currentUserDetails);
           break;
         case SEARCH:
           member.search();
           break;
-        case MY_TRANSACTION:
+        case MYTRANSACTION:
           member.myTransaction(currentUserDetails);
           break;
-        case CHANGE_MY_PASSWORD:
+        case CHANGEMYPASSWORD:
           member.changePassword(currentUserDetails);
           break;
         case LOGOUT:
           return false;
-        case FUNCTIONALITY_EXIT:
+        case FUNCTIONALITYEXIT:
           return true;
         default:
           System.out.println("Entered Option is incorrect Please Enter");
